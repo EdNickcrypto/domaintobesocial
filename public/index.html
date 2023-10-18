@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="/images/fabicon.png">
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/fontawesome.all.min.css"/>
+    <link rel="stylesheet" href="/css/fancybox.min.css"/>
+    <link rel="stylesheet" href="/css/style.css"/>
+    <link rel="stylesheet" href="/css/animate.css"/>
+    <link rel="stylesheet" href="/css/owl.carousel.min.css"/>
+    <link rel="stylesheet" href="/css/gijgo.min.css"/>
+    <title>Domaintobe</title>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+
+
+
+
+    <script src="/js/jquery.min.js" ></script>
+    <script src="/js/bootstrap.bundle.min.js" ></script>
+    <script src="/js/fancybox.min.js" ></script>
+    <script src="/js/wow.js" ></script>
+    <script src="/js/owl.carousel.min.js" ></script>
+    <script>
+      
+      function openForm() {
+        document.getElementById("myForm").style.display = "block";
+      }
+      
+      function closeForm() {
+        document.getElementById("myForm").style.display = "none";
+      }
+
+      $(document).ready(function() {
+         $('.category_carousel').owlCarousel({
+          loop: true,
+          autoplay: false,
+          autoplayTimeout: 5000,
+          margin: 15,
+          responsiveClass: true,
+          responsive: {
+            0: { items: 1, nav: true },
+                     576: { items: 2, nav: true },
+                     768: { items: 3, nav: true },
+                     992: { items: 3, nav: true },
+                     1400: { items: 4, nav: true},
+                      1600: { items: 5, nav: true, margin: 15}
+          }
+         });
+         
+         
+         $('.add_carousel').owlCarousel({
+          loop: false,
+          center: false,
+          autoplay: false,
+          items:2,
+          margin: 15,
+          responsive: {
+            0: { items:2, nav: true },
+               
+          }
+         });
+
+
+          $('.many_carousel').owlCarousel({
+          loop: true,
+          autoplay: false,
+          autoplayTimeout: 5000,
+          margin: 15,
+          responsiveClass: true,
+          responsive: {
+            0: { items: 1, nav: true },
+                     576: { items: 2, nav: true },
+                     768: { items: 3, nav: true },
+                     992: { items: 3, nav: true },
+                     1400: { items: 4, nav: true},
+                      1600: { items: 7, nav: true, margin: 15}
+          }
+         });
+         
+         
+         
+          });
+
+    </script>
+
+  </body>
+</html>
