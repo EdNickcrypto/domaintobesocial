@@ -240,6 +240,7 @@ class Userdashboard extends React.Component {
                     this.setState({enteredText: ''})
                     this.setState({imagesPreviewUrls: []})
                     this.setState({videosPreviewUrls: []})
+                    this.setState({checkedItems: []})
                     if(res.data.message == 'success')
                     {
                        this.componentDidMount();
@@ -1121,8 +1122,9 @@ $('.chat-popup').addClass('main');
                             </form>
                         </div>
         
-                        {/* <div className="appendusers">
+                        <div className="appendusers">
                         {this.state.checkedItems.map((checkedItem,index) => {
+                            console.log(this.state.checkedItems)
                             return (
                                 <div className="item">
                                     <i className="fa fa-times"></i>
@@ -1138,7 +1140,7 @@ $('.chat-popup').addClass('main');
                                 </div>
                             );
                         })}
-                        </div> */}
+                        </div>
                     </div>
         
                     {
@@ -1159,7 +1161,7 @@ $('.chat-popup').addClass('main');
                                 <div className="asuser">
                                     
                                        
-                                        <Link to={{ pathname: '/viewprofile/'+result.username }}><span className="userimg"><img src={result.userimage?result.userimage:this.state.userimage} align="icon"/></span>
+                                        <Link to={{ pathname: '/viewprofile/'+result.username }}><span className="userimg"><img src={result.userimage?result.userimage:this.state.user} align="icon"/></span>
                                         </Link>
                                         
                                     <h5><Link to={{ pathname: '/viewprofile/'+result.username }}>{result.username}</Link> {result.counttaguser == 2 ? (

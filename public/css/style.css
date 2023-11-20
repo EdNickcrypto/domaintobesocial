@@ -7797,3 +7797,21 @@ img.chatimage {
   div#popup-2 {
     width: auto;
 }
+.appendusers {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+.appendusers .item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.appendusers .item .w-100 {
+    width: 100%!important;
+    max-width: 30px;
+}
+.appendusers .item  h5 {
+    font-size: 14px;
+    margin-bottom: 0;
+}

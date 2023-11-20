@@ -545,7 +545,7 @@ class Discussion extends React.Component {
   
                     </div>
                     : 
-                    ""
+                    <h1>data not found</h1>
                     // <div className="loadingicon" id="loadingicon" style={{display:'block'}}><img src="/images/loading.gif" /></div>
                     }
 

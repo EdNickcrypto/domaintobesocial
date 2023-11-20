@@ -914,7 +914,7 @@ class Viewprofile extends React.Component {
                                             <div className="intap">
                                                 <h6>{this.state.advertisementData.description}</h6>
                                             </div>
-                                            <a href={this.state.advertisementData.link}>Click Here</a>
+                                            <a href={this.state.advertisementData.link} target="_blank" >Click Here</a>
                                         </>
                                       
                                 </div>
