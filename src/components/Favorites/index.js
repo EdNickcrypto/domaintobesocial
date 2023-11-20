@@ -3,6 +3,7 @@ import React from 'react';
 import axios from 'axios';
 import firebase from 'firebase';
 import $ from "jquery";
+import swal from 'sweetalert';
 class Favorites extends React.Component { 
     constructor(props)
     {
@@ -16,10 +17,36 @@ class Favorites extends React.Component {
         inputFields:[],
         showdata:[],
         data:[],
-        notificationcount: ''
+        filterValue: null,
+        notificationcount: '',
+        files: [],
+        imagesPreviewUrls: [],
       };
 
       this.popupchat=this.popupchat.bind(this);
+      this._handleImageChange = this._handleImageChange.bind(this);
+
+    }
+
+    _handleImageChange(e) {
+        e.preventDefault();
+        let files = Array.from(e.target.files);
+
+        files.forEach((file) => {
+            let reader = new FileReader();
+            reader.onloadend = () => {
+                const filesize = Math.round((file.size / 1024));
+                if(filesize > 2048){
+                    swal("!Oops", "File too large, please select a file less than 2mb", "error");
+                }else{
+                    this.setState({    
+                        files: [...this.state.files, file],
+                        imagesPreviewUrls: [...this.state.imagesPreviewUrls, reader.result]
+                    });
+                }
+            }
+            reader.readAsDataURL(file);
+        });
     }
 
     handleChangeLogout()
@@ -28,7 +55,10 @@ class Favorites extends React.Component {
       window.location.reload();
     }
 
-
+    handleFilterChange = (event) => {
+        const value = event.target.value;
+        this.setState({ filterValue: value === '' ? null : value });
+      };
    openPop(){
     // alert('asdfasdf');
     $(".maindiv").toggleClass("main");
@@ -164,23 +194,57 @@ openClose(){
             
             const db = firebase.database();
             var time = new Date().toLocaleString(undefined, {timeZone: 'Asia/Kolkata'});
-            
-            db.ref("chat/" + sender).push({
-                read: 'y',
-                side: 'right',
-                msg: this.state.inputFields[j].name,
-                image:this.state.userimage,
-                time: time
-                
-            });
+           
+            if(this.state.imagesPreviewUrls.length!==0) { const formData = new FormData();
+                this.state.files.forEach((file) => formData.append('files[]', file));
+                formData.append('tagged', JSON.stringify(this.state.checkedItems));
+                axios.post('https://domaintobesocial.com/domaintobe/chatimage',
+                    formData
+                )
+                .then((res) => {
+                   
+                    db.ref("chat/" + sender).push({
+                        read: 'y',
+                        side: 'right',
+                        msg: this.state.inputFields[j].name+ ' ' + res.data.message?res.data.message:'',
+                        image:this.state.userimage,
+                        time: time
+                        
+                    });
     
-            db.ref("chat/" + reciever).push({
-                read: 'n',
-                side: 'left',
-                msg: this.state.inputFields[j].name,
-                image:this.state.userimage,
-                time: time
-            });
+                    db.ref("chat/" + reciever).push({
+                        read: 'n',
+                        side: 'left',
+                        msg: this.state.inputFields[j].name+ ' ' + res.data.message?res.data.message:'',
+                        image:this.state.userimage,
+                        time: time
+                    });
+                    this.setState({imagesPreviewUrls: []})
+                    
+                   
+                })
+    
+                .catch((error) => {
+                console.log(error.message);
+                })}
+                if(this.state.inputFields[j].name.length!=0) {
+                    db.ref("chat/" + sender).push({
+                        read: 'y',
+                        side: 'right',
+                        msg: this.state.inputFields[j].name,
+                        image:this.state.userimage,
+                        time: time
+                        
+                    });
+                
+                    db.ref("chat/" + reciever).push({
+                        read: 'n',
+                        side: 'left',
+                        msg: this.state.inputFields[j].name,
+                        image:this.state.userimage,
+                        time: time
+                    }); 
+                }
     
             db.ref("chatwith/" + curentlogin.value+"/"+id).set({
                 uid: id,
@@ -294,7 +358,12 @@ openClose(){
             vipimage = '';
         }
 
+        const { initialData, filterValue } = this.state;
 
+        // Apply filter and map data while converting to lowercase
+        const filteredData = filterValue
+          ? this.state.data.filter((item) => item.username.toLowerCase().includes(filterValue.toLowerCase())).map((item) => ({ ...item, username: item.username.toLowerCase() }))
+          : this.state.data.map((item) => ({ ...item, username: item.username.toLowerCase()}));
 
         return (
             <section class="maindiv">
@@ -340,17 +409,18 @@ openClose(){
                 <div className="in_center in_center_discussion">
 
                     <div className="head pr-0">
-                        {/* <form className="d-flex w-100">
-                          <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+                        <form className="d-flex w-100">
+                          <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" value={filterValue || ''}
+          onChange={this.handleFilterChange}/>
                           <button className="btn" type="submit"><img src="images/searchicon.png" alt="icon"/> </button>
-                        </form> */}
+                        </form>
                     </div>
                     <div className="loadingicon" id="loadingicon"><img src="/images/loading.gif" /></div>
 
                     {this.state.data.length > 0  ? 
-                        <div className="listusr favoriteclass mt-0">
+                        <div className="listusr favoriteclass mt-4">
                             <div className="row">
-                            {this.state.data.map((result,i) => {
+                            {filteredData.map((result,i) => {
                                 return (
                                     <div className="col-sm-6 col-lg-4 col-xl-3">
                                     <div className="test">
@@ -360,7 +430,7 @@ openClose(){
 
                                         <div className="asuser">
                                         <Link to={{ pathname: '/viewprofile/'+result.username }}>
-                                           <span className="userimg"><img src={result.userimage} align="icon"/></span>
+                                           <span className="userimg"><img src={result.userimage?result.userimage:this.state.userimage} align="icon"/></span>
                                           <h5>{result.username} {result.counttaguser == 2 ? (
                                           <span>is with 
                                             { result.taggedusers.map((taggeduser, i) => ( <p>{taggeduser.name}</p> ))}
@@ -447,13 +517,33 @@ openClose(){
                             { chat.side == 'left' ?
                                 <div className="container_left">
                                     <img src={chat.image} alt="Avatar"/>
-                                    <p>{chat.msg}</p>
+                                    {chat.msg.endsWith('.mp4') ? (
+                        <video className='chatvideo' controls>
+                            <source src={chat.msg} type="video/mp4" />
+                            Your browser does not support the video tag.
+                        </video>
+                    ) :chat.msg.endsWith('.png') || chat.msg.endsWith('.jpg') ? (
+                       <img src={chat.msg} alt="Image" className='chatimage' style={{ height: '100px', position: 'relative' }} />
+
+                    ) : (
+                        <p>{chat.msg}</p>
+                    )}
                                     <span className="time-right">{chat.time}</span>
                                 </div>
                             : 
                                 <div className="container_left darker">
                                     <img src={chat.image} alt="Avatar" className="right"/>
-                                    <p>{chat.msg}</p>
+                                    {chat.msg.endsWith('.mp4') ? (
+                        <video className='chatvideo' controls>
+                            <source src={chat.msg} type="video/mp4" />
+                            Your browser does not support the video tag.
+                        </video>
+                    ) :chat.msg.endsWith('.png') || chat.msg.endsWith('.jpg') ? (
+                       <img src={chat.msg} alt="Image" className='chatimage' style={{ height: '100px', position: 'relative' }} />
+
+                    ) : (
+                        <p>{chat.msg}</p>
+                    )}
                                     <span className="time-left">{chat.time}</span>
                                 </div>
                             }
@@ -463,6 +553,9 @@ openClose(){
                     </div>
                    
                     <textarea placeholder="Type message.." name="message" autoComplete="off"  onChange={this.forchanedosage.bind(this,j)} value={this.state.inputFields[j].name}></textarea>
+                    <input id="file-upload" type="file" onChange={this._handleImageChange} style={{ display: 'none' }}  multiple accept="image/ video/*"/>
+      
+      <img src="images/addicon1.png" align="icon" className='chatuploadfile'   onClick={() => document.getElementById('file-upload').click()}/>
                     <button type="submit" name="chatsubmit" className="btn">Send</button></form></div>
                         )
                     })}

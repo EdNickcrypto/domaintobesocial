@@ -496,10 +496,9 @@ openClose(){
                 const formData = new FormData();
                 formData.append('id', id);
                 formData.append('userid', userid.value);
-                axios.post('https://domaintobesocial.com/domaintobe/singlediscussion',
-                        formData
-                    )
+                axios.post('https://domaintobesocial.com/domaintobe/singlediscussion',formData)
                 .then((res) => {
+                    console.log(res)
                     if(res.data.status == 'data')
                     {   
                         this.setState({data: res.data.message});
@@ -510,8 +509,8 @@ openClose(){
                             this.setState({postmemberjoins: result.members});
                         })}   
                     }else{
-                        alert(res.data.message);
-                        window.location.reload();
+                        // alert(res.data.message);
+                        // window.location.reload();
                     }
                 })
                 .catch((error) => {

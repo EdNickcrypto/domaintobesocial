@@ -63,7 +63,7 @@ class EditPost extends React.Component {
         this.setState({
             query
         });
-        
+        console.log(this.state.query)
         // if(this.state.query.tagsearch.length > 1 ){
             let curentlogin = JSON.parse(window.localStorage.getItem("user"));
             const formData2 = new FormData();
@@ -392,7 +392,22 @@ openClose(){
 
         axios.get('https://domaintobesocial.com/domaintobe/category').then(response => 
         {
-            this.setState({categories: response.data.message});
+            const sortedCategories = [...response.data.message];
+
+            // Sort the categories array alphabetically based on the 'catname' property
+            sortedCategories.sort((a, b) => {
+              const nameA = a.catname.toUpperCase(); // Ignore case for comparison
+              const nameB = b.catname.toUpperCase(); // Ignore case for comparison
+            
+              if (nameA < nameB) {
+                return -1;
+              }
+              if (nameA > nameB) {
+                return 1;
+              }
+              return 0; // Names are equal
+            });
+            this.setState({categories: sortedCategories});
         });
         
         const formData12 = new FormData();
@@ -1027,7 +1042,7 @@ openClose(){
                         {this.state.chatingdata.map((chat,i) => {  
                             return (
                             <div className="testin" onClick={() => this.openChatbox(chat.uid,chat.name,chat.image)}>
-                                <div className="../images">
+                                <div className="images">
                                     <img src={chat.image} alt="user"/>
                                 </div>
                                 <h4>{chat.name}</h4>

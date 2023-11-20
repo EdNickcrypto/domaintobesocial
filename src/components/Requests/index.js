@@ -17,11 +17,34 @@ class Requests extends React.Component {
         popupchat:[],
         inputFields:[],
         showdata:[],
+        files: [],
+        imagesPreviewUrls: [],
         notificationcount: ''
       };
 
       this.popupchat=this.popupchat.bind(this);
+      this._handleImageChange = this._handleImageChange.bind(this);
      
+    }
+    _handleImageChange(e) {
+        e.preventDefault();
+        let files = Array.from(e.target.files);
+
+        files.forEach((file) => {
+            let reader = new FileReader();
+            reader.onloadend = () => {
+                const filesize = Math.round((file.size / 1024));
+                if(filesize > 2048){
+                    swal("!Oops", "File too large, please select a file less than 2mb", "error");
+                }else{
+                    this.setState({    
+                        files: [...this.state.files, file],
+                        imagesPreviewUrls: [...this.state.imagesPreviewUrls, reader.result]
+                    });
+                }
+            }
+            reader.readAsDataURL(file);
+        });
     }
 
     handleChangeLogout()
@@ -192,22 +215,58 @@ openClose(){
             const db = firebase.database();
             var time = new Date().toLocaleString(undefined, {timeZone: 'Asia/Kolkata'});
             
-            db.ref("chat/" + sender).push({
-                read: 'y',
-                side: 'right',
-                msg: this.state.inputFields[j].name,
-                image:this.state.userimage,
-                time: time
-                
-            });
+
+            if(this.state.imagesPreviewUrls.length!==0) { const formData = new FormData();
+                this.state.files.forEach((file) => formData.append('files[]', file));
+                formData.append('tagged', JSON.stringify(this.state.checkedItems));
+                axios.post('https://domaintobesocial.com/domaintobe/chatimage',
+                    formData
+                )
+                .then((res) => {
+                   
+                    db.ref("chat/" + sender).push({
+                        read: 'y',
+                        side: 'right',
+                        msg: this.state.inputFields[j].name+ ' ' + res.data.message?res.data.message:'',
+                        image:this.state.userimage,
+                        time: time
+                        
+                    });
     
-            db.ref("chat/" + reciever).push({
-                read: 'n',
-                side: 'left',
-                msg: this.state.inputFields[j].name,
-                image:this.state.userimage,
-                time: time
-            });
+                    db.ref("chat/" + reciever).push({
+                        read: 'n',
+                        side: 'left',
+                        msg: this.state.inputFields[j].name+ ' ' + res.data.message?res.data.message:'',
+                        image:this.state.userimage,
+                        time: time
+                    });
+                    this.setState({imagesPreviewUrls: []})
+                    
+                   
+                })
+    
+                .catch((error) => {
+                console.log(error.message);
+                })}
+                if(this.state.inputFields[j].name.length!=0) {
+                    db.ref("chat/" + sender).push({
+                        read: 'y',
+                        side: 'right',
+                        msg: this.state.inputFields[j].name,
+                        image:this.state.userimage,
+                        time: time
+                        
+                    });
+                
+                    db.ref("chat/" + reciever).push({
+                        read: 'n',
+                        side: 'left',
+                        msg: this.state.inputFields[j].name,
+                        image:this.state.userimage,
+                        time: time
+                    }); 
+                }
+        
     
             db.ref("chatwith/" + curentlogin.value+"/"+id).set({
                 uid: id,
@@ -417,13 +476,33 @@ openClose(){
                             { chat.side == 'left' ?
                                 <div className="container_left">
                                     <img src={chat.image} alt="Avatar"/>
-                                    <p>{chat.msg}</p>
+                                    {chat.msg.endsWith('.mp4') ? (
+                        <video className='chatvideo' controls>
+                            <source src={chat.msg} type="video/mp4" />
+                            Your browser does not support the video tag.
+                        </video>
+                    ) :chat.msg.endsWith('.png') || chat.msg.endsWith('.jpg') ? (
+                       <img src={chat.msg} alt="Image" className='chatimage' style={{ height: '100px', position: 'relative' }} />
+
+                    ) : (
+                        <p>{chat.msg}</p>
+                    )}
                                     <span className="time-right">{chat.time}</span>
                                 </div>
                             : 
                                 <div className="container_left darker">
                                     <img src={chat.image} alt="Avatar" className="right"/>
-                                    <p>{chat.msg}</p>
+                                    {chat.msg.endsWith('.mp4') ? (
+                        <video className='chatvideo' controls>
+                            <source src={chat.msg} type="video/mp4" />
+                            Your browser does not support the video tag.
+                        </video>
+                    ) :chat.msg.endsWith('.png') || chat.msg.endsWith('.jpg') ? (
+                       <img src={chat.msg} alt="Image" className='chatimage' style={{ height: '100px', position: 'relative' }} />
+
+                    ) : (
+                        <p>{chat.msg}</p>
+                    )}
                                     <span className="time-left">{chat.time}</span>
                                 </div>
                             }
@@ -433,6 +512,9 @@ openClose(){
                     </div>
                    
                     <textarea placeholder="Type message.." name="message" autoComplete="off"  onChange={this.forchanedosage.bind(this,j)} value={this.state.inputFields[j].name}></textarea>
+                    <input id="file-upload" type="file" onChange={this._handleImageChange} style={{ display: 'none' }}  multiple accept="image/ video/*"/>
+      
+      <img src="images/addicon1.png" align="icon" className='chatuploadfile'   onClick={() => document.getElementById('file-upload').click()}/>
                     <button type="submit" name="chatsubmit" className="btn">Send</button></form></div>
                         )
                     })}

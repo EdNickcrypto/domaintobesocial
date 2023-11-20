@@ -16,6 +16,7 @@ class Vipsignup extends React.Component {
           planprice:false,
           selectedDate:new Date(new Date().setFullYear(new Date().getFullYear() - 30)),
           plans: '',coupon_id:0,amt:0,
+          coupon:""
         };
 
         this.handleChange = this.handleChange.bind(this);

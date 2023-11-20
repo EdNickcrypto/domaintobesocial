@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import React from 'react';
 import axios from 'axios';
 import firebase from 'firebase';
+import swal from 'sweetalert';
 import $ from "jquery";
 class Messages extends React.Component {
     constructor(props)
@@ -15,13 +16,36 @@ class Messages extends React.Component {
         chatusername: '',
         chatuserimage: '',
         chatingdata: [],
+        files: [],
+        imagesPreviewUrls: [],
         currentusername: '',
         currentuserimage: '',
-        notificationcount: ''
+        notificationcount: '',
+        filterValue: null,
        }
        this.handleChange = this.handleChange.bind(this);
+       this._handleImageChange = this._handleImageChange.bind(this);
     }
+    _handleImageChange(e) {
+        e.preventDefault();
+        let files = Array.from(e.target.files);
 
+        files.forEach((file) => {
+            let reader = new FileReader();
+            reader.onloadend = () => {
+                const filesize = Math.round((file.size / 1024));
+                if(filesize > 2048){
+                    swal("!Oops", "File too large, please select a file less than 2mb", "error");
+                }else{
+                    this.setState({    
+                        files: [...this.state.files, file],
+                        imagesPreviewUrls: [...this.state.imagesPreviewUrls, reader.result]
+                    });
+                }
+            }
+            reader.readAsDataURL(file);
+        });
+    }
     handleChange(event) {
         let input = this.state.input;
         input[event.target.name] = event.target.value;
@@ -29,6 +53,10 @@ class Messages extends React.Component {
           input
         });
     }
+    handleFilterChange = (event) => {
+        const value = event.target.value;
+        this.setState({ filterValue: value === '' ? null : value });
+      };
 
     validate(){
         let input = this.state.input;
@@ -186,23 +214,87 @@ openClose(){
             this.setState({ chatingdata: chatingdatas });
         });
     }
+    selectUserfordelete = (i,friendid,name,image)  => {
+        this.setState({
+            chatid: friendid,
+            chatusername: name,
+            chatuserimage: image
+        });
+
+        let curentlogin = JSON.parse(window.localStorage.getItem("user"));
+        const db = firebase.database();
+        const sender = curentlogin.value+'_'+this.state.chatid;
+        const reciever = this.state.chatid+'_'+curentlogin.value;
+
+        db.ref(`chat/${sender}`).remove()
+        .then(() => {
+          console.log('Data for sender deleted successfully');
+        })
+        .catch((error) => {
+          console.error('Error removing data for sender:', error);
+        });
+      
+      // Remove data for receiver
+      db.ref(`chat/${reciever}`).remove()
+        .then(() => {
+          console.log('Data for receiver deleted successfully');
+        })
+        .catch((error) => {
+          console.error('Error removing data for receiver:', error);
+        });
+    }
     
     submitChat(e){
         e.preventDefault();
+        let curentlogin = JSON.parse(window.localStorage.getItem("user"));
+
+        const sender = curentlogin.value+'_'+this.state.chatid;
+        const reciever = this.state.chatid+'_'+curentlogin.value;
+        //const timestamp = Date.now();
+        const db = firebase.database();
+        //console.log('time',timestamp);
+        console.log(this.state.imagesPreviewUrls )
+        var time = new Date().toLocaleString(undefined, {timeZone: 'Asia/Kolkata'});
+        if(this.state.imagesPreviewUrls.length!==0) { const formData = new FormData();
+            this.state.files.forEach((file) => formData.append('files[]', file));
+            formData.append('tagged', JSON.stringify(this.state.checkedItems));
+            axios.post('https://domaintobesocial.com/domaintobe/chatimage',
+                formData
+            )
+            .then((res) => {
+               
+                db.ref("chat/" + sender).push({
+                    read: 'y',
+                    side: 'right',
+                    msg: this.state.input.message+ ' ' + res.data.message?res.data.message:'',
+                    image:this.state.userimage,
+                    time: time
+                    
+                });
+
+                db.ref("chat/" + reciever).push({
+                    read: 'n',
+                    side: 'left',
+                    msg: this.state.input.message+ ' ' + res.data.message?res.data.message:'',
+                    image:this.state.userimage,
+                    time: time
+                });
+                this.setState({imagesPreviewUrls2: []})
+                
+               
+            })
+
+            .catch((error) => {
+            console.log(error.message);
+            })}
         if(this.validate()){
 
-            let curentlogin = JSON.parse(window.localStorage.getItem("user"));
-
-            const sender = curentlogin.value+'_'+this.state.chatid;
-            const reciever = this.state.chatid+'_'+curentlogin.value;
-            //const timestamp = Date.now();
-            const db = firebase.database();
-            //console.log('time',timestamp);
-            var time = new Date().toLocaleString(undefined, {timeZone: 'Asia/Kolkata'});
+        
 
             // console.log('chatuser',this.state.chatuserimage);
             // console.log('myimage',this.state.currentuserimage);
 
+            
             db.ref("chat/" + sender).push({
                 read: 'y',
                 side: 'right',
@@ -272,6 +364,13 @@ openClose(){
     }
 
     render() {
+        const { initialData, filterValue } = this.state;
+
+        // Apply filter and map data
+        const filteredData = filterValue
+          ? this.state.friendsdata.filter((item) => item.name.toLowerCase().includes(filterValue.toLowerCase()))
+          : this.state.friendsdata;
+
         let stringValue = window.localStorage.getItem('user');
         if (stringValue !== null) {
             let value = JSON.parse(stringValue)
@@ -371,21 +470,24 @@ openClose(){
     
         <div className="messages chats">
             <div className="list">
-                {/* <form className="d-flex">
-                    <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+                <form className="d-flex">
+                    <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" value={filterValue || ''}
+          onChange={this.handleFilterChange}/>
                     <button className="btn btn-outline-success" type="submit"><i className="fas fa-search"></i></button>
-                </form> */}
+                </form>
                 {this.state.friendsdata.length > 0  ?
                     <div className="nwekaptest">
-                        {this.state.friendsdata.map((result,i) => {
-                            return (
+                        {filteredData.map((result,i) => {
+                            return (<>
                             <div className="test" onClick={() => this.selectUser(i,result.friendid,result.name,result.image)}>
                                 <div className="images">
                                     <img src={result.image} alt="user"/>
                                 </div>
-                                <h4>{result.name}</h4>
+                                <h4>{result.name}</h4> <i onClick={() => this.selectUserfordelete(i,result.friendid,result.name,result.image)} class="fas fa-trash-alt"></i>
+                                
+
                             </div>
-                            )
+                            </>)
                         })}
                     </div>
                 :
@@ -393,6 +495,7 @@ openClose(){
                 }
 
             </div>
+            
             <div className="row">
                 <div className="col-12">
                     <div className="innchat">
@@ -406,7 +509,17 @@ openClose(){
                                         { chat.side == 'left' ? 
                                             <div className="col-12 inleft message">
                                                 <div className="chatin">
-                                                <p>{chat.msg}</p>
+                                                {chat.msg.endsWith('.mp4') ? (
+                        <video className='chatvideo' controls>
+                            <source src={chat.msg} type="video/mp4" />
+                            Your browser does not support the video tag.
+                        </video>
+                    ) :chat.msg.endsWith('.png') || chat.msg.endsWith('.jpg') ? (
+                       <img src={chat.msg} alt="Image" className='chatimage' style={{ height: '100px', position: 'relative' }} />
+
+                    ) : (
+                        <p>{chat.msg}</p>
+                    )}
                                                     <span>{chat.time}</span>
                                                 </div>
                                             </div>
@@ -414,7 +527,17 @@ openClose(){
                                         : 
                                             <div className="col-12 inright text-right message">
                                             <div className="chatin">
-                                            <p>{chat.msg}</p>
+                                            {chat.msg.endsWith('.mp4') ? (
+                        <video className='chatvideo' controls>
+                            <source src={chat.msg} type="video/mp4" />
+                            Your browser does not support the video tag.
+                        </video>
+                    ) : chat.msg.endsWith('.png') || chat.msg.endsWith('.jpg') ? (
+                        <img src={chat.msg} alt="Image" className='chatimage' style={{ height: '100px', position: 'relative' }} />
+
+                    ) : (
+                        <p>{chat.msg}</p>
+                    )}
                                                 <span>{chat.time}</span>
                                             </div>
                                             </div>
@@ -428,7 +551,11 @@ openClose(){
                             </div>
                             <form className="intype" id={this.state.chatusername} onSubmit={this.submitChat.bind(this)}>
                                 <input type="text" className="form-control" id="message" autoComplete="off" placeholder="Compose Message" onChange={this.handleChange} value={this.state.input.message} name="message"/>
-                                <div className="text-danger">{this.state.errors.message}</div>
+                                {/* <div className="text-danger">{this.state.errors.message}</div> */}
+                                <br/>
+                                <input id="file-upload" type="file" onChange={this._handleImageChange} style={{ display: 'none' }}  multiple accept="image/ video/*"/>
+      
+      <img src="images/addicon1.png" align="icon" className='chatuploadfile'   onClick={() => document.getElementById('file-upload').click()}/>
                                 <button type="submit"><i className="fas fa-paper-plane"></i> <span>Send</span></button>
                             </form>
                         </div>

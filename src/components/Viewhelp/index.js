@@ -353,7 +353,7 @@ class Viewhelp extends React.Component {
         let userid = JSON.parse(window.localStorage.getItem("user"));
 
         return (
-            <section className="maindiv pr-0">
+            <section className="maindiv ">
                 <i className="fas fa-bars side_b"></i>
                 <div className="sidbar_left">
                     <i className="fas fa-times side_b close"></i>
@@ -381,7 +381,7 @@ class Viewhelp extends React.Component {
                         </li>
                         <li><Link to="/blocklist"><span><img src="/images/iconS5.png" align="icon"/></span> Blocklist</Link></li>
                         <li><Link to="/viewnotifications" ><span><img src="/images/iconS6.png" align="icon"/></span> Notifications</Link></li>
-                        {/* <li><Link to="pagesliked" ><span><img src="/images/iconS7.png" align="icon"/></span> Pages Liked</Link></li> */}
+                        <li><Link to="pagesliked" ><span><img src="/images/iconS7.png" align="icon"/></span> Pages Liked</Link></li>
                         <li><Link to="/favorites" ><span><img src="/images/iconS8.png" align="icon"/></span> Favorites</Link></li>
                     </ul>
                 </div>

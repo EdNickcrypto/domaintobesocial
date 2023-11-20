@@ -33,7 +33,10 @@ class Discussion extends React.Component {
        this.popupchat=this.popupchat.bind(this);
      
     }
-
+    handleFilterChange = (event) => {
+        const value = event.target.value;
+        this.setState({ filterValue: value === '' ? null : value });
+      };
     handleChangeLogout()
     {
       window.localStorage.clear();
@@ -61,8 +64,22 @@ class Discussion extends React.Component {
 
 
         axios.get('https://domaintobesocial.com/domaintobe/category').then(response => 
-        {
-            this.setState({categories: response.data.message});
+        {const sortedCategories = [...response.data.message];
+
+            // Sort the categories array alphabetically based on the 'catname' property
+            sortedCategories.sort((a, b) => {
+              const nameA = a.catname.toUpperCase(); // Ignore case for comparison
+              const nameB = b.catname.toUpperCase(); // Ignore case for comparison
+            
+              if (nameA < nameB) {
+                return -1;
+              }
+              if (nameA > nameB) {
+                return 1;
+              }
+              return 0; // Names are equal
+            });
+            this.setState({categories: sortedCategories});
         });
         
         const formData12 = new FormData();
@@ -84,6 +101,7 @@ class Discussion extends React.Component {
             axios.post('https://domaintobesocial.com/domaintobe/sortdiscussion',formData2
             )
             .then((response) => {  
+                console.log(response.data.data)
                 this.setState({data: response.data.data});
             })
             .catch((error) => {
@@ -91,7 +109,7 @@ class Discussion extends React.Component {
             })
         }else{
             axios.get('https://domaintobesocial.com/domaintobe/getdiscussions').then(res => 
-            {
+            {console.log(res.data.message)
                 this.setState({data: res.data.message}); 
             }); 
         }
@@ -100,6 +118,7 @@ class Discussion extends React.Component {
         // console.log('sort print',this.state.input.sort);
         axios.get('https://domaintobesocial.com/domaintobe/category').then(response => 
         {
+            console.log(response.data.data)
             this.setState({category: response.data.message});
         }); 
 
@@ -169,6 +188,7 @@ class Discussion extends React.Component {
         axios.post('https://domaintobesocial.com/domaintobe/sortdiscussion',formData
         )
         .then((response) => {  
+            console.log(response.data.data)
             this.setState({data: response.data.data});
         })
         .catch((error) => {
@@ -331,12 +351,17 @@ class Discussion extends React.Component {
             navoptions1 = <li className={ this.state.freePosts ?  "active" : "" } onClick={() => this.freeclick()}>Free</li>
             navoptions2 = <li className={ this.state.vipPosts ?  "active" : "" } >Vip</li>
         }
+        const { initialData, filterValue } = this.state;
 
+        // Apply filter and map data while converting to lowercase
+        const filteredData = filterValue
+          ?this.state.data.filter((item) => item.description.toLowerCase().includes(filterValue.toLowerCase())).map((item) => ({ ...item, name: item.description.toLowerCase() }))
+          : this.state.data.map((item) => ({ ...item, name: item.description.toLowerCase() }));
 
         return (
-            <div className="maindiv pl-0">
+            <div className="maindiv ">
             
-            {/* 
+            
             <i className="fas fa-bars side_b"></i>
             <div className="sidbar_left">
                 <i className="fas fa-times side_b close"></i>
@@ -356,7 +381,7 @@ class Discussion extends React.Component {
                     <li><Link to="/favorites"><span><img src="/images/iconS8.png" align="icon"/></span> Favorites</Link></li>
                 </ul>
 
-            </div> */}
+            </div>
                    <div className="main_menu ">
                     <ul class="ml-0">
                         <li><Link  to="/userdashboard">News Feed</Link></li>
@@ -412,7 +437,8 @@ class Discussion extends React.Component {
 
                 <div className="head">
                     <form className="d-flex">
-                        <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+                        <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" value={filterValue || ''}
+          onChange={this.handleFilterChange}/>
                         <button className="btn" type="submit"><img src="images/searchicon.png" alt="icon"/> </button>
                     </form>
                     <Link to="/createpost" className="hpl"><img src="images/iconS2.png" align="icon"/> <span>Start Discussion</span></Link>
@@ -449,8 +475,8 @@ class Discussion extends React.Component {
                             {navoptions1}
                             {navoptions2}
                         </ul>
-                    { this.state.data && this.state.data.length > 0 ? this.state.data.map((result) => {
-                       
+                    { this.state.data && this.state.data.length > 0 ? filteredData.map((result) => {
+                     console.log( result.postaccess)
                             return (
                                 <div>
                                     {this.state.vipPosts && result.postaccess == 1  ? 
@@ -479,7 +505,7 @@ class Discussion extends React.Component {
                                     </div>
                                     :  
                                     <div>
-                                    { result.postaccess != 1 && this.state.freePosts  ? 
+                                    { result.postaccess !== "1" && this.state.freePosts  ? 
                                     
                                         <div className="freeposts">
                                             <div className="list1">

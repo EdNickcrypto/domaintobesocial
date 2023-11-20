@@ -4,7 +4,7 @@ import axios from 'axios';
 const CheckoutForm = ({ price,form }) => {
     const priceForStripe = price * 100;
     const formlist = form;
-    const publishableKey = 'pk_test_51K3ve9CIO4dnFt3WbYTiMO1ifGKiJBOSRfqKKLWjvWZGV6Se2NP229glNPB3F95yDhPEnn9suD0WDEnDsddxOhsz00QSs9meUw';
+    const publishableKey = 'pk_live_51KVWTDDB0Ur7jSukAQ5SCA5yR7WKQDH1FeuK2deHRPNiuNLnyALT6nF4DcIkBmb98ob0dqIJG3TXwiuAZR10HaWY00MNNA4Lg8';
 
     const onToken = token => {
         const formData = new FormData();

@@ -369,13 +369,33 @@ openClose(){
                             { chat.side == 'left' ?
                                 <div className="container_left">
                                     <img src={chat.image} alt="Avatar"/>
-                                    <p>{chat.msg}</p>
+                                    {chat.msg.endsWith('.mp4') ? (
+                        <video className='chatvideo' controls>
+                            <source src={chat.msg} type="video/mp4" />
+                            Your browser does not support the video tag.
+                        </video>
+                    ) :chat.msg.endsWith('.png') || chat.msg.endsWith('.jpg') ? (
+                       <img src={chat.msg} alt="Image" className='chatimage' style={{ height: '100px', position: 'relative' }} />
+
+                    ) : (
+                        <p>{chat.msg}</p>
+                    )}
                                     <span className="time-right">{chat.time}</span>
                                 </div>
                             : 
                                 <div className="container_left darker">
                                     <img src={chat.image} alt="Avatar" className="right"/>
-                                    <p>{chat.msg}</p>
+                                    {chat.msg.endsWith('.mp4') ? (
+                        <video className='chatvideo' controls>
+                            <source src={chat.msg} type="video/mp4" />
+                            Your browser does not support the video tag.
+                        </video>
+                    ) :chat.msg.endsWith('.png') || chat.msg.endsWith('.jpg') ? (
+                       <img src={chat.msg} alt="Image" className='chatimage' style={{ height: '100px', position: 'relative' }} />
+
+                    ) : (
+                        <p>{chat.msg}</p>
+                    )}
                                     <span className="time-left">{chat.time}</span>
                                 </div>
                             }

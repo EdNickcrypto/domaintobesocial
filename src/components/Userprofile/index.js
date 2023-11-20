@@ -36,6 +36,7 @@ class Userprofile extends React.Component {
         StripeId:"",
         plans: [],
         checkedItems: [],
+        userimage:'images/blank.png',
         checkall : '',
         copied: false,
         selectedFile: '',
@@ -55,7 +56,9 @@ class Userprofile extends React.Component {
         licenseimage:'',
         uid:'',
         astrickSignImageInput: false,
-        limit: []
+        limit: [],
+        getadvertisement:'',
+        showadvertisement:false
        }
 
        this.handleChange = this.handleChange.bind(this);
@@ -67,6 +70,11 @@ class Userprofile extends React.Component {
        this.handleadvertisementSubmit = this.handleadvertisementSubmit.bind(this);
 
     }
+    handleButtonClick = () => {
+        this.setState(prevState => ({
+          showAdvertisement: !prevState.showAdvertisement // Toggling the session visibility
+        }));
+      };
 
     onChange = ({target: {value}}) => {
         this.setState({value, copied: false});
@@ -294,6 +302,7 @@ this.setState({uid:curentlogin.value});
             input.university = res.data.message.university;
             input.certificate = res.data.message.certificate;
             input.licence = res.data.message.licence;
+            input.drivinglicense = res.data.message.drivinglicense;
             input.references = res.data.message.references;
             input.facebook = res.data.message.facebook;
             input.twitter = res.data.message.twitter;
@@ -479,6 +488,7 @@ this.setState({uid:curentlogin.value});
         }).catch((error) => {
             console.log(error.message);
         })
+        
 
         axios.get('https://domaintobesocial.com/domaintobe/getprofessionssubcategories').then(response7 => 
         {
@@ -513,6 +523,8 @@ this.setState({uid:curentlogin.value});
             stripe.lastname=response2.data.details.lastname;
             stripe.phone=response2.data.details.phone;
             stripe.gender=response2.data.details.gender;
+            stripe.company_name=response2.data.details.company_name;
+            stripe.company_tin=response2.data.details.company_tin;
             this.setState({stripe});
             }
             if(response2.data.data && response2.data.data.individual?.verification.status)
@@ -524,6 +536,13 @@ this.setState({uid:curentlogin.value});
             }
         })
         .catch((error) => {
+            console.log(error.message);
+        })
+        axios.get('https://domaintobesocial.com/domaintobe/getadvertisement').then(response6 => 
+        {
+            //console.log(response6)
+             this.setState({getadvertisement: response6.data});
+        }).catch((error) => {
             console.log(error.message);
         })
 
@@ -963,65 +982,80 @@ this.setState({uid:curentlogin.value});
 
         if(!input.holdername) {
             isValid = false;
+            alert('holdername');
         }
 
         if (!input.firstname) {
             isValid = false;
+            alert('firstname');
           }
 
           if (!input.lastname) {
             isValid = false;
+            alert('lastn');
           }
 
-          if (!input.gender) {
-            isValid = false;
-          }
+        //   if (!input.gender) {
+        //     isValid = false;
+        //     alert('gender');
+        //   }
 
           if (!input.email) {
             isValid = false;
+            alert('email');
           }
 
           if (!input.phone) {
             isValid = false;
+            alert('phone');
           }
 
           if (!input.routingnumber) {
             isValid = false;
+            alert('routing');
           }
 
           if (!input.accountnumber) {
             isValid = false;
+            alert('acc');
           }
 
           if (!input.addressone) {
             isValid = false;
+            alert('addressone');
           }
 
           if (!input.addresstwo) {
             isValid = false;
+            alert('addresstwo');
           }
 
           if (!input.city) {
             isValid = false;
+            alert('city');
           }
 
           if (!input.state) {
             isValid = false;
+            alert('state');
           }
 
           if (!input.zipcode) {
             isValid = false;
+            alert('zipcode');
           }
           
           if (!input.ssn) {
             isValid = false;
+            alert('ssn');
           }
           if (!input.dob) {
             isValid = false;
+            alert('dob');
           }
 
      
-      
+      alert(isValid);
           return isValid;
     }
 
@@ -1145,6 +1179,8 @@ this.setState({uid:curentlogin.value});
                 formData.append('phone', this.state.stripe.phone);
                 formData.append('gender', 'male');
                 formData.append('uid', obj.value);
+                formData.append('company_name', this.state.stripe.company_name);
+                formData.append('company_tin',this.state.stripe.company_tin);
                 axios.post('https://domaintobesocial.com/domaintobe/makestripe',
                 formData
             )
@@ -1166,7 +1202,7 @@ this.setState({uid:curentlogin.value});
         }
     }
     else {
-        alert("All fields are manatory")
+        //alert("All fields are manatory")
     }
     }
 
@@ -1292,6 +1328,8 @@ this.setState({uid:curentlogin.value});
  
     
     render() {
+
+        const { showAdvertisement } = this.state;
         //console.log(this.state.checkall);
         let stringValue = window.localStorage.getItem('user');
         if (stringValue !== null) {
@@ -1355,7 +1393,7 @@ this.setState({uid:curentlogin.value});
                     </span>
                 </div>
                 <section className="dashboard p-0" style={{ backgroundImage: `url(${'/images/'+this.state.themeimage})`}}>
-                <div className="container">
+                <div className="container userprofile">
            
                
 
@@ -1396,7 +1434,7 @@ this.setState({uid:curentlogin.value});
 
 {this.state.input.facebook && this.state.input.facebook!=="" ? <span><a href={this.state.input.facebook} target="_blank" ><i className="fab fa-facebook-f"></i></a></span>:""}
 
-{this.state.input.twitter && this.state.input.twitter!=="" ? <span><a href={"https://" + this.state.input.twitter} target="_blank"><i className="fab fa-twitter"></i></a></span>:""}
+{this.state.input.twitter && this.state.input.twitter!=="" ? <span><a href={this.state.input.twitter} target="_blank"><i className="fab fa-twitter"></i></a></span>:""}
 
 {this.state.input.snapchat && this.state.input.snapchat!=="" ? <span><a href={this.state.input.snapchat} target="_blank"><i className="fab fa-snapchat-ghost"></i></a></span>:""}
 
@@ -1460,12 +1498,13 @@ return (
     <div className="col-sm-6 col-lg-4  mb-3">
         <div className="singleposttest">
             <div className="asuser mb-0">
-                <span className="userimg"><img src={resultp.userimage} align="icon"/></span>
+                <span className="userimg"><img src={resultp.userimage?resultp.userimage:this.state.userimage} align="icon"/></span>
                 <h5>{resultp.username}
                 </h5>
                 <p>{resultp.created} Ago</p>
             </div>
             <div className="contants">
+                
             {resultp.images && resultp.images!=='' ? <div class="img"><img class="w-100" src={resultp.images}/></div> :""}
               <p>{resultp.posts}</p>
              <Link to={'editPost/'+resultp.id}>Edit post <i className="fas fa-long-arrow-alt-right"></i></Link>
@@ -1479,19 +1518,22 @@ return (
   <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
   <div className="row">
   {this.state.posts?.map((resultp) => {
+   //console.log(this.state.posts) 
+    
 return (
     <div className="col-sm-6 col-lg-4  mb-3">
+        
         <div className="singleposttest">
             <div className="asuser mb-0">
-                <span className="userimg"><img src={resultp.userimage} align="icon"/></span>
-                <h5>{resultp.username}
+                <span className="userimg"><img src={resultp.image?resultp.image:this.state.userimage} align="icon"/></span>
+                <h5>{resultp.name}
                 </h5>
                 <p>{resultp.created} Ago</p>
             </div>
             <div className="contants">
-            {resultp.images && resultp.images!=='' ? <div class="img"><img class="w-100" src={resultp.images.split[0]}/></div> :""}
+            {resultp.images && resultp.image!=='' ? <div class="img"><img class="w-100" src={"https://domaintobesocial.com/domaintobe/assets/allimages/"+resultp.images}/></div> :""}
               <p>{resultp.description}</p>
-             {/* <Link to={'editPost/'+resultp.id}>Edit post <i className="fas fa-long-arrow-alt-right"></i></Link> */}
+             <Link to={'editPost/'+resultp.id}>Edit post <i className="fas fa-long-arrow-alt-right"></i></Link>
             </div>
         </div>
     </div>
@@ -1505,15 +1547,15 @@ return (
     <div className="col-sm-6 col-lg-4  mb-3">
         <div className="singleposttest">
             <div className="asuser mb-0">
-                <span className="userimg"><img src={resultp.userimage} align="icon"/></span>
+                <span className="userimg"><img src={resultp.userimage?resultp.userimage:this.state.userimage} align="icon"/></span>
                 <h5>{resultp.username}
                 </h5>
                 <p>{resultp.created} Ago</p>
             </div>
             <div className="contants">
-            {resultp.image && resultp.image!=='' ? <div class="img"><img class="w-100" src={resultp.image.split[0]}/></div> :""}
+            {resultp.image && resultp.image!=='' ? <div class="img"><img class="w-100" src={resultp.image}/></div> :""}
               <p>{resultp.description}</p>
-             {/* <Link to={'editPost/'+resultp.id}>Edit post <i className="fas fa-long-arrow-alt-right"></i></Link> */}
+             <Link to={'editPost/'+resultp.id}>Edit post <i className="fas fa-long-arrow-alt-right"></i></Link>
             </div>
         </div>
     </div>
@@ -1639,7 +1681,7 @@ return (
                                 </div></div>
 
                                 <div className="col-sm-6"><div className="tes"><h4>Driving License</h4>
-                                <img className="w-100" src={this.state.input.licence}/>
+                                <img className="w-100" src={this.state.input.drivinglicense}/>
                                 </div></div>
 
                                 <div className="col-sm-6"><div className="tes"><h4>Passport</h4>
@@ -1903,49 +1945,49 @@ return (
                                 <div className="col-sm-6">
                                     <div className="tes">
                                     <h4>Facebook</h4>
-                                    <input type="text" className="form-control" name="facebook" id="facebook" placeholder="Facebook" value={this.state.input.facebook} onChange={this.handleChange}/>
+                                    <input type="text" className="form-control" name="facebook" id="facebook" placeholder="Facebook https://facebook.com/" value={this.state.input.facebook} onChange={this.handleChange}/>
                                     </div>
                                 </div>
 
                                 <div className="col-sm-6">
                                     <div className="tes">
                                     <h4>Twitter</h4>
-                                    <input type="text" className="form-control" name="twitter" id="twitter" placeholder="Twitter" value={this.state.input.twitter} onChange={this.handleChange}/>
+                                    <input type="text" className="form-control" name="twitter" id="twitter" placeholder="Twitter https://Twitter.com/" value={this.state.input.twitter} onChange={this.handleChange}/>
                                     </div>
                                 </div>
 
                                 <div className="col-sm-6">
                                     <div className="tes">
                                     <h4>Tumbler</h4>
-                                    <input type="text" className="form-control" name="tumbler" id="tumbler" placeholder="Tumbler" value={this.state.input.tumbler} onChange={this.handleChange}/>
+                                    <input type="text" className="form-control" name="tumbler" id="tumbler" placeholder="Tumbler https://Tumbler.com/" value={this.state.input.tumbler} onChange={this.handleChange}/>
                                     </div>
                                 </div>
 
                                 <div className="col-sm-6">
                                     <div className="tes">
                                     <h4>Snapchat</h4>
-                                    <input type="text" className="form-control" name="snapchat" id="snapchat" placeholder="Snapchat" value={this.state.input.snapchat} onChange={this.handleChange}/>
+                                    <input type="text" className="form-control" name="snapchat" id="snapchat" placeholder="Snapchat https://Snapchat.com/" value={this.state.input.snapchat} onChange={this.handleChange}/>
                                     </div>
                                 </div>
 
                                 <div className="col-sm-6">
                                     <div className="tes">
                                     <h4>Whatsapp</h4>
-                                    <input type="text" className="form-control" name="whatsapp" id="whatsapp" placeholder="Whatsapp" value={this.state.input.whatsapp} onChange={this.handleChange}/>
+                                    <input type="text" className="form-control" name="whatsapp" id="whatsapp" placeholder="Enter your Whatsapp number" value={this.state.input.whatsapp} onChange={this.handleChange}/>
                                     </div>
                                 </div>
 
                                 <div className="col-sm-6">
                                     <div className="tes">
                                     <h4>Amazon</h4>
-                                    <input type="text" className="form-control" name="amazon" id="amazon" placeholder="Amazon" value={this.state.input.amazon} onChange={this.handleChange}/>
+                                    <input type="text" className="form-control" name="amazon" id="amazon" placeholder="Amazon  https://Amazon.com/" value={this.state.input.amazon} onChange={this.handleChange}/>
                                     </div>
                                 </div>
 
                                 <div className="col-sm-6">
                                     <div className="tes">
                                     <h4>Ebay</h4>
-                                    <input type="text" className="form-control" name="ebay" id="ebay" placeholder="Ebay" value={this.state.input.ebay} onChange={this.handleChange}/>
+                                    <input type="text" className="form-control" name="ebay" id="ebay" placeholder="Ebay  https://Ebay.com/" value={this.state.input.ebay} onChange={this.handleChange}/>
                                     </div>
                                 </div>
                             </div>
@@ -2124,7 +2166,7 @@ return (
                         {this.state.friendsdata?.map((result, i) => {
                             return (
                             <div className="col-lg-6 mb-3">
-                                <div className="testfrnd">
+                                <div className="testfrnd friend ">
                                     <span className="userimg">
                                         {/* <span><i className="fas fa-video"></i></span> */}
                                         <img src={result.image} align="icon"/></span>
@@ -2359,6 +2401,33 @@ return (
                         </div>
                     </div>
                     <div id="Advertisement" className="tab-pane fade">
+
+                    <div>
+        <button onClick={this.handleButtonClick} className='btn btn-primary mb-4'>View Advertisement</button>
+        {showAdvertisement && (
+          <div className='row mb-2'>
+{this.state.getadvertisement&&
+  
+this.state.getadvertisement.filter(item=>item.userid==JSON.parse(window.localStorage.getItem("user")).value).map(item=>(<div className='col-sm-4 mt-1'>
+            <div className="card" style={{ width: "18rem" }}>
+
+  <div className="card-body">
+    <h5 className="card-title">{item.businessname}</h5>
+    <p className="card-text text-dark">
+    <span className="badge bg-light text-dark">advertisement</span> : {item.advertisement}<br/>
+    <span className="badge bg-light text-dark"> description </span> : {item.description}
+    </p>
+    {/* <a href="#" className="btn btn-primary">
+      Go somewhere
+    </a> */}
+  </div>
+</div>
+ </div>))}
+            
+       
+          </div>
+        )}
+      </div>
                         <h3>Advertisement</h3>
                         <div className="bus_det editInformation">
                         <form onSubmit={this.handleadvertisementSubmit}>
@@ -2406,7 +2475,10 @@ return (
                             </div>
 
                         </form>
+                       
                         </div>
+                      
+                        
                     </div>
 
                     <div id="Referral" className="tab-pane fade">
@@ -2566,6 +2638,20 @@ return (
                                 <div className="tes">
                                     <h4>Social Security Number last 4 Digit</h4>
                                     <input type="text" id="ssn" className="form-control" min="4" max="4" name="ssn" placeholder="ssn" value={this.state.stripe.ssn} onChange={this.handelchangestripe.bind(this)}/>
+                                    <div className="text-danger"></div>
+                                </div>
+                            </div>
+                            <div className="col-sm-6">
+                                <div className="tes">
+                                    <h4>Company Name</h4>
+                                    <input type="text" id="ssn" className="form-control" min="4" max="4" name="company_name" placeholder="Company Name" value={this.state.stripe.company_name} onChange={this.handelchangestripe.bind(this)}/>
+                                    <div className="text-danger"></div>
+                                </div>
+                            </div>
+                            <div className="col-sm-6">
+                                <div className="tes">
+                                    <h4>Tin Number</h4>
+                                    <input type="text" id="ssn" className="form-control" min="4" max="4" name="company_tin" placeholder="Tin Number" value={this.state.stripe.company_tin} onChange={this.handelchangestripe.bind(this)}/>
                                     <div className="text-danger"></div>
                                 </div>
                             </div>

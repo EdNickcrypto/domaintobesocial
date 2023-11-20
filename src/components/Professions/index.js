@@ -61,6 +61,7 @@ class Professions extends React.Component {
         formData1
         )
         .then((res) => {
+            console.log(res)
             this.setState({professions: res.data.data});
             document.getElementById('loadingicon').style.display = 'none';
         })

@@ -206,6 +206,7 @@ class Createpost extends React.Component {
                 formData.append('tags', this.state.fruites);
                 formData.append('tagfriends', this.state.inputEmail);
                 formData.append('url', this.state.input.url);
+                formData.append('vippost', this.state.input.vippost?this.state.input.vippost:false);
                 formData.append('userid', obj.value);
                 formData.append('postId',this.state.postId);
                 formData.append('oldImage',this.state.input.oldImage);
@@ -281,7 +282,22 @@ class Createpost extends React.Component {
 
         axios.get('https://domaintobesocial.com/domaintobe/category').then(response => 
         {
-            this.setState({categories: response.data.message});
+            const sortedCategories = [...response.data.message];
+
+            // Sort the categories array alphabetically based on the 'catname' property
+            sortedCategories.sort((a, b) => {
+              const nameA = a.catname.toUpperCase(); // Ignore case for comparison
+              const nameB = b.catname.toUpperCase(); // Ignore case for comparison
+            
+              if (nameA < nameB) {
+                return -1;
+              }
+              if (nameA > nameB) {
+                return 1;
+              }
+              return 0; // Names are equal
+            });
+            this.setState({categories: sortedCategories});
         });
         
         const formData12 = new FormData();
@@ -607,8 +623,7 @@ class Createpost extends React.Component {
                             </div>
 
                             {privatepost}
-                            
-
+                      {isViprole?<p class="vipp"><label class="checkcontainer"><input type="checkbox" name="vippost" onChange={this.checkboxChecked}/><span class="radiobtn"></span></label>Select VIP Post</p>:""}      
                             <ul className="save_draft">
                                 <li><a onClick={this.saveDraft.bind(this)} className="btn">Save as Draft</a></li>
                                 <li><a onClick={this.clearDraft.bind(this)} className="btn">Discard</a></li>

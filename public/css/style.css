@@ -11,6 +11,12 @@ background-color: #edf2f6;
     position: relative !important;
 }*/
 
+.displayed-text {
+    word-break: break-word;
+}
+.commentin p {
+    word-break: break-word;
+}
 .inbanner span.uploadImg {
     position: absolute;
     right: 15px;
@@ -455,15 +461,15 @@ a:hover{
 }
 
 
-.chatstart .container_left img {
-    width: 45px !important;
+.chatstart .container_left img:first-child {
+    width: 30px !important;
     position: absolute;
     left: 10px;
     border-radius: 50%;
 }
 .chatstart .container_left.darker {
     padding: 10px 65px 10px 10px;
-    text-align: right;
+    text-align: left;
     margin-left: 15%;
 }
 .chatstart .container_left {
@@ -471,13 +477,13 @@ a:hover{
     width: 80%;
     border: 1px solid #e8e8e8;
     margin: 10px 0;
-    padding: 10px 10px 10px 65px;
+    padding: 10px 10px 4px 68px;
     font-size: 14px;
     margin-right: 15%;
     border-radius: 10px;
 }
-.chatstart .container_left.darker img {
-    width: 45px !important;
+.chatstart .container_left.darker img:first-child {
+    width: 30px !important;
     position: absolute;
     right: 10px;
     left: inherit;
@@ -493,7 +499,7 @@ a:hover{
     color: #626262;
 }
 .chatstart .container_left span{
-    color: #b7b7b7;
+    color: #d5d3d3;
     font-size: 12px;
 }
 .chat-popup h1 {
@@ -565,7 +571,7 @@ a:hover{
     width: 320px;
     position: relative;
     height: 100%;
-    height: 519px;
+    /* height: 580px; */
 }
 .appendchatuser.minimize {
     box-shadow: none;
@@ -594,7 +600,7 @@ a:hover{
   border: none;
   background: #f1f1f1;
   resize: none;
-  min-height: 100px;
+  min-height: 50px;
 }
 
 /* When the textarea gets focus, do something */
@@ -651,22 +657,6 @@ background-color: #016afa;
 .form-container .btn.cancel {
     background: #ff0000a6;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .side_b{
     display: none;
         z-index: 9;
@@ -715,11 +705,11 @@ background-color: #016afa;
 .showchatt .testin {
     position: relative;
     cursor: pointer;
-    padding: 10px 12px 10px 84px;
+    padding: 8px 12px 8px 84px;
     background: #fff;
 }
 .showchatt .testin:after {
-    left: 74px;
+    left: 70px;
     background: #e2e2e2;
     content: "";
     height: 38px;
@@ -743,10 +733,11 @@ background-color: #016afa;
     overflow-y: auto;
     border-radius: 14px;
     max-height: 327px;
+    background-color: #fff;
 }
 .showchatt .testin .images {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     position: absolute;
     left: 15px;
     border-radius: 50%;
@@ -754,14 +745,15 @@ background-color: #016afa;
 }
 .showchatt .testin h4 {
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 400;
     color: #016afa;
      margin-bottom: 0;
 }
 .showchatt .testin h6{
-    font-size: 14px;
+    font-size: 12px;
     color: #626262;
     margin-bottom: 0;
+    font-weight: 100;
 }
 .showchatt .testin p {
     font-size: 14px;
@@ -1023,7 +1015,7 @@ background-color: #016afa;
     color: #fff;
     padding: 0px 15px;
     display: inline-block;
-    font-size: 15px;
+    font-size: 14px;
     border-bottom: 1px solid #1b7afc;
     min-height: 50px;
     line-height: 48px;
@@ -1051,7 +1043,7 @@ background-color: #016afa;
     border-bottom: 1px solid #1b7afc;
 }
 .sidbar_left ul li a span img {
-    max-height: 24px;
+    max-height: 20px;
 }
 .sidbar_left .seemore {
     color: #fff;
@@ -1160,8 +1152,8 @@ background-color: #016afa;
     position: absolute;
     left: 0;
     border-radius: 50%;
-    height: 80px;
-    width: 80px;
+    height: 50px;
+    width: 50px;
     border: 3px solid #edf2f6;
     overflow: hidden;
 }
@@ -1186,7 +1178,7 @@ background-color: #016afa;
     bottom: -82px;
 }
 .addpost .addhead ul li img {
-    height: 28px;
+    height: 20px;
 }
 
 /********************* select_category *********************/
@@ -1303,10 +1295,10 @@ background-color: #016afa;
 .listusr .asuser .userimg {
     position: absolute;
     left: 0;
-    width: 65px;
-    height: 65px;
+    width: 21%;
+    height: auto;
     top: 0;
-    border-radius: 50%;
+    border-radius: 100%;
     overflow: hidden;
 }
 .listusr .asuser .userimg img{
@@ -1346,7 +1338,7 @@ background-color: #016afa;
     position: absolute;
     left: 0;
     bottom: 0;
-    height: 28px;
+    height: 20px;
     top: 0;
     bottom: 0;
     margin: auto;
@@ -1427,7 +1419,7 @@ background-color: #016afa;
 .listusr .test img.hearticon {
     float: right;
     margin-top: -48px;
-    width: 56px;
+    width: 40px;
     filter: grayscale(100%);
 }
 .listusr .test img.hearticon.main{
@@ -1470,7 +1462,7 @@ background-color: #016afa;
 }
 .likeshare .comment {
     background: #016afb;
-    padding: 0px 40px;
+    padding: 0px 20px;
     color: #fff;
     border-radius: 30px;
     font-size: 16px;
@@ -1521,12 +1513,12 @@ background-color: #016afa;
      border-top: 1px solid #e9e9e9;
 }
 .allcomment .commentin span.userimg {
-  width: 65px;
+  width: 50px;
   position: absolute;
   left: 0px;
   overflow: hidden;
   border-radius: 50%;
-  height: 65px;
+  height: 50px;
   top: 20px;
 }
 .messages.chats:after {
@@ -1651,7 +1643,7 @@ background-color: #016afa;
 .side_right {
     position: absolute;
     right: 0;
-    width: 290px;
+    width: 300px;
     top: 0;
     padding: 0px 15px 35px 0;
     height: 100%;
@@ -1667,11 +1659,11 @@ background-color: #016afa;
 .side_right .asuser .userimg { 
     position: absolute;
     left: 0;
-    width: 65px;
+    width: 50px;
     top: 0;
     border-radius: 50%;
     overflow: hidden;
-    height: 65px;
+    height: 50px;
     border: 2px solid #fff;
 }
 .side_right .asuser img.vip {
@@ -1775,7 +1767,8 @@ background-color: #016afa;
 .side_right .test p {
     color: #737583;
     margin-top: 2px;
-    font-size: 14px;
+    font-size: 13px;
+    font-weight: 500;
 }
 .side_right .popular_user .userimg {
     position: absolute;
@@ -1998,14 +1991,14 @@ display: inline-block;
 .messages .test {
     background: #fff;
     border-radius: 12px;
-    box-shadow: 0px 6px 19px 0 #00000014;
     margin-bottom: 15px;
     padding-left: 88px;
     position: relative;
-    min-height: 80px;
+    min-height: 45px;
     overflow: hidden;
     padding-right: 15px;
     color: #737583;
+    border: 1px solid #d3d3d3;
 }
 .messages a.close img {
     width: 24px;
@@ -2030,10 +2023,11 @@ display: inline-block;
     text-decoration: underline;
 }
 .messages .test h4 {
-    font-weight: bold;
+    font-weight: normal;
     font-size: 16px;
     margin-top: 10px;
     margin-bottom: 2px;
+    text-transform: capitalize;
 }
 .messages .test h6 {
     font-size: 14px;
@@ -2094,9 +2088,9 @@ display: inline-block;
     border-radius: 12px;
     box-shadow: 0px 6px 19px 0 #00000014;
     margin-bottom: 24px;
-    padding-left: 140px;
+    padding-left: 120px;
     position: relative;
-    min-height: 155px;
+    min-height: 110px;
     overflow: hidden;
     padding-right: 10px;
     padding-top: 15px;
@@ -2111,12 +2105,15 @@ display: inline-block;
     top: 0;
 }
 .my_followers .test .userimg img {
-    height: 100%;
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+    max-width: 100px;
 }
 .my_followers .test h5 {
     color: #737583;
     font-weight: bold;
-    font-size: 24px;
+    font-size: 22px;
 }
 .my_followers .test p {
     margin-bottom: 0;
@@ -2133,14 +2130,15 @@ display: inline-block;
 }
 .my_followers ul.followmessage li a {
     background: #016afa;
-    padding: 6px 0;
+    padding: 4px 0;
     color: #fff;
-    font-size: 15px;
+    font-size: 13px;
     display: block;
     text-align: center;
     border-radius: 7px;
-    border: 2px solid #016afa;
-    margin-right:5%;
+    border: 1px solid #016afa;
+    margin-right: 5%;
+    font-weight: 500;
 }
 .my_followers ul.followmessage li {
     width: 50%;
@@ -2399,13 +2397,16 @@ display: inline-block;
     margin-top: 0;
     position: relative;
     }
-.messages.chats .list {
-    position: absolute;
-    left: 0;
-    width: 290px;
-    height: 100%;
-    overflow: auto;
-}
+    .messages.chats .list {
+        position: absolute;
+        left: 0;
+        width: 290px;
+        height: auto;
+        overflow: auto;
+        background-color: #fff;
+        padding: 10px;
+        border-radius: 10px;
+    }
 .messages.chats .test.active {
     background: #016afa;
     color: #fff;
@@ -2490,7 +2491,7 @@ display: inline-block;
     background: transparent !important;
     color: #016afa !important;
     font-size: 16px;
-    height: 50px;
+    height: 40px;
     border-radius: 30px;
 }
 
@@ -2511,10 +2512,13 @@ display: inline-block;
     color: #fff;
     font-size: 16px;
     margin-bottom: 25px;
+    border-radius: 5px;
+    overflow: hidden;
 }
 .chats .innchat h4 img {
-    width: 70px;
+    width: 60px;
     margin-right: 15px;
+    border-radius: 5px 0 0 5px;
 }
 
 .chats .innchat {
@@ -2530,17 +2534,19 @@ display: inline-block;
 }
 
 .chats .inleft .chatin p {
-    background: #797979;
-    padding: 20px 20px;
+   background: #797979;
+    padding: 8px 20px;
     border-radius: 10px;
     display: inline-block;
     color: #fff;
     max-width: 400px;
+    text-align: left;
     margin-bottom: 2px;
+    font-style: italic;
 }
 .chats .inright .chatin p {
     background: #016afb;
-    padding: 15px 20px;
+    padding: 8px 20px;
     border-radius: 10px;
     display: inline-block;
     color: #fff; 
@@ -2550,14 +2556,16 @@ display: inline-block;
 }
 
 .chats .inleft .chatin span {
-    font-weight: 500;
+    font-weight: 400;
     color: #737583;
     display: block;
+    font-style: italic;
 }
 .chats .inright .chatin span {
-    font-weight: 500;
+    font-weight: 400;
     color: #737583;
     display: block;
+    font-style: italic;
 }
 
 /*.messagesmain {
@@ -2873,10 +2881,14 @@ display: inline-block;
     right: 0;
     top: 40px;
 }
+#myTabContent .col-sm-6.col-lg-4.mb-3 {
+    display: table;
+}
 .Postall .singleposttest {
     border: 1px solid #e6e6e6;
     border-radius: 20px;
     background: #fff;
+    display: table-cell;
 }
 .dash_topmain.dash2 {
     padding-right: 280px;
@@ -3836,7 +3848,9 @@ display: inline-block;
 }
 .addfrbfil .testfrnd .userimg img {
     width: 100%;
-    height: 100%;
+    height: auto;
+    border-radius: 50%;
+    max-width: 100px;
 }
 
 .addfrbfil .testfrnd .userimg span {
@@ -3851,13 +3865,13 @@ display: inline-block;
 .addfrbfil .testfrnd h5 {
     color: #737583;
     font-weight: 600;
-    font-size: 18px;
+    font-size: 22px;
     margin-bottom: 4px;
 }
 .addfrbfil .testfrnd p {
     margin-bottom: 8px;
     color: #737583;
-    font-size: 15px;
+    font-size: 14px;
 }
 .addfrbfil .testfrnd ul.followmessage li {
     width: 45%;
@@ -3866,13 +3880,13 @@ display: inline-block;
 
 .addfrbfil .testfrnd ul.followmessage li a {
     background: #016afa;
-    padding: 6px 0;
+    padding: 4px 0;
     color: #fff;
-    font-size: 15px;
+    font-size: 13px;
     display: block;
     text-align: center;
     border-radius: 7px;
-    border: 2px solid #016afa;
+    border: 1px solid #016afa;
     margin-right: 5%;
 }
 
@@ -4600,10 +4614,10 @@ footer.main_footer p{
 } 
 .listusr.favoriteclass .test img.hearticon {
     margin-top: 0;
-    width: 33px;
+    width: 26px;
     position: absolute;
     right: 15px;
-    bottom: 24px;
+    bottom: 20px;
     z-index: 99999999;
 }
 .listusr.favoriteclass .test .asuser h5 {
@@ -4615,11 +4629,11 @@ footer.main_footer p{
 }
 .listusr.favoriteclass ul.likecomment li {
     padding-left: 30px;
-    margin-right: 20px;
-    height: 26px;
+    margin-right: 15px;
+    height: 32px;
 }
 .listusr.favoriteclass ul.likecomment li img {
-    height: 25px;
+    height: 20px;
 
 }
 .listusr.favoriteclass .test .asuser h5 span p {
@@ -4643,14 +4657,14 @@ footer.main_footer p{
 }
 .main_menu .side_right span.logout {
     background: #016afb;
-    padding: 14px 0;
+    padding: 10px 0;
     color: #fff;
     border-radius: 30px;
     position: absolute;
-    right: -100px;
+    right: -50px;
     top: 0;
     font-size: 15px;
-    min-width: 140px;
+    min-width: 100px;
     text-align: center;
     text-decoration: none;
     font-weight: 500;
@@ -4668,6 +4682,17 @@ footer.main_footer p{
 .main_menu ul li .dropdown-menu {
     width: 220px;
     padding: 0;
+
+        position: absolute;
+        will-change: transform;
+        overflow-y: scroll;
+        height: auto;
+        width: 267px;
+        max-height: 400px;
+        top: 0px;
+        left: 0px;
+        transform: translate3d(0px, 22px, 0px);
+    
 }
 
 .main_menu ul li .dropdown-menu li {
@@ -5006,7 +5031,10 @@ footer.main_footer p{
 }
 
 .addfrbfil .testfrnd {
-    min-height: 160px;
+    min-height: 105px;
+}
+.addfrbfil .friend {
+    min-height: 146px;
 }
 .dash_topmain {
     padding-left: 240px;
@@ -5035,6 +5063,7 @@ footer.main_footer p{
 .listusr.favoriteclass .test {
   padding: 15px;
   border-radius: 10px;
+  padding-bottom: 10px;
 }
 
   .notification .col-sm-6, .favoriteclass .col-sm-6 {
@@ -5103,10 +5132,34 @@ footer.main_footer p{
     padding-left: 310px;
 }
 .chats .inright .chatin p {
-    max-width: 300px;
-    font-size: 15px;
+    background: #016afb;
+    padding: 8px 20px;
+    border-radius: 10px;
+    display: inline-block;
+    color: #fff;
+    max-width: 400px;
+    text-align: left;
+    margin-bottom: 2px;
+    font-style: italic;
 }
 
+.chats .inleft .chatin p {
+    background: #016afb;
+    padding: 8px 20px;
+    border-radius: 10px;
+    display: inline-block;
+    color: #fff;
+    max-width: 400px;
+    text-align: left;
+    margin-bottom: 2px;
+    font-style: italic;
+}
+.chats .inleft .chatin span {
+    font-weight: 400;
+    color: #737583;
+    display: block;
+    font-style: italic;
+}
 
 .messages .test h4 {
     font-size: 15px;
@@ -7659,4 +7712,88 @@ width: 20px;
 .listusr .singleposttest .asuser h5 {
   font-size: 15px;
 }
+}
+
+span.days {
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 5px;
+    border: 1px solid #a3a3a3;
+    margin-right: 10px;
+}
+.btn-report {
+    font-size: 12px;
+    padding: 2px 16px;
+    border-radius: 5px;
+    border: 1px solid #a3a3a3;
+    width: 100%;
+}
+.bottomreport {
+    margin: 10px 0;
+}
+.para p {
+    font-size: 15px !important;
+    font-weight: 600;
+}
+img.chatimage {
+    height: auto !important;
+    border-radius: 2px !important;
+    width: 100%;
+}
+.chatuploadfile {
+    width: auto;
+    height: 28px;
+    margin-bottom: 5px;
+}
+
+.chatvideo {
+    width: 100%;
+    height: auto;
+}
+.listusr.favoriteclass {
+    margin-top: 30px !important;
+}
+.favoriteclass .col-sm-6.col-lg-4.col-xl-3 {
+    margin-bottom: 10px;
+}
+.listusr .asuser p {
+    margin-bottom: 5px;
+}
+.listusr .asuser .userimg {
+    position: absolute;
+    left: 0;
+    width: 50px;
+    height: 50px;
+    top: 0;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.listusr.favoriteclass.notification .test {
+    background: #016afa1c;
+    height: 85%;
+}
+
+.coupon {
+    border: 5px dotted #bbb;
+    width: 100%;
+    border-radius: 15px;
+    margin: 0 auto;
+    max-width: 600px;
+  }
+  
+  .containerpopup {
+    padding: 2px 16px;
+    background-color: #f1f1f1;
+  }
+  
+  .promo {
+    background: #ccc;
+    padding: 3px;
+  }
+  
+  .expire {
+    color: red;
+  }
+  div#popup-2 {
+    width: auto;
 }

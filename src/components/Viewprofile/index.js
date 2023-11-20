@@ -59,12 +59,10 @@ class Viewprofile extends React.Component {
 
         const formData0 = new FormData();
         formData0.append('id', 9);
-
         axios.post('https://domaintobesocial.com/domaintobe/getadvertisementpost', formData0).then((res) => {
             console.log("respose", res);
             this.setState({ advertisementData: res.data });
         }).catch(error => console.log("error", error));
-
         const formData = new FormData();
         formData.append('id', this.props.match.params.name)
         formData.append('user', curentlogin.value);

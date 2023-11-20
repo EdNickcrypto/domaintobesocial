@@ -283,8 +283,8 @@ class Help extends React.Component {
         }
 
         return (
-        <section className="maindiv pr-0 pl-0">
-        {/* <i className="fas fa-bars side_b"></i>
+        <section className="maindiv">
+         <i className="fas fa-bars side_b"></i>
          <div className="sidbar_left">
             <i className="fas fa-times side_b close"></i>
             <div className="logo">
@@ -314,7 +314,7 @@ class Help extends React.Component {
                 
                 <li><Link to="/favorites"><span><img src="/images/iconS8.png" align="icon"/></span> Favorites</Link></li>
             </ul>
-        </div> */}
+        </div> 
         <div className="main_menu ">
                 <ul class="ml-0">
                     <li>
@@ -394,7 +394,7 @@ class Help extends React.Component {
                                         <span className="userimg"><img src={result.userimage} align="icon"/></span>
                                         <h5>{result.name}
                                         </h5>
-                                        {/* <p>{result.category}</p> */}
+                                        <p>{result.category}</p>
                                         <p>{result.created} Ago</p>
                                     </div>
                                     <div className="contants">

@@ -28,9 +28,12 @@ class Userdashboard extends React.Component {
         comments: '',
         hidecomment : '',
         values: '',
+        chatimages: '',
         formfilled: 'notempty',
         files: [],
+        files2: [],
         imagesPreviewUrls: [],
+        imagesPreviewUrls2: [],
         videosPreviewUrls:[],
         videos:[],
         enteredText: [],
@@ -48,7 +51,7 @@ class Userdashboard extends React.Component {
         notificationcount: ''
       };
         
-      
+      this._handleImageChange2 = this._handleImageChange2.bind(this);
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
       this.commentSubmit = this.commentSubmit.bind(this);
@@ -125,6 +128,28 @@ class Userdashboard extends React.Component {
             reader.readAsDataURL(file);
         });
     }
+        _handleImageChange2(e) {
+            e.preventDefault();
+            let files = Array.from(e.target.files);
+
+            files.forEach((file) => {
+                let reader = new FileReader();
+                reader.onloadend = () => {
+                    const filesize = Math.round((file.size / 1024));
+                    if(filesize > 2048){
+                        swal("!Oops", "File too large, please select a file less than 2mb", "error");
+                    }else{
+                        this.setState({    
+                            files2: [...this.state.files2, file],
+                            imagesPreviewUrls2: [...this.state.imagesPreviewUrls2, reader.result]
+                        });
+                    }
+                }
+                reader.readAsDataURL(file);
+            });
+
+            
+        }
 
      _handleVideoChange(e) {
         e.preventDefault();
@@ -440,7 +465,22 @@ openClose(){
 
         axios.get('https://domaintobesocial.com/domaintobe/category').then(response => 
         {
-            this.setState({categories: response.data.message});
+            const sortedCategories = [...response.data.message];
+
+            // Sort the categories array alphabetically based on the 'catname' property
+            sortedCategories.sort((a, b) => {
+              const nameA = a.catname.toUpperCase(); // Ignore case for comparison
+              const nameB = b.catname.toUpperCase(); // Ignore case for comparison
+            
+              if (nameA < nameB) {
+                return -1;
+              }
+              if (nameA > nameB) {
+                return 1;
+              }
+              return 0; // Names are equal
+            });
+            this.setState({categories: sortedCategories});
         });
 
                 //notification count
@@ -764,7 +804,8 @@ $('.chat-popup').addClass('main');
    
     startChat(id,image,name,j,e){
         e.preventDefault();
-      
+     
+   
         // if(this.chatvalidate(j)){
             
             let curentlogin = JSON.parse(window.localStorage.getItem("user"));
@@ -774,6 +815,39 @@ $('.chat-popup').addClass('main');
             const db = firebase.database();
             var time = new Date().toLocaleString(undefined, {timeZone: 'Asia/Kolkata'});
             
+            if(this.state.imagesPreviewUrls2.length!==0) { const formData = new FormData();
+                this.state.files2.forEach((file) => formData.append('files[]', file));
+                formData.append('tagged', JSON.stringify(this.state.checkedItems));
+                axios.post('https://domaintobesocial.com/domaintobe/chatimage',
+                    formData
+                )
+                .then((res) => {
+                   
+                    db.ref("chat/" + sender).push({
+                        read: 'y',
+                        side: 'right',
+                        msg: this.state.inputFields[j].name+ ' ' + res.data.message?res.data.message:'',
+                        image:this.state.userimage,
+                        time: time
+                        
+                    });
+
+                    db.ref("chat/" + reciever).push({
+                        read: 'n',
+                        side: 'left',
+                        msg: this.state.inputFields[j].name+ ' ' + res.data.message?res.data.message:'',
+                        image:this.state.userimage,
+                        time: time
+                    });
+                    this.setState({imagesPreviewUrls2: []})
+                    
+                   
+                })
+
+                .catch((error) => {
+                console.log(error.message);
+                })}
+                if(this.state.inputFields[j].name.length!=0) {
             db.ref("chat/" + sender).push({
                 read: 'y',
                 side: 'right',
@@ -782,14 +856,17 @@ $('.chat-popup').addClass('main');
                 time: time
                 
             });
-
+        
             db.ref("chat/" + reciever).push({
                 read: 'n',
                 side: 'left',
                 msg: this.state.inputFields[j].name,
                 image:this.state.userimage,
                 time: time
-            });
+            }); 
+        }
+
+    
 
             db.ref("chatwith/" + curentlogin.value+"/"+id).set({
                 uid: id,
@@ -939,7 +1016,8 @@ $('.chat-popup').addClass('main');
                             <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             
                             <ul>
-                            {this.state.categories.map((result) => {
+                            {
+                            this.state.categories.map((result) => {
                                 return (
                                      <li key={result.id} value={result.id} data-set="check"><Link to={"/discussion?type="+result.id}>{result.catname}</Link></li>
                                     )
@@ -984,7 +1062,7 @@ $('.chat-popup').addClass('main');
          <div className="in_center">
                     <div className="head">
                         <form className="d-flex" onSubmit={this.handleSearch}>
-                            <input className="form-control me-2" type="search" placeholder="Search" name="search" aria-label="Search" autoComplete="off" onChange={this.handleChange} value={this.state.input.search}  />
+                            <input className="form-control me-2" type="search" placeholder="Search Post Name" name="search" aria-label="Search" autoComplete="off" onChange={this.handleChange} value={this.state.input.search}  />
                             <button className="btn" type="submit"><img src="images/searchicon.png" alt="icon"/> </button>
                             <div className="setsearchdata">
                             <ul>
@@ -1154,7 +1232,7 @@ $('.chat-popup').addClass('main');
                                         <input className="form-control me-2" type="text" placeholder="Your Comment..." aria-label="Search"  autoComplete="off" id={'reply' + object.id} name={this.state.values[i]} value={this.state.values[i]} onChange={this.handlereply.bind(this, i)}
                                             />
                                             <button className="comment" type="submit"><span className="send"><img src="images/send.png" alt="ion"/></span><span>Comment</span></button>
-                                        </form>
+<></>                                        </form>
     
     
     
@@ -1211,20 +1289,24 @@ $('.chat-popup').addClass('main');
                                         <ul className="likecomment">
                                             <li style={{cursor:'pointer'}} onClick={() => this.commentLike(i, object.id , result.id)}><img src="images/like1.png" alt="ion"/>{object.clike}</li>
                                             <li style={{cursor:'pointer'}} onClick={() => this.openReplycomment(i, object.id , result.id)}><img src="images/reply.png" alt="ion"/> Reply</li>
-                                            {/* {object.reply.map((item) => {
+                                            {object.reply.map((item) => {
+                                               
                                                return (
                                                    <>
-                                                   <div className='replyin'>
-                                                   <Link to={{ pathname: '/viewprofile/'+item.username }}><span className="userimg"><img className="w-100" src={item.image} align="icon"/></span></Link>
-                                                   <h5><Link to={{ pathname: '/viewprofile/'+item.username }}>{item.username}</Link><a className="reportbtn" data-toggle="modal" data-target={'#exampleModalHelp'+item.id}>Report</a></h5>
-                                                   <p>{item.comment} (<span>{item.created} Ago</span>)</p>
-                                                   </div>
+                                                   {item.commentid==object.id? <div className='replyin'>
+                                                 
+                                                 <Link to={{ pathname: '/viewprofile/'+item.username }}><span className="userimg"><img className="w-100" src={item.image} align="icon"/></span></Link>
+                                                 <h5><Link to={{ pathname: '/viewprofile/'+item.username }}>{item.username}</Link></h5>
+                                                <div><div class="para"><p>{item.comment} </p></div>
+                                                <div class="bottomreport"><span class="days">{item.created} Ago</span><a className="reportbtn btn-report" data-toggle="modal" data-target={'#exampleModalHelp'+item.id}>Report</a></div></div> 
+                                                 </div>:""}
+                                                  
                                                    </>
                                                )
                                                 
                                              
                                             })
-                                            } */}
+                                            }
                                             
                                         </ul>
     
@@ -1343,19 +1425,41 @@ $('.chat-popup').addClass('main');
                         return(
                     <div className="appendchatuser"  id={x.id}><h1><Link to={{ pathname: '/viewprofile/'+x.name }}>{x.name}</Link><span id={'chat'+x.id} onClick={() => this.minimize(x.id)}><i class="fa fa-window-minimize" aria-hidden="true"></i><i class="fa fa-window-maximize" aria-hidden="true"></i></span><button type="button" className="btn cancel" onClick={() => this.closeChatbox(x.id)}><i className="fas fa-times"></i></button></h1><form onSubmit={this.startChat.bind(this, x.id,x.image,x.name,j)} className="form-container"><div className="chatstart">
                     {this.popupchat(x.id) && this.popupchat(x.id).length>0 ? this.popupchat(x.id).map((chat,i) => {  
+                      
                         return (
                             <span>
                             { chat.side == 'left' ?
                                 <div className="container_left">
                                     <img src={chat.image} alt="Avatar"/>
-                                    <p>{chat.msg}</p>
+                                    {chat.msg.endsWith('.mp4') ? (
+                        <video className='chatvideo' controls>
+                            <source src={chat.msg} type="video/mp4" />
+                            Your browser does not support the video tag.
+                        </video>
+                    ) :chat.msg.endsWith('.png') || chat.msg.endsWith('.jpg') ? (
+                       <img src={chat.msg} alt="Image" className='chatimage' style={{ height: '100px', position: 'relative' }} />
+
+                    ) : (
+                        <p>{chat.msg}</p>
+                    )}
+                                    {/* <p>{chat.msg}</p> */}
                                     <span className="time-right">{chat.time}</span>
                                 </div>
                             : 
                                 <div className="container_left darker">
                                     <img src={chat.image} alt="Avatar" className="right"/>
-                                    <p>{chat.msg}</p>
-                                    <span className="time-left">{chat.time}</span>
+                                    {chat.msg.endsWith('.mp4') ? (
+                        <video className='chatvideo' controls>
+                            <source src={chat.msg} type="video/mp4" />
+                            Your browser does not support the video tag.
+                        </video>
+                    ) : chat.msg.endsWith('.png') || chat.msg.endsWith('.jpg') ? (
+                        <img src={chat.msg} alt="Image" className='chatimage' style={{ height: '100px', position: 'relative' }} />
+
+                    ) : (
+                        <p>{chat.msg}</p>
+                    )}  
+                                    <span className="time-left">{chat.time}</span>  
                                 </div>
                             }
                             </span>
@@ -1364,6 +1468,18 @@ $('.chat-popup').addClass('main');
                     </div>
                    
                     <textarea placeholder="Type message.." name="message" autoComplete="off"  onChange={this.forchanedosage.bind(this,j)} value={this.state.inputFields[j].name}></textarea>
+
+                    {/* <input type="file" name="" onChange={this._handleImageChange2} multiple accept="image/*"/> */}
+                    {/* <input type="file" name="" onChange={this._handleImageChange} multiple accept="image/*"/> */}
+                    <input
+        id="file-upload"
+        type="file"
+        style={{ display: 'none' }}
+        onChange={this._handleImageChange2}
+        multiple accept="image/ video/*"
+      />
+      
+      <img src="images/addicon1.png" align="icon" className='chatuploadfile'   onClick={() => document.getElementById('file-upload').click()}/>
                     <button type="submit" name="chatsubmit" className="btn">Send</button></form></div>
                         )
                     })}

@@ -3,6 +3,7 @@ import React from 'react';
 import axios from 'axios';
 import firebase from 'firebase';
 import $ from 'jquery';
+import swal from 'sweetalert';
 class Viewnotifications extends React.Component { 
     constructor(props)
     {
@@ -16,10 +17,36 @@ class Viewnotifications extends React.Component {
         inputFields:[],
         showdata:[],
         notification:[],
-        notificationcount: ''
+        notificationcount: '',
+        filterValue: null,
+        files: [],
+        imagesPreviewUrls: [],
       };
 
       this.popupchat=this.popupchat.bind(this);
+      this._handleImageChange = this._handleImageChange.bind(this);
+
+    }
+
+    _handleImageChange(e) {
+        e.preventDefault();
+        let files = Array.from(e.target.files);
+
+        files.forEach((file) => {
+            let reader = new FileReader();
+            reader.onloadend = () => {
+                const filesize = Math.round((file.size / 1024));
+                if(filesize > 2048){
+                    swal("!Oops", "File too large, please select a file less than 2mb", "error");
+                }else{
+                    this.setState({    
+                        files: [...this.state.files, file],
+                        imagesPreviewUrls: [...this.state.imagesPreviewUrls, reader.result]
+                    });
+                }
+            }
+            reader.readAsDataURL(file);
+        });
     }
 
     handleChangeLogout()
@@ -27,7 +54,10 @@ class Viewnotifications extends React.Component {
       window.localStorage.clear();
       window.location.reload();
     }
-
+    handleFilterChange = (event) => {
+        const value = event.target.value;
+        this.setState({ filterValue: value === '' ? null : value });
+      };
 
 openPop(){
     // alert('asdfasdf');
@@ -80,7 +110,7 @@ openClose(){
         formData1.append('id', curentlogin.value);
         axios.post('https://domaintobesocial.com/domaintobe/getnotifications',formData1)
         .then((res) => {
-            console.log('res',res.data.message);
+       
             this.setState({notification: res.data.message});
         })
         .catch((error) => {
@@ -159,22 +189,56 @@ openClose(){
             const db = firebase.database();
             var time = new Date().toLocaleString(undefined, {timeZone: 'Asia/Kolkata'});
             
-            db.ref("chat/" + sender).push({
-                read: 'y',
-                side: 'right',
-                msg: this.state.inputFields[j].name,
-                image:this.state.userimage,
-                time: time
-                
-            });
+            if(this.state.imagesPreviewUrls.length!==0) { const formData = new FormData();
+                this.state.files.forEach((file) => formData.append('files[]', file));
+                formData.append('tagged', JSON.stringify(this.state.checkedItems));
+                axios.post('https://domaintobesocial.com/domaintobe/chatimage',
+                    formData
+                )
+                .then((res) => {
+                   
+                    db.ref("chat/" + sender).push({
+                        read: 'y',
+                        side: 'right',
+                        msg: this.state.inputFields[j].name+ ' ' + res.data.message?res.data.message:'',
+                        image:this.state.userimage,
+                        time: time
+                        
+                    });
     
-            db.ref("chat/" + reciever).push({
-                read: 'n',
-                side: 'left',
-                msg: this.state.inputFields[j].name,
-                image:this.state.userimage,
-                time: time
-            });
+                    db.ref("chat/" + reciever).push({
+                        read: 'n',
+                        side: 'left',
+                        msg: this.state.inputFields[j].name+ ' ' + res.data.message?res.data.message:'',
+                        image:this.state.userimage,
+                        time: time
+                    });
+                    this.setState({imagesPreviewUrls: []})
+                    
+                   
+                })
+    
+                .catch((error) => {
+                console.log(error.message);
+                })}
+                if(this.state.inputFields[j].name.length!=0) {
+                    db.ref("chat/" + sender).push({
+                        read: 'y',
+                        side: 'right',
+                        msg: this.state.inputFields[j].name,
+                        image:this.state.userimage,
+                        time: time
+                        
+                    });
+                
+                    db.ref("chat/" + reciever).push({
+                        read: 'n',
+                        side: 'left',
+                        msg: this.state.inputFields[j].name,
+                        image:this.state.userimage,
+                        time: time
+                    }); 
+                }
     
             db.ref("chatwith/" + curentlogin.value+"/"+id).set({
                 uid: id,
@@ -201,6 +265,7 @@ openClose(){
             });
             this.state.inputFields[j].name="";
             this.setState({inputFields:this.state.inputFields});
+            $(".chatstart").stop().animate({ scrollTop: $(".chatstart")[0].scrollHeight}, 1000);
     
     
     }
@@ -260,6 +325,13 @@ openClose(){
             vipimage = '';
         }
 
+
+        const { initialData, filterValue } = this.state;
+
+        // Apply filter and map data
+        const filteredData = filterValue
+          ? this.state.notification.filter((item) => item.name.toLowerCase().includes(filterValue.toLowerCase()))
+          : this.state.notification;
         return (
             <section class="maindiv">
                 <i className="fas fa-bars side_b" onClick={this.openPop.bind(this)}></i>
@@ -314,18 +386,19 @@ openClose(){
                 <div className="in_center in_center_discussion">
                     
                     <div className="head pr-0">
-                        {/* <form className="d-flex w-100">
-                          <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+                        <form className="d-flex w-100">
+                          <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" value={filterValue || ''}
+          onChange={this.handleFilterChange}/>
                           <button className="btn" type="submit"><img src="images/searchicon.png" alt="icon"/> </button>
-                        </form> */}
+                        </form>
                     </div>
 
 
                     <div className="listusr favoriteclass notification mt-0">
                         <div className="row">
-                        {this.state.notification.map((result,i) => {
+                        {filteredData.map((result,i) => {
                             return (
-                            <div className="col-sm-6 col-lg-4 col-xl-3">
+                            <div className="col-sm-6 col-lg-4 col-xl-3 m-1">
                                 <div className={ result.seen  == 1 ? 'test active' : 'test' }>
                                     <div className="asuser">
                                         <Link 
@@ -390,13 +463,33 @@ openClose(){
                             { chat.side == 'left' ?
                                 <div className="container_left">
                                     <img src={chat.image} alt="Avatar"/>
-                                    <p>{chat.msg}</p>
+                                    {chat.msg.endsWith('.mp4') ? (
+                        <video className='chatvideo' controls>
+                            <source src={chat.msg} type="video/mp4" />
+                            Your browser does not support the video tag.
+                        </video>
+                    ) :chat.msg.endsWith('.png') || chat.msg.endsWith('.jpg') ? (
+                       <img src={chat.msg} alt="Image" className='chatimage' style={{ height: '100px', position: 'relative' }} />
+
+                    ) : (
+                        <p>{chat.msg}</p>
+                    )}
                                     <span className="time-right">{chat.time}</span>
                                 </div>
                             : 
                                 <div className="container_left darker">
                                     <img src={chat.image} alt="Avatar" className="right"/>
-                                    <p>{chat.msg}</p>
+                                    {chat.msg.endsWith('.mp4') ? (
+                        <video className='chatvideo' controls>
+                            <source src={chat.msg} type="video/mp4" />
+                            Your browser does not support the video tag.
+                        </video>
+                    ) :chat.msg.endsWith('.png') || chat.msg.endsWith('.jpg') ? (
+                       <img src={chat.msg} alt="Image" className='chatimage' style={{ height: '100px', position: 'relative' }} />
+
+                    ) : (
+                        <p>{chat.msg}</p>
+                    )}
                                     <span className="time-left">{chat.time}</span>
                                 </div>
                             }
@@ -406,6 +499,9 @@ openClose(){
                     </div>
                    
                     <textarea placeholder="Type message.." name="message" autoComplete="off"  onChange={this.forchanedosage.bind(this,j)} value={this.state.inputFields[j].name}></textarea>
+                    <input id="file-upload" type="file" onChange={this._handleImageChange} style={{ display: 'none' }}  multiple accept="image/ video/*"/>
+      
+      <img src="images/addicon1.png" align="icon" className='chatuploadfile'   onClick={() => document.getElementById('file-upload').click()}/>
                     <button type="submit" name="chatsubmit" className="btn">Send</button></form></div>
                         )
                     })}
