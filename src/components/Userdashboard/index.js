@@ -1159,7 +1159,7 @@ $('.chat-popup').addClass('main');
                                 <div className="asuser">
                                     
                                        
-                                        <Link to={{ pathname: '/viewprofile/'+result.username }}><span className="userimg"><img src={result.userimage} align="icon"/></span>
+                                        <Link to={{ pathname: '/viewprofile/'+result.username }}><span className="userimg"><img src={result.userimage?result.userimage:this.state.userimage} align="icon"/></span>
                                         </Link>
                                         
                                     <h5><Link to={{ pathname: '/viewprofile/'+result.username }}>{result.username}</Link> {result.counttaguser == 2 ? (
