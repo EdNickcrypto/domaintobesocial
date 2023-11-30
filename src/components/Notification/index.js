@@ -782,6 +782,18 @@ openClose(){
                                         </div>
                                     </div> */}
                                     <p dangerouslySetInnerHTML={{__html: result.posts}} />
+                                    <div>
+                                    {result.url&&   result.url.split('/')[2]=='youtu.be'?
+                                  
+                                        <>
+                                            
+                                        
+                                         
+                                            <iframe width="100%" height="400px" src={'https://www.youtube.com/embed/'+result.url.split('/')[3]} title="YouTube video player" frameborder="0"  allowFullScreen></iframe>
+                                            
+                                        </>
+                                    :""}
+                                    </div>
                                     <div className="row">
                                     { result.images.map((galleryimage, i) => ( 
                                        

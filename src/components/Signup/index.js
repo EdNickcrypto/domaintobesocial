@@ -37,7 +37,7 @@ class Signup extends React.Component {
     return (
         <section className="loginpagetow signup1" style={{ backgroundImage: `url(/images/signupbg.jpg)`}}>
             <div className="container">
-            <Popup open={this.state.popupopne} position="right center">
+           {this.state.popupdata?<Popup open={this.state.popupopne} position="right center">
             <div className="coupon">
   <div className="containerpopup">
     <h3><img src="/images/logo.png" alt="Avatar" /></h3>
@@ -65,7 +65,7 @@ class Signup extends React.Component {
                                 </button>
 </div>
 
-  </Popup>
+  </Popup>:""}
                 <Link to="/" className="gologin"><img src="/images/loginarrow2.png" alt="icon"/></Link>
                 <h2>Signup with</h2>
                 <div className="row">

@@ -48,7 +48,10 @@ class Userdashboard extends React.Component {
         searcheddata:[],
         profession:[],
         query: {},
-        notificationcount: ''
+        notificationcount: '',
+        searchoption:'',
+        filterValue: null,
+        subcategory:''
       };
         
       this._handleImageChange2 = this._handleImageChange2.bind(this);
@@ -86,6 +89,10 @@ class Userdashboard extends React.Component {
     }
    
 
+    handleFilterChange = (event) => {
+        const value = event.target.value;
+        this.setState({ filterValue: value === '' ? null : value });
+      };
     onClick() {
         this.setState({childVisible: !this.state.childVisible});
     }
@@ -229,6 +236,7 @@ class Userdashboard extends React.Component {
                 formData.append('userid', obj.value);
                 formData.append('post', html);
                 formData.append('tagged', this.state.checkedItems);
+                formData.append('url', this.state.input.url);
                 this.state.files.forEach((file) => formData.append('files[]', file));
                 this.state.videos.forEach((file) => formData.append('videos[]', file));
                 formData.append('tagged', JSON.stringify(this.state.checkedItems));
@@ -484,6 +492,15 @@ openClose(){
             this.setState({categories: sortedCategories});
         });
 
+        axios.get('https://domaintobesocial.com/domaintobe/subcategory').then(response => 
+        {
+            console.log(response.data.message)
+            
+             this.setState({subcategory: response.data.message});
+        });
+
+        
+
                 //notification count
 
                 const formData13 = new FormData();
@@ -721,6 +738,20 @@ openClose(){
 
     handleSearch(event) {
         event.preventDefault();
+        if (this.state.searchoption=='user') {
+            const formData = new FormData();
+        formData.append('search', this.state.input.search);
+        axios.post('https://domaintobesocial.com/domaintobe/getusers',
+            formData
+        )
+        .then((res) => {
+            this.setState({searcheddata: res.data.message});
+        })
+        .catch((error) => {
+        console.log(error.message);
+        })
+        }
+        else{
         const formData = new FormData();
         formData.append('search', this.state.input.search);
         axios.post('https://domaintobesocial.com/domaintobe/searchnewsfeed',
@@ -731,7 +762,7 @@ openClose(){
         })
         .catch((error) => {
         console.log(error.message);
-        })
+        })} 
     }
 
     postClick(i){
@@ -952,7 +983,18 @@ $('.chat-popup').addClass('main');
     
 
     render() {
-       
+        const { initialData, filterValue } = this.state;
+
+        // Apply filter and map data
+
+        const filteredData = filterValue
+        ? (this.state.chatingdata && Array.isArray(this.state.chatingdata))
+          ? this.state.chatingdata.filter((item) => {
+              return item.name && typeof item.name === 'string' && item.name.toLowerCase().includes(filterValue.toLowerCase());
+            })
+          : []
+        : this.state.chatingdata;
+      
         let stringValue = window.localStorage.getItem('user');
         if (stringValue !== null) {
             let value = JSON.parse(stringValue)
@@ -1019,8 +1061,14 @@ $('.chat-popup').addClass('main');
                             <ul>
                             {
                             this.state.categories.map((result) => {
-                                return (
-                                     <li key={result.id} value={result.id} data-set="check"><Link to={"/discussion?type="+result.id}>{result.catname}</Link></li>
+                                console.log(result)
+                                return (<>
+                                     <li key={result.id} value={result.id} data-set="check"  ><Link to={"/discussion?type="+result.id}>{result.catname}</Link>
+                                     <ul className='testul'>
+                                     {this.state.subcategory&&this.state.subcategory.map((result1) => (
+                                     <>{result1.catid==result.id?<li key={result1.id} value={result1.id} data-set="check"><Link to={"/discussion?type="+result.id}>{result1.subcat}</Link></li>:""}</>))}</ul></li>
+                                   
+                                     </>  
                                     )
                                 })}
                             </ul>
@@ -1063,14 +1111,21 @@ $('.chat-popup').addClass('main');
          <div className="in_center">
                     <div className="head">
                         <form className="d-flex" onSubmit={this.handleSearch}>
-                            <input className="form-control me-2" type="search" placeholder="Search Post Name" name="search" aria-label="Search" autoComplete="off" onChange={this.handleChange} value={this.state.input.search}  />
+                            <input className="form-control me-2" type="search" placeholder="Search Post Name and User by Name" name="search" aria-label="Search" autoComplete="off" onChange={this.handleChange} value={this.state.input.search}  />
+                            <select onChange={(e)=>{this.setState({searchoption:e.target.value})}}>
+                                <option value="">Select one...</option>
+                                <option value="user">user</option>
+                                <option value="post">post</option>
+                            </select>
                             <button className="btn" type="submit"><img src="images/searchicon.png" alt="icon"/> </button>
                             <div className="setsearchdata">
                             <ul>
-                                {this.state.searcheddata.map((results) => {
-                                    return (
-                                        <li className="postsearch" onClick={(e)=>this.postClick(results.id)}>{results.posts}<i className="fas fa-arrow-right"></i></li>
-                                    )
+                                {this.state.searcheddata&&this.state.searcheddata.map((results) => {
+                                    console.log(results)
+                                    return (<>
+                                    {results.posts? <li className="postsearch" onClick={(e)=>this.postClick(results.id)} key={results.id}>{results.posts}<i id={results.id} className="fas fa-arrow-right"></i></li>:results.name?<Link className="postsearch" to={{ pathname: '/viewprofile/'+results.name }}>{results.name}</Link>:""}
+                                       
+                                        </>)
                                 })}
                             </ul>
                     </div>
@@ -1108,14 +1163,14 @@ $('.chat-popup').addClass('main');
                                     </li>
         
                                    
-                                    {/* <li className="dropdown"><span className="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <li className="dropdown"><span className="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                         <img src="images/addicon4.png" align="icon"/>
                                         </span>
                                         <div className="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start">
                                             <input type="text" className="form-control linkurl" name="url" placeholder="Add Url" onChange={this.handleChange} id="url" value={this.state.input.url}/>
                                            
                                         </div>
-                                    </li> */}
+                                    </li>
                                     <li onClick={() => this.onClick()}><img src="images/addicon5.png" align="icon"/></li>
                                 </ul>
                                 <button className="btn" type="submit">Post</button>
@@ -1153,6 +1208,7 @@ $('.chat-popup').addClass('main');
                     
                     <div className="listusr">
                         {this.state.data.map((result,i) => {
+                        
                         return (
                             <div className="test">
                                 <a onClick={() => this.postLike(i, result.id)}>
@@ -1182,16 +1238,18 @@ $('.chat-popup').addClass('main');
                                             <a className="dropdown-item" href="#">Something else here</a>
                                         </div>
                                     </div> */}
-                                    <ReadMoreReact 
-                                       text={result.posts}
-                                       numberOfLines={10}
+                                    {result.posts.length>100?<ReadMoreReact 
+                                       text={result.posts?result.posts:""}
+                                       numberOfLines={3}
                                        showLessButton={true}
-                                      />
+                                       readMoreText="click here to read more"
+                                      />:result.posts}
+                                  
                                     {/* <p dangerouslySetInnerHTML={{__html: result.posts}} /> */}
                                     <div className="row">
                                     { result.images.map((galleryimage, i) => ( 
                                        
-                                        <div className="col-6 col-sm-4 col-lg-3">
+                                        <div className="col-6 col-sm-4 col-lg-4">
                                             <div  className="testin">
                                             <img className="w-100"src={galleryimage.image} />
                                             </div>
@@ -1201,7 +1259,7 @@ $('.chat-popup').addClass('main');
         
                                     <div className="row">
                                     { result.videos.map((galleryvideos, i) => ( 
-                                        <div className="col-6 col-sm-4 col-lg-3">
+                                        <div className="col-6 col-sm-4 col-lg-4">
                                             <div className="testin">
                                             <video width="320" height="240" controls>
                                                 <source src={galleryvideos.videos} type="video/mp4"/>
@@ -1210,6 +1268,18 @@ $('.chat-popup').addClass('main');
                                             </div>
                                         </div>
                                     ))}
+                                    </div>
+                                    <div>
+                                    {result.url&&result.url.split('/')[2]=='youtu.be'?
+                                  
+                                        <>
+                                            
+                                        
+                                         
+                                            <iframe width="100%" height="400px" src={'https://www.youtube.com/embed/'+result.url.split('/')[3]} title="YouTube video player" frameborder="0"  allowFullScreen></iframe>
+                                            
+                                        </>
+                                    :""}
                                     </div>
                                    
                                    
@@ -1401,14 +1471,26 @@ $('.chat-popup').addClass('main');
                     <div className="test showchatt">
                         <h3>Messages list</h3>
                         <div className="all mmss">
-                        {this.state.chatingdata.map((chat,i) => { 
+                        <form className="d-flex w-100">
+                          <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" value={filterValue || ''}
+          onChange={this.handleFilterChange}/>
+                          <button className="btn" type="submit"><img src="images/searchicon.png" alt="icon"/> </button>
+                       </form>
+                        {filteredData.map((chat,i) => { 
+                            
                             return (
                             <div className="testin" onClick={() => this.openChatbox(chat.uid,chat.name,chat.image)}>
                                 <div className="images">
                                     <img src={chat.image} alt="user"/>
                                 </div>
                                 <h4>{chat.name}</h4>
-                                <p>{chat.msg}</p>
+                                <p>
+                                {chat.msg&& <ReadMoreReact 
+                                       text={chat.msg?chat.msg:""}
+                                       numberOfLines={1}
+                                       showLessButton={true}
+                                       readMoreText="click here to read more"
+                                      />}</p>
                                 <h6>{chat.time}</h6>
                             </div>
                             

@@ -1434,7 +1434,7 @@ this.setState({uid:curentlogin.value});
 
 {this.state.input.facebook && this.state.input.facebook!=="" ? <span><a href={this.state.input.facebook} target="_blank" ><i className="fab fa-facebook-f"></i></a></span>:""}
 
-{this.state.input.twitter && this.state.input.twitter!=="" ? <span><a href={this.state.input.twitter} target="_blank"><i className="fab fa-twitter"></i></a></span>:""}
+{this.state.input.twitter && this.state.input.twitter!=="" ? <span><a href={this.state.input.twitter} target="_blank"><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/></svg></a></span>:""}
 
 {this.state.input.snapchat && this.state.input.snapchat!=="" ? <span><a href={this.state.input.snapchat} target="_blank"><i className="fab fa-snapchat-ghost"></i></a></span>:""}
 
@@ -1445,6 +1445,10 @@ this.setState({uid:curentlogin.value});
 {this.state.input.tumbler && this.state.input.tumbler!=="" ? <span><a href={this.state.input.tumbler} target="_blank"><i className="fab fa-tumblr"></i></a></span>:""}
 
 {this.state.input.ebay && this.state.input.ebay!=="" ? <span><a href={this.state.input.ebay} target="_blank"><i className="fab fa-ebay"></i></a></span>:""}
+{this.state.input.tiktok && this.state.input.tiktok!=="" ? <span><a href={this.state.input.tiktok} target="_blank"><i class="fab fa-tiktok"></i></a></span>:""}
+{this.state.input.Instagram && this.state.input.Instagram!=="" ? <span><a href={this.state.input.Instagram} target="_blank"><i class="fab fa-instagram"></i></a></span>:""}
+{this.state.input.Reddit && this.state.input.Reddit!=="" ? <span><a href={this.state.input.Reddit} target="_blank"><i class="fab fa-reddit"></i></a></span>:""}
+{this.state.input.WeChat && this.state.input.WeChat!=="" ? <span><a href={this.state.input.WeChat} target="_blank"><i className="fab fa-weixin"></i></a></span>:""}
 
 </h5>
                         </div>
@@ -1494,6 +1498,7 @@ this.setState({uid:curentlogin.value});
     <div className="row">
 
 {this.state.postsdata?.map((resultp) => {
+    console.log(resultp)
 return (
     <div className="col-sm-6 col-lg-4  mb-3">
         <div className="singleposttest">
@@ -1507,6 +1512,9 @@ return (
                 
             {resultp.images && resultp.images!=='' ? <div class="img"><img class="w-100" src={resultp.images}/></div> :""}
               <p>{resultp.posts}</p>
+              <i class="fa fa-thumbs-up g-pos-rel g-top-1 g-mr-3"></i>{resultp.likes}
+                    
+                 
              <Link to={'editPost/'+resultp.id}>Edit post <i className="fas fa-long-arrow-alt-right"></i></Link>
             </div>
         </div>
@@ -1990,6 +1998,30 @@ return (
                                     <input type="text" className="form-control" name="ebay" id="ebay" placeholder="Ebay  https://Ebay.com/" value={this.state.input.ebay} onChange={this.handleChange}/>
                                     </div>
                                 </div>
+                               {isViprole?<> <div className="col-sm-6">
+                                    <div className="tes">
+                                    <h4>TikTok</h4>
+                                    <input type="text" className="form-control" name="tiktok" id="ebay" placeholder="tiktok  https://TikTok.com/" value={this.state.input.tiktok} onChange={this.handleChange}/>
+                                    </div>
+                                </div>
+                                <div className="col-sm-6">
+                                    <div className="tes">
+                                    <h4>Instagram</h4>
+                                    <input type="text" className="form-control" name="Instagram" id="ebay" placeholder="Instagram  https://Instagram.com/" value={this.state.input.Instagram} onChange={this.handleChange}/>
+                                    </div>
+                                </div>
+                                <div className="col-sm-6">
+                                    <div className="tes">
+                                    <h4>Reddit</h4>
+                                    <input type="text" className="form-control" name="Reddit" id="ebay" placeholder="Reddit  https://Reddit.com/" value={this.state.input.Reddit} onChange={this.handleChange}/>
+                                    </div>
+                                </div>
+                                <div className="col-sm-6">
+                                    <div className="tes">
+                                    <h4>WeChat</h4>
+                                    <input type="text" className="form-control" name="WeChat" id="ebay" placeholder="WeChat  https://WeChat.com/" value={this.state.input.WeChat} onChange={this.handleChange}/>
+                                    </div>
+                                </div></>:""}
                             </div>
                             <button type="submit" name="submitform">Submit</button>
                             </form>

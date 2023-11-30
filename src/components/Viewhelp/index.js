@@ -381,7 +381,7 @@ class Viewhelp extends React.Component {
                         </li>
                         <li><Link to="/blocklist"><span><img src="/images/iconS5.png" align="icon"/></span> Blocklist</Link></li>
                         <li><Link to="/viewnotifications" ><span><img src="/images/iconS6.png" align="icon"/></span> Notifications</Link></li>
-                        <li><Link to="pagesliked" ><span><img src="/images/iconS7.png" align="icon"/></span> Pages Liked</Link></li>
+                        {/* <li><Link to="pagesliked" ><span><img src="/images/iconS7.png" align="icon"/></span> Pages Liked</Link></li> */}
                         <li><Link to="/favorites" ><span><img src="/images/iconS8.png" align="icon"/></span> Favorites</Link></li>
                     </ul>
                 </div>

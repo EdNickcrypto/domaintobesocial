@@ -44,6 +44,9 @@ class Vipsignup extends React.Component {
 
     handleChange(event) {
         let input = this.state.input;
+        console.log(event.target.name);
+        console.log(event.target.value)
+
         input[event.target.name] = event.target.value;
         this.setState({
           input
@@ -128,6 +131,10 @@ class Vipsignup extends React.Component {
       if (!input["plan"]) {
         isValid = false;
         errors["plan"] = "Please select your plan.";
+      }
+      if (!input["tc"]) {
+        isValid = false;
+        errors["tc"] = "Please select your T&C.";
       }
 
       if (!input["mobile"]) {
@@ -404,9 +411,34 @@ handleDateChange(date) {
                                         </div>
                                     </div>  
                                     </div>
+                                    <div className="col-sm-12">
+                                    <div className="form-group">
+                                       <label>Terms and Conditions*</label>
+                                        <div className="row">
+
+                                       
+                                           
+                                            <div className="col-md-12 mb-2">
+                                                <div class="checkcontainer">
+                                                    <input type="checkbox" name="tc"   onChange={this.handleChange} />
+                                                    <span class="radiobtn"></span>
+                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmo
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+mollit anim id est laborum.
+                                                </div>
+                                            </div>
+                                         
+                                        <div className="text-danger">{this.state.errors.tc}</div>
+                                        </div>
+                                    </div>  
+                                    </div>
                                 </div>
                                 <div className="text-center">
-                                {this.state.formData!==false ? <CheckoutForm price={this.state.planprice} form={this.state.formData}  /> : <button className="btn" type="submit">Create Account</button>}
+                                {this.state.formData!==false ? <CheckoutForm price={this.state.planprice} form={this.state.formData} planid={this.state.input.plan&&this.state.input.plan}  /> : <button className="btn" type="submit"  >Create Account</button>}
 
                                     {/* <button className="btn" type="submit">Create Account</button> */}
                                 </div>

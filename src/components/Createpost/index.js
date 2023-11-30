@@ -449,6 +449,11 @@ class Createpost extends React.Component {
     }
 
     render() {
+        let dataselectcat =this.state.data.sort(function(a, b) {
+  if(a.catname.toLowerCase() < b.catname.toLowerCase()) return -1;
+  if(a.catname.toLowerCase() > b.catname.toLowerCase()) return 1;
+  return 0;
+ })
         let stringValue = window.localStorage.getItem('user');
         if (stringValue !== null) {
             let value = JSON.parse(stringValue)
@@ -562,9 +567,12 @@ class Createpost extends React.Component {
                                 <label>Select Category</label>
                                 <select value={this.state.input.category} onChange={this.handleChange} name="category" id="category">
                                     <option key="" value="">--Select Category--</option>
-                                    {this.state.data.map((result) => {
+                                    {dataselectcat&&dataselectcat.map((result) => {
+                                   
                                     return (
+                                        <>
                                         <option key={result.id} value={result.id} data-set="check">{result.catname}</option>
+                                        </>
                                     )
                                   })}
                                 </select>

@@ -279,7 +279,8 @@ openClose(){
                     image:this.state.userimage,
                     time: time
                 });
-                this.setState({imagesPreviewUrls2: []})
+                this.setState({imagesPreviewUrls: []})
+                this.setState({files: []})
                 
                
             })
@@ -362,6 +363,17 @@ openClose(){
     window.localStorage.clear();
     window.location.reload();
     }
+   showuser=()=>{
+    let modal = document.getElementById("plist");
+    modal.style.display ="block"; 
+    modal.style.left ="0";
+        }
+        hideuser = () => {
+            let modal = document.getElementById("plist");
+            modal.style.display = "none"; // Hide the element
+            modal.style.left = "400px"; // Set the left position to 400 pixels (or any other value with a unit)
+        }
+        
 
     render() {
         const { initialData, filterValue } = this.state;
@@ -466,7 +478,7 @@ openClose(){
                     </div>
         </div>
 
-    <div className="in_center in_center_discussion messagesmain pr-0">
+    {/* <div className="in_center in_center_discussion messagesmain pr-0">
     
         <div className="messages chats">
             <div className="list">
@@ -496,7 +508,7 @@ openClose(){
 
             </div>
             
-            <div className="row">
+            <div className="row message-box">
                 <div className="col-12">
                     <div className="innchat">
                         <div className="scroll_chat">
@@ -518,9 +530,9 @@ openClose(){
                        <img src={chat.msg} alt="Image" className='chatimage' style={{ height: '100px', position: 'relative' }} />
 
                     ) : (
-                        <p>{chat.msg}</p>
+                        <p>{chat.msg} <span>{chat.time}</span></p>
                     )}
-                                                    <span>{chat.time}</span>
+                                                   
                                                 </div>
                                             </div>
                                         
@@ -536,9 +548,9 @@ openClose(){
                         <img src={chat.msg} alt="Image" className='chatimage' style={{ height: '100px', position: 'relative' }} />
 
                     ) : (
-                        <p>{chat.msg}</p>
+                        <p>{chat.msg} <span>{chat.time}</span></p>
                     )}
-                                                <span>{chat.time}</span>
+                                               
                                             </div>
                                             </div>
                                         
@@ -551,7 +563,7 @@ openClose(){
                             </div>
                             <form className="intype" id={this.state.chatusername} onSubmit={this.submitChat.bind(this)}>
                                 <input type="text" className="form-control" id="message" autoComplete="off" placeholder="Compose Message" onChange={this.handleChange} value={this.state.input.message} name="message"/>
-                                {/* <div className="text-danger">{this.state.errors.message}</div> */}
+                                {/* <div className="text-danger">{this.state.errors.message}</div> 
                                 <br/>
                                 <input id="file-upload" type="file" onChange={this._handleImageChange} style={{ display: 'none' }}  multiple accept="image/ video/*"/>
       
@@ -563,7 +575,175 @@ openClose(){
                 </div>
             </div>
         </div>
+    </div> */}
+
+    <div className="container">
+  <div className="row clearfix">
+    <div className="col-lg-12">
+      <div className="card chat-app">
+        <button className='chatuser btn btn-primary' onClick={this.showuser}>User List</button>
+        <div id="plist" className="people-list">
+        <button className='chatuser btn btn-primary' onClick={this.hideuser}><i className="fas fa-times side_b close"></i></button>
+          <div className="input-group">
+            <div className="input-group-prepend">
+              <span className="input-group-text">
+                <i className="fa fa-search" />
+              </span>
+            </div>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Search..."
+              value={filterValue || ''}
+          onChange={this.handleFilterChange}
+            />
+          </div>
+          <ul className="list-unstyled chat-list mt-2 mb-0">
+          {filteredData.length > 0  ?<>
+          {filteredData.map((result,i) => {
+         
+                            return (<>
+                          <li className="clearfix"  onClick={() => this.selectUser(i,result.friendid,result.name,result.image)}>
+              <img
+                src={result.image}
+                alt="avatar"
+              />
+              <div className="about">
+                <div className="name">{result.name}</div>
+                <div className="status">
+                  {" "}
+                  Lets chat {result.name}{" "}
+                  <i onClick={() => this.selectUserfordelete(i,result.friendid,result.name,result.image)} class="fas fa-trash-alt"></i>
+                </div>
+              </div>
+            </li>
+                            </>)
+                        })}</>:""}
+          
+        
+          </ul>
+        </div>
+        <div className="chat">
+          <div className="chat-header clearfix">
+            <div className="row">
+              <div className="col-lg-6">
+                <a
+                  href="javascript:void(0);"
+                  data-toggle="modal"
+                  data-target="#view_info"
+                >
+                <img src={this.state.chatuserimage} alt="user"/>
+                </a>
+                <div className="chat-about">
+                  <h6 className="m-b-0">{this.state.chatusername}</h6>
+                  <small>Last seen: 2 hours ago</small>
+                </div>
+              </div>
+              <div className="col-lg-6 hidden-sm text-right">
+                <a
+                  href="javascript:void(0);"
+                  className="btn btn-outline-secondary"
+                >
+                  <i className="fa fa-camera" onClick={() => document.getElementById('file-upload').click()} />
+                </a>
+                {/* <a
+                  href="javascript:void(0);"
+                  className="btn btn-outline-primary"
+                >
+                  <i className="fa fa-image" />
+                </a>
+                <a href="javascript:void(0);" className="btn btn-outline-info">
+                  <i className="fa fa-cogs" />
+                </a>
+                <a
+                  href="javascript:void(0);"
+                  className="btn btn-outline-warning"
+                >
+                  <i className="fa fa-question" />
+                </a> */}
+              </div>
+            </div>
+          </div>
+          <div className="chat-history  dddd">
+            <ul className="m-b-0">
+            {this.state.chatingdata.map((chat,i) => {  
+        
+    return (<>
+             { chat.side == 'left' ? 
+             <li className="clearfix">
+             <div className="message-data">
+               <span className="message-data-time">{chat.time}</span>
+             </div>
+             <div className="message my-message"> {chat.msg.endsWith('.mp4') ? (
+<video className='chatvideo' controls>
+<source src={chat.msg} type="video/mp4" />
+Your browser does not support the video tag.
+</video>
+) :chat.msg.endsWith('.png') || chat.msg.endsWith('.jpg') ? (
+<img src={chat.msg} alt="Image" className='chatimage' style={{ height: '100px', position: 'relative' }} />
+
+) : (
+<p>{chat.msg} </p>
+)}</div>
+           </li>
+           
+            : 
+                
+           
+               <li className="clearfix">
+               <div className="message-data text-right">
+                 <span className="message-data-time">{chat.time}</span>
+                 <img
+                   src="https://bootdey.com/img/Content/avatar/avatar7.png"
+                   alt="avatar"
+                 />
+               </div>
+               <div className="message other-message float-right">
+                 {" "}
+                 {chat.msg.endsWith('.mp4') ? (
+<video className='chatvideo' controls>
+<source src={chat.msg} type="video/mp4" />
+Your browser does not support the video tag.
+</video>
+) : chat.msg.endsWith('.png') || chat.msg.endsWith('.jpg') ? (
+<img src={chat.msg} alt="Image" className='chatimage' style={{ height: '100px', position: 'relative' }} />
+
+) : (
+<p>{chat.msg} </p>
+)}{" "}
+               </div>
+             </li>
+            }
+              </>)})}
+             
+              
+            </ul>
+          </div>
+          <div className="chat-message clearfix">
+            <div className="input-group mb-0">
+              <div className="input-group-prepend">
+                <span className="input-group-text">
+                  <i className="fa fa-send" />
+                </span>
+              </div>
+              <form  className="form-control p-0" id={this.state.chatusername} onSubmit={this.submitChat.bind(this)}>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Enter text here..."
+                onChange={this.handleChange} value={this.state.input.message} name="message"
+              />
+               <input id="file-upload" type="file" onChange={this._handleImageChange} style={{ display: 'none' }}  multiple accept="image/ video/*"/>
+               {this.state.imagesPreviewUrls.length !=0? <button type="submit"><i className="fas fa-paper-plane"></i> <span>upload</span></button> :""}
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
+</div>
+
 
 
 </section>

@@ -394,9 +394,10 @@ openClose(){
                     </div>
 
 
-                    <div className="listusr favoriteclass notification mt-0">
+                    {/* <div className="listusr favoriteclass notification mt-0">
                         <div className="row">
                         {filteredData.map((result,i) => {
+                           
                             return (
                             <div className="col-sm-6 col-lg-4 col-xl-3 m-1">
                                 <div className={ result.seen  == 1 ? 'test active' : 'test' }>
@@ -417,7 +418,49 @@ openClose(){
                             )
                         })}
                         </div>
-                    </div>
+                    </div> */}
+                    <section className="section-50 mt-3">
+  <div className="container">
+    <h3 className="m-b-50 heading-line">
+      Notifications <i className="fa fa-bell text-muted" />
+    </h3>
+    <div className="notification-ui_dd-content">
+    {filteredData.map((result,i) => {
+                    console.log(result)       
+                           return (
+      <div className="notification-list notification-list--unread">
+         <Link 
+                                         to={{
+                                            pathname: "/Notification",
+                                            state: { pid: result.postId }
+                                          }}>
+        <div className="notification-list_content">
+          <div className="notification-list_img">
+            <img src={result.image} alt="user" />
+          </div>
+          <div className="notification-list_detail">
+            <p>
+              <b>{result.name}</b>  {result.action} By {result.posts} 
+            </p>
+            <p className="text-muted">
+               
+             {result.action=="Comment on post"?result.description:""}
+            </p>
+            <p className="text-muted">
+              <small>{result.created}</small>
+            </p>
+          </div>
+        </div>
+        </Link>
+      
+      </div>
+        )
+    })}
+    
+    </div>
+   
+  </div>
+</section>
 
                     {/* <div className="my_followers">
                         <div className="row">
