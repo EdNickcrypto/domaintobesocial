@@ -51,7 +51,10 @@ class Userdashboard extends React.Component {
         notificationcount: '',
         searchoption:'',
         filterValue: null,
-        subcategory:''
+        subcategory:'',
+        commentinput:false,
+        commentdataid:'',
+        messagenotificationcount:0
       };
         
       this._handleImageChange2 = this._handleImageChange2.bind(this);
@@ -414,10 +417,18 @@ openClose(){
         const db = firebase.database();
         db.ref("chatwith/" + curentlogin.value).on("value", snapshot => {
             let chatingdatas = [];
+            let count = 0
             snapshot.forEach(snap => {
+                const message = snap.val();
                 chatingdatas.push(snap.val());
+                if (!message.hasOwnProperty('read') || message.read === false) {
+                    count++; // Increment count for unread messages
+                }
+                
             });
-            this.setState({ chatingdata: chatingdatas });
+  
+            this.setState({ chatingdata: chatingdatas,messagenotificationcount:count });
+           
         });
 
         const formData = new FormData();
@@ -754,6 +765,7 @@ openClose(){
         else{
         const formData = new FormData();
         formData.append('search', this.state.input.search);
+        formData.append('vip', this.state.searchoption=='vip'?3:'');
         axios.post('https://domaintobesocial.com/domaintobe/searchnewsfeed',
             formData
         )
@@ -1038,7 +1050,7 @@ $('.chat-popup').addClass('main');
                     <ul>
                     <li><Link to="/userdashboard" className="active"><span><img src="images/iconS1.png" align="icon"/></span> News Feed</Link></li>
                     <li><Link to="/userprofile"><span><img src="images/useri_1.png" align="icon"/></span> My Profile</Link></li>
-                    <li><Link to="/messages"><span><img src="images/iconS2.png" align="icon"/></span> Messages</Link></li>
+                    <li><Link to="/messages"><span><img src="images/iconS2.png" align="icon"/></span> Messages  {<sup style={{color:'#ff0000d6'}}>{this.state.messagenotificationcount}</sup>}</Link></li>
                     <li><Link to="/requests"><span><img src="images/iconS3.png" align="icon"/></span> Requests</Link></li>
                    <li><Link to="/followers"><span><img src="images/iconS4.png" align="icon"/></span> My Followers</Link></li>
                    <li><Link to="/blocklist"><span><img src="images/iconS5.png" align="icon"/></span> Blocklist</Link></li>
@@ -1061,7 +1073,7 @@ $('.chat-popup').addClass('main');
                             <ul>
                             {
                             this.state.categories.map((result) => {
-                                console.log(result)
+                        
                                 return (<>
                                      <li key={result.id} value={result.id} data-set="check"  ><Link to={"/discussion?type="+result.id}>{result.catname}</Link>
                                      <ul className='testul'>
@@ -1115,18 +1127,20 @@ $('.chat-popup').addClass('main');
                             <select onChange={(e)=>{this.setState({searchoption:e.target.value})}}>
                                 <option value="">Select one...</option>
                                 <option value="user">user</option>
+                                <option value="vip">Vip</option>
                                 <option value="post">post</option>
                             </select>
                             <button className="btn" type="submit"><img src="images/searchicon.png" alt="icon"/> </button>
                             <div className="setsearchdata">
                             <ul>
-                                {this.state.searcheddata&&this.state.searcheddata.map((results) => {
-                                    console.log(results)
+                              
+                                {this.state.searcheddata[0]!='data'?this.state.searcheddata.map((results) => {
+                                 
                                     return (<>
                                     {results.posts? <li className="postsearch" onClick={(e)=>this.postClick(results.id)} key={results.id}>{results.posts}<i id={results.id} className="fas fa-arrow-right"></i></li>:results.name?<Link className="postsearch" to={{ pathname: '/viewprofile/'+results.name }}>{results.name}</Link>:""}
                                        
                                         </>)
-                                })}
+                                }):<><li>data not found</li></>}
                             </ul>
                     </div>
                         </form>
@@ -1157,7 +1171,7 @@ $('.chat-popup').addClass('main');
                                 </div>
                                 <ul>
                                     <li><input type="file" name="" onChange={this._handleImageChange} multiple accept="image/*"/><img src="images/addicon1.png" align="icon"/></li>
-                                    <li><input type="file" name="" onChange={this._handleVideoChange} multiple accept="video/*"/><img src="images/addicon2.png" align="icon"/></li>
+                                   { this.state.isViprole?<><li><input type="file" name="" onChange={this._handleVideoChange} multiple accept="video/*"/><img src="images/addicon2.png" align="icon"/></li>
                                    
                                     <li className="dropdown" data-toggle="modal" data-target="#exampleModalHelp"><span ><img src="images/addicon3.png" align="icon"/></span>
                                     </li>
@@ -1170,7 +1184,7 @@ $('.chat-popup').addClass('main');
                                             <input type="text" className="form-control linkurl" name="url" placeholder="Add Url" onChange={this.handleChange} id="url" value={this.state.input.url}/>
                                            
                                         </div>
-                                    </li>
+                                    </li></>:""}
                                     <li onClick={() => this.onClick()}><img src="images/addicon5.png" align="icon"/></li>
                                 </ul>
                                 <button className="btn" type="submit">Post</button>
@@ -1270,22 +1284,23 @@ $('.chat-popup').addClass('main');
                                     ))}
                                     </div>
                                     <div>
+                                   
                                     {result.url&&result.url.split('/')[2]=='youtu.be'?
                                   
                                         <>
                                             
                                         
                                          
-                                            <iframe width="100%" height="400px" src={'https://www.youtube.com/embed/'+result.url.split('/')[3]} title="YouTube video player" frameborder="0"  allowFullScreen></iframe>
+                                            <iframe width="100%" height="400px" src={'https://www.youtube.com/embed/'+result.url.split('/')[3]} title="YouTube video player"   allowFullScreen></iframe>
                                             
                                         </>
-                                    :""}
+                                    :result.url.split('/')[2]=='www.youtube.com'&&result.url.split('/')[3]=='live'?<><iframe width="100%" height="400px" src={'https://www.youtube.com/embed/'+result.url.split('/')[4]} title="YouTube video player"  allow='autoplay'   allowFullScreen></iframe></>:""}
                                     </div>
                                    
                                    
                                     <ul className="likecomment">
                                         <li><img src="images/like.png" alt="ion" onClick={() => this.postLike(i, result.id)}/> {result.likes}</li>
-                                        <li><img src="images/comment.png" alt="ion"/> {result.comments}</li>
+                                        <li><img src="images/comment.png"  alt="ion"  onClick={()=>this.setState(prevState=>({commentinput:!prevState.commentinput,commentdataid:result.id}))}/> {result.comments}</li>
                                     </ul>
                                    
                                     <div className="allcomment">
@@ -1369,8 +1384,8 @@ $('.chat-popup').addClass('main');
                                                  
                                                  <Link to={{ pathname: '/viewprofile/'+item.username }}><span className="userimg"><img className="w-100" src={item.image} align="icon"/></span></Link>
                                                  <h5><Link to={{ pathname: '/viewprofile/'+item.username }}>{item.username}</Link></h5>
-                                                <div><div class="para"><p>{item.comment} </p></div>
-                                                <div class="bottomreport"><span class="days">{item.created} Ago</span><a className="reportbtn btn-report" data-toggle="modal" data-target={'#exampleModalHelp'+item.id}>Report</a></div></div> 
+                                                <div><div className="para"><p>{item.comment} </p></div>
+                                                <div className="bottomreport"><span class="days">{item.created} Ago</span><a className="reportbtn btn-report" data-toggle="modal" data-target={'#exampleModalHelp'+item.id}>Report</a></div></div> 
                                                  </div>:""}
                                                   
                                                    </>
@@ -1444,9 +1459,9 @@ $('.chat-popup').addClass('main');
                                     </div>
                                    
         
-                                    <div className="likeshare">
+                                  { this.state.commentinput&&this.state.commentdataid==result.id? <div className="likeshare">
                                         <form onSubmit={this.commentSubmit.bind(this, i)} data-tag={result.id} id={result.id}>
-                                            {(isViprole) ? <div className="pcheck"><input type="checkbox" value="1" onChange={this.handleHidecomment.bind(this, i)}/>Hide comment</div> : ""}
+                                            {isViprole? <div className="pcheck"><input type="checkbox" value="1" onChange={this.handleHidecomment.bind(this, i)}/>Hide comment</div> : ""}
                                            
                                             <input id={'comments' + result.id} className="form-control me-2" type="text" placeholder="Your Comment..." aria-label="Search" value={this.state.comments[i]} 
                                             name={this.state.comments[i]}  onChange={this.handleGetreply.bind(this, i)} autoComplete="off"/>
@@ -1454,7 +1469,7 @@ $('.chat-popup').addClass('main');
                                             <button className="comment" type="submit"><span className="send"><img src="images/send.png" alt="ion"/></span><span>Comment</span></button>
                                             
                                         </form>
-                                    </div>
+                                    </div>:""}
                                 </div>
                             </div>
                         )

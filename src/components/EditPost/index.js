@@ -982,14 +982,14 @@ openClose(){
                                     </li>
         
                                    
-                                    {/* <li className="dropdown"><span className="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <li className="dropdown"><span className="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                         <img src="../images/addicon4.png" align="icon"/>
                                         </span>
                                         <div className="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start">
                                             <input type="text" className="form-control linkurl" name="url" placeholder="Add Url" onChange={this.handleChange} id="url" value={this.state.input.url}/>
                                            
                                         </div>
-                                    </li> */}
+                                    </li>
                                     <li onClick={() => this.onClick()}><img src="../images/addicon5.png" align="icon"/></li>
                                 </ul>
                                 <button className="btn" type="submit">Update</button>

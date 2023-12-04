@@ -154,7 +154,7 @@ class Professions extends React.Component {
                         <div className="row">
                             {this.state.professions.map((results) => {
                                 return (
-                                    <div className="col-lg-6 col-xl-4">
+                                    <div className="col-lg-3 col-xl-4">
                                       <Link className="postsearch" to={{ pathname: '/viewprofile/'+results.name }}>  
                                       <div className="test">
                                             <span className="userimg"><img src={results.image} align="icon"/></span>

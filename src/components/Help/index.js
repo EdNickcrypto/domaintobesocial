@@ -223,12 +223,12 @@ class Help extends React.Component {
             console.log(error.message);
         })
 
-        axios.get('https://domaintobesocial.com/domaintobe/getprofessionssubcategories').then(response3 => 
-        {
-            this.setState({subcategoryprofession: response3.data.message});
-        }).catch((error) => {
-            console.log(error.message);
-        })
+        // axios.get('https://domaintobesocial.com/domaintobe/getprofessionssubcategories').then(response3 => 
+        // {
+        //     this.setState({subcategoryprofession: response3.data.message});
+        // }).catch((error) => {
+        //     console.log(error.message);
+        // })
 
     }
 
@@ -425,7 +425,7 @@ class Help extends React.Component {
             <div className="modal-dialog modal-dialog-centered" role="document">
                 <div className="modal-content HelpForm">
                     <div className="modal-header">
-                        <h5 className="modal-title" id="exampleModalLongTitle">Help</h5>
+                        <h5 className="modal-title" id="exampleModalLongTitle"> Medical / Legal...</h5>
                         <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>

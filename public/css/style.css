@@ -1423,9 +1423,10 @@ a:hover {
 }
 
 .listusr .asuser h5 {
-    font-size: 18px;
+    font-size: 12px;
     color: #016afa;
     font-weight: bold;
+    text-transform: uppercase;
 }
 
 .listusr .asuser {
@@ -5376,13 +5377,14 @@ img.chatimage {
 
 .listusr .asuser p {
     margin-bottom: 5px;
+    font-size: 12px;
 }
 
 .listusr .asuser .userimg {
     position: absolute;
     left: 0;
-    width: 50px;
-    height: 50px;
+    width: 45px;
+    height: 45px;
     top: 0;
     border-radius: 50%;
     overflow: hidden;

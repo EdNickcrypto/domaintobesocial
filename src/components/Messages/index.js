@@ -163,6 +163,7 @@ openClose(){
 
 
         const db = firebase.database();
+        
         db.ref("lastchat/" + curentlogin.value).on("value", snapshot => {
             let check = snapshot.val();
             if(check == null){
@@ -181,9 +182,9 @@ openClose(){
                 db.ref("chat/" + sender).on("value", snapshot => {
                     let chatingdatas = [];
                     snapshot.forEach(snap => {
-                        chatingdatas.push(snap.val());
+                                               chatingdatas.push(snap.val());
                     });
-                    this.setState({ chatingdata: chatingdatas },()=>
+                                        this.setState({ chatingdata: chatingdatas },()=>
                     {
                         $(".dddd").stop().animate({ scrollTop: $(".dddd")[0].scrollHeight}, 1000);
                     });
@@ -451,7 +452,7 @@ openClose(){
                 </li>
                 <li>
                     <Link to="/help" className="active" >
-                    Help</Link>
+                    Help</Link> 
                 </li>
                 {/* <li><Link to="/blog" >Blog</Link></li> */}
             </ul>

@@ -2010,6 +2010,7 @@ return (
                                     <input type="text" className="form-control" name="Instagram" id="ebay" placeholder="Instagram  https://Instagram.com/" value={this.state.input.Instagram} onChange={this.handleChange}/>
                                     </div>
                                 </div>
+                                
                                 <div className="col-sm-6">
                                     <div className="tes">
                                     <h4>Reddit</h4>
