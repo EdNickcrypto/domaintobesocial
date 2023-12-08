@@ -21,13 +21,29 @@ class Favorites extends React.Component {
         notificationcount: '',
         files: [],
         imagesPreviewUrls: [],
+        blockdata:'',
+        messagenotificationcount:[]
       };
 
       this.popupchat=this.popupchat.bind(this);
       this._handleImageChange = this._handleImageChange.bind(this);
 
     }
-
+    blockdatashow(){
+        let curentlogin = JSON.parse(window.localStorage.getItem("user"));
+        axios.get('https://domaintobesocial.com/domaintobe/blockget', {
+            params: {
+              'userid': curentlogin.value
+            }}).then(response7 => 
+              { if (response7 && response7.data && response7.data.message) {
+                this.setState({ blockdata: response7.data.message });
+               
+            } else {
+                console.log('No data or unexpected data format in the response.');
+            }
+              })
+              .catch(err=>this.setState({blockdata:[]}))
+    }
     _handleImageChange(e) {
         e.preventDefault();
         let files = Array.from(e.target.files);
@@ -69,6 +85,7 @@ openClose(){
     }
     
     componentDidMount() {
+        this.blockdatashow();
         let curentlogin = JSON.parse(window.localStorage.getItem("user"));
         document.getElementById('loadingicon').style.display = 'block';
         const formData = new FormData();
@@ -115,12 +132,35 @@ openClose(){
 
 
         const db = firebase.database();
+        const today = new Date().toLocaleDateString();
         db.ref("chatwith/" + curentlogin.value).on("value", snapshot => {
             let chatingdatas = [];
+            let notifications = {}; 
             snapshot.forEach(snap => {
+        
+               
                 chatingdatas.push(snap.val());
+          
+                let id= snap.val().uid;
+                
+                db.ref("chat/"+id+'_'+curentlogin.value).on("value", snapshot => {
+                    let count=0
+                    snapshot.forEach(snap1 => {
+                        const notification = snap1.val();
+                        const notificationDate = new Date(notification.time).toLocaleDateString(); 
+                        
+                        if (notification.read === "y" && notification.side === "right" && notificationDate === today) {
+                            count++;
+                        }
+                    });
+                    notifications[id] = count;
+                    this.setState({messagenotificationcount:notifications})
+                });
+     
             });
-            this.setState({ chatingdata: chatingdatas });
+  
+            this.setState({ chatingdata: chatingdatas});
+           
         });
 
 
@@ -149,6 +189,15 @@ openClose(){
         if(inds==-1){
             let curentlogin = JSON.parse(window.localStorage.getItem("user"));
             const db =  firebase.database();
+
+            
+            // Update the 'read' field in the database
+            db.ref("chat/"+id +'_'+curentlogin.value).on("value", snapshot => {
+                let chatingdatas = [];
+                snapshot.forEach(snap => {
+                  
+                  db.ref("chat/"+id +'_'+curentlogin.value+'/'+snap.key).update({ read: 'n' })
+                });})
     
             db.ref("chat/" + curentlogin.value+'_'+id).on("value", snapshot => {
                 let chatingdatas = [];
@@ -421,9 +470,9 @@ openClose(){
                         <div className="listusr favoriteclass mt-4">
                             <div className="row">
                             {filteredData.map((result,i) => {
-                                return (
-                                    <div className="col-sm-6 col-lg-4 col-xl-3">
-                                    <div className="test">
+                                return (<>
+                                     {this.state.blockdata&&this.state.blockdata.filter(item=>item.friendid.includes(result.postuser)&&item.status==1).length>0?"":<div className="col-sm-6 col-lg-4 col-xl-3">
+                                   <div className="test">
                                         <a onClick={() => this.postLike(i, result.id)}>
                                           {(result.userlike == '1') ? <img className="hearticon" src="images/iconS8.png" align="icon" style={{filter:'none'}} /> : <img className="hearticon" src="images/iconS8.png" align="icon"  /> }    
                                         </a>
@@ -474,9 +523,9 @@ openClose(){
                                         </ul>
 
                                     </div>
-                                     </div>
+                                     </div>}
 
-                                )
+                               </> )
                             })}
                             </div>
                         </div>
@@ -495,7 +544,7 @@ openClose(){
                             <div className="images">
                                 <img src={chat.image} alt="user"/>
                             </div>
-                            <h4>{chat.name}</h4>
+                            <h4>{chat.name}{<sup style={{color:'#ff0000d6'}}>{this.state.messagenotificationcount[chat.uid]}</sup>}</h4>
                             <p>{chat.msg}</p>
                             <h6>{chat.time}</h6>
                         </div>

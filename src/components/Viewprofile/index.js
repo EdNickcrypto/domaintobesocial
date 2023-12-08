@@ -480,6 +480,33 @@ class Viewprofile extends React.Component {
         const to = this.state.to;
 
         let currentlogin = JSON.parse(window.localStorage.getItem("user"));
+
+        let blockuser=(firendid)=>{
+            let currentlogin = JSON.parse(window.localStorage.getItem("user"));
+            
+            const formData = new FormData();
+            formData.append('userid',currentlogin.value);
+            formData.append('friendid', firendid);
+           
+     
+            axios.post('https://domaintobesocial.com/domaintobe/blockuser',
+                formData
+            )
+                .then((res) => {
+                    document.getElementById('loadingicon').style.display = 'none';
+                    if (res.data.message == 'success') {
+                        this.setState({ showModal: false })
+                        alert('Successfully sent');
+                    } else {
+                        alert(res.data.message);
+                    }
+
+                })
+                .catch((error) => {
+                    console.log(error.message);
+                })
+                
+        }
         return (
             <span>
                 <div className="inbanner" style={{ backgroundImage: `url(${this.state.setbannerimage})` }} ></div>
@@ -502,6 +529,8 @@ class Viewprofile extends React.Component {
                                                 {button}
                                                 {follow}
                                                 {message}
+                                                <li onClick={()=>blockuser(this.state.input.uid)} style={{ cursor: "pointer" }}>Userblock</li>
+                                                {/* <button onClick={()=>blockuser(this.state.input.uid)} style={{ cursor: "pointer" }} >userblock</button> */}
                                             </ul>
                                             <h5 className="socialicon">
                                                 {/* {this.state.input.facebook ? <span><a href={this.state.input.facebook} ><i className="fab fa-facebook-f"></i></a></span> : ""}
@@ -630,6 +659,7 @@ class Viewprofile extends React.Component {
                                         <div className="row">
 
                                             {this.state.postsdata.map((resultp) => {
+                                                console.log(resultp)
                                                 return (
                                                     <>
                                                         <div className="col-sm-6 col-lg-6  mb-3">
@@ -642,7 +672,10 @@ class Viewprofile extends React.Component {
                                                                 </div>
                                                                 <div className="contants">
                                                                     <p>{resultp.posts}</p>
-                                                                    <Link to={`/userdashboard?comment=${resultp.posts}`}>View more <i className="fas fa-long-arrow-alt-right"></i></Link>
+                                                                    <Link to={{
+                                            pathname: "/Notification",
+                                            state: { pid: resultp.id }
+                                          }}>View more <i className="fas fa-long-arrow-alt-right"></i></Link>
                                                                 </div>
                                                             </div>
                                                         </div>

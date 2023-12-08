@@ -58,7 +58,10 @@ class Userprofile extends React.Component {
         astrickSignImageInput: false,
         limit: [],
         getadvertisement:'',
-        showadvertisement:false
+        showadvertisement:false,
+        blockdata:'',
+        filterValue: null,
+        filterValueDiscussion: null
        }
 
        this.handleChange = this.handleChange.bind(this);
@@ -75,13 +78,55 @@ class Userprofile extends React.Component {
           showAdvertisement: !prevState.showAdvertisement // Toggling the session visibility
         }));
       };
+      handleFilterChange = (event) => {
+        const value = event.target.value;
+        this.setState({ filterValue: value === '' ? null : value });
+      };
+      handleFilterChangeDiscussion = (event) => {
+        const value = event.target.value;
+        this.setState({ filterValueDiscussion: value === '' ? null : value });
+      };
 
+      blockdatashow(){
+        let curentlogin = JSON.parse(window.localStorage.getItem("user"));
+        axios.get('https://domaintobesocial.com/domaintobe/blockget', {
+            params: {
+              'userid': curentlogin.value
+            }}).then(response7 => 
+              { if (response7 && response7.data && response7.data.message) {
+                this.setState({ blockdata: response7.data.message });
+               
+            } else {
+                console.log('No data or unexpected data format in the response.');
+            }
+              })
+              .catch(err=>this.setState({blockdata:[]}))
+    }
     onChange = ({target: {value}}) => {
         this.setState({value, copied: false});
     }
 
     onClick = ({target: {innerHTML}}) => {
         console.log(`Clicked on "${innerHTML}"!`); 
+    }
+    unfollow = (id)  => {
+        const formData = new FormData();
+        formData.append('id', id);
+        axios.post('https://domaintobesocial.com/domaintobe/unfollow',
+            formData
+        )
+        .then((res) => {
+            console.log(res);
+            if(res.data.message == 'Success'){
+                this.componentDidMount();
+                alert(res.data.message);
+            }else{
+                alert(res.data.message);
+            }
+        })
+        .catch((error) => {
+            console.log(error.message);
+        })
     }
 
     onCopy = () => {
@@ -263,7 +308,7 @@ openClose(){
     $(".dash_sidebar").toggleClass("main");
     }
     componentDidMount() {
-
+        this.blockdatashow();
 // $(document).ready(function(){
 //         $(".side_b").click(function(){
   //$(".dash_sidebar").toggleClass("main");
@@ -310,6 +355,12 @@ this.setState({uid:curentlogin.value});
             input.snapchat = res.data.message.snapchat;
             input.amazon = res.data.message.amazon;
             input.ebay = res.data.message.ebay;
+            input.messenger = res.data.message.messenger;
+            input.telegram = res.data.message.telegram;
+            input.tiktok = res.data.message.tiktok;
+            input.Reddit = res.data.message.reddit;
+            input.WeChat = res.data.message.wechat;
+            input.Instagram = res.data.message.instagram;
             input.whatsapp = res.data.message.whatsapp;
             input.marital_status= res.data.message.marital_status;
             input.firstname = res.data.message.firstname;
@@ -651,6 +702,12 @@ this.setState({uid:curentlogin.value});
         formData3.append('amazon', this.state.input.amazon);
         formData3.append('ebay', this.state.input.ebay);
         formData3.append('whatsapp', this.state.input.whatsapp);
+        formData3.append('messenger', this.state.input.messenger);
+        formData3.append('telegram', this.state.input.telegram);
+        formData3.append('instagram', this.state.input.Instagram);
+        formData3.append('tiktok', this.state.input.tiktok);
+        formData3.append('wechat', this.state.input.WeChat);
+        formData3.append('reddit', this.state.input.Reddit);
         formData3.append('userid', obj.value);
         formData3.append('type', 'social');
         axios.post('https://domaintobesocial.com/domaintobe/saveinfo',
@@ -714,14 +771,18 @@ this.setState({uid:curentlogin.value});
             formData.append('passport', this.state.passportimage);
             formData.append('studentid', this.state.studentidimage);
             formData.append('type', 'profile');
-            // formData.append('facebook', this.state.input.facebook);
-            // formData.append('twitter', this.state.input.twitter);
-            // formData.append('tumbler', this.state.input.tumbler);
-            // formData.append('snapchat', this.state.input.snapchat);
-            // formData.append('amazon', this.state.input.amazon);
-            // formData.append('ebay', this.state.input.ebay);
-            // formData.append('whatsapp', this.state.input.whatsapp);
-            //formData.append('businesscard', this.state.buisnessFile);
+            formData.append('facebook', this.state.input.facebook);
+            formData.append('twitter', this.state.input.twitter);
+            formData.append('tumbler', this.state.input.tumbler);
+            formData.append('snapchat', this.state.input.snapchat);
+            formData.append('amazon', this.state.input.amazon);
+            formData.append('ebay', this.state.input.ebay);
+            formData.append('messanger', this.state.input.messenger);
+            formData.append('telegram', this.state.input.telegram);
+            formData.append('tiktok', this.state.input.tiktok);
+            formData.append('instagram', this.state.input.instagram);
+            formData.append('whatsapp', this.state.input.whatsapp);
+            formData.append('businesscard', this.state.buisnessFile);
             formData.append('bannerimage', this.state.setbannerimage);
             axios.post('https://domaintobesocial.com/domaintobe/saveinfo',
                 formData
@@ -1381,8 +1442,16 @@ this.setState({uid:curentlogin.value});
             businessbutton = '';
             galleroption = '';
         }
-
-        
+        const { initialData, filterValue } = this.state;
+        const filteredData = filterValue
+        ? this.state.postsdata.filter((item) => item.posts.toLowerCase().includes(filterValue.toLowerCase()))
+        : this.state.postsdata;
+       
+        const {filterValueDiscussion } = this.state;
+        const filteredDataDiscussion = filterValueDiscussion
+        ? this.state.posts.filter((item) => item.title.toLowerCase().includes(filterValueDiscussion.toLowerCase()))
+        : this.state.posts;
+    
 
         return (
             <span>
@@ -1449,6 +1518,9 @@ this.setState({uid:curentlogin.value});
 {this.state.input.Instagram && this.state.input.Instagram!=="" ? <span><a href={this.state.input.Instagram} target="_blank"><i class="fab fa-instagram"></i></a></span>:""}
 {this.state.input.Reddit && this.state.input.Reddit!=="" ? <span><a href={this.state.input.Reddit} target="_blank"><i class="fab fa-reddit"></i></a></span>:""}
 {this.state.input.WeChat && this.state.input.WeChat!=="" ? <span><a href={this.state.input.WeChat} target="_blank"><i className="fab fa-weixin"></i></a></span>:""}
+{this.state.input.telegram && this.state.input.telegram!=="" ? <span><a href={this.state.input.telegram} target="_blank"><i class="fab fa-telegram-plane"></i></a></span>:""}
+{this.state.input.messenger && this.state.input.messenger!=="" ? <span><a href={this.state.input.messenger} target="_blank"><i class="fab fa-facebook-messenger"></i></a></span>:""}
+
 
 </h5>
                         </div>
@@ -1495,10 +1567,18 @@ this.setState({uid:curentlogin.value});
 </ul>
 <div class="tab-content" id="myTabContent">
   <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+  <div className="head pr-0">
+                        <form className="d-flex w-100">
+                          <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" value={filterValue || ''}
+          onChange={this.handleFilterChange}/>
+                          <button className="btn" type="submit"><img src="images/searchicon.png" alt="icon"/> </button>
+                        </form>
+                    </div>
+
     <div className="row">
 
-{this.state.postsdata?.map((resultp) => {
-    console.log(resultp)
+{filteredData?.map((resultp) => {
+ 
 return (
     <div className="col-sm-6 col-lg-4  mb-3">
         <div className="singleposttest">
@@ -1524,8 +1604,15 @@ return (
 
 </div></div>
   <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+  <div className="head pr-0">
+                        <form className="d-flex w-100">
+                          <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" value={filterValueDiscussion || ''}
+          onChange={this.handleFilterChangeDiscussion}/>
+                          <button className="btn" type="submit"><img src="images/searchicon.png" alt="icon"/> </button>
+                        </form>
+                    </div>
   <div className="row">
-  {this.state.posts?.map((resultp) => {
+  {filteredDataDiscussion?.map((resultp) => {
    //console.log(this.state.posts) 
     
 return (
@@ -1948,9 +2035,32 @@ return (
                                 </div>
                                 </div> */}
 
-                                
-
                                 <div className="col-sm-6">
+                                    <div className="tes">
+                                    <h4>Instagram</h4>
+                                    <input type="text" className="form-control" name="Instagram" id="Instagram" placeholder="Instagram  https://Instagram.com/" value={this.state.input.Instagram} onChange={this.handleChange}/>
+                                    </div>
+                                </div>
+                                <div className="col-sm-6">
+                                    <div className="tes">
+                                    <h4>TikTok</h4>
+                                    <input type="text" className="form-control" name="tiktok" id="tiktok" placeholder="tiktok  https://TikTok.com/" value={this.state.input.tiktok} onChange={this.handleChange}/>
+                                    </div>
+                                </div>
+                                <div className="col-sm-6">
+                                    <div className="tes">
+                                    <h4>Telegram</h4>
+                                    <input type="text" className="form-control" name="telegram" id="telegram" placeholder="Telegram  https://Telegram.com/" value={this.state.input.telegram} onChange={this.handleChange}/>
+                                    </div>
+                                </div>
+                                <div className="col-sm-6">
+                                    <div className="tes">
+                                    <h4>messenger</h4>
+                                    <input type="text" className="form-control" name="messenger" id="ebay" placeholder="Messenger  https://messenger.com/" value={this.state.input.messenger} onChange={this.handleChange}/>
+                                    </div>
+                                </div>
+
+{isViprole?<>   <div className="col-sm-6">
                                     <div className="tes">
                                     <h4>Facebook</h4>
                                     <input type="text" className="form-control" name="facebook" id="facebook" placeholder="Facebook https://facebook.com/" value={this.state.input.facebook} onChange={this.handleChange}/>
@@ -1998,18 +2108,8 @@ return (
                                     <input type="text" className="form-control" name="ebay" id="ebay" placeholder="Ebay  https://Ebay.com/" value={this.state.input.ebay} onChange={this.handleChange}/>
                                     </div>
                                 </div>
-                               {isViprole?<> <div className="col-sm-6">
-                                    <div className="tes">
-                                    <h4>TikTok</h4>
-                                    <input type="text" className="form-control" name="tiktok" id="ebay" placeholder="tiktok  https://TikTok.com/" value={this.state.input.tiktok} onChange={this.handleChange}/>
-                                    </div>
-                                </div>
-                                <div className="col-sm-6">
-                                    <div className="tes">
-                                    <h4>Instagram</h4>
-                                    <input type="text" className="form-control" name="Instagram" id="ebay" placeholder="Instagram  https://Instagram.com/" value={this.state.input.Instagram} onChange={this.handleChange}/>
-                                    </div>
-                                </div>
+                               
+                              
                                 
                                 <div className="col-sm-6">
                                     <div className="tes">
@@ -2197,8 +2297,10 @@ return (
                         <h3>All Friends</h3>
                         <div className="row">
                         {this.state.friendsdata?.map((result, i) => {
-                            return (
-                            <div className="col-lg-6 mb-3">
+                           
+                            return (<>
+                            {this.state.blockdata&&this.state.blockdata.filter(item=>item.friendid.includes(result.friendid)&&item.status==1).length>0?"":
+                            <div className="col-lg-6 col-md-6 col-sm-6 mb-3">
                                 <div className="testfrnd friend ">
                                     <span className="userimg">
                                         {/* <span><i className="fas fa-video"></i></span> */}
@@ -2210,8 +2312,8 @@ return (
                                         <li><a className="mg" onClick={() => {window.location.href="/viewprofile/"+result.friendid+'/'+result.name}}>View Profile</a></li>
                                     </ul>
                                 </div>
-                            </div>
-                            )
+                            </div>}
+                           </> )
                         })}
                         </div>
                     </div>
@@ -2280,7 +2382,8 @@ return (
                         <div className="row">
 
                             {this.state.followers?.map((resultfo) => {
-                            return (
+                              
+                            return (<>{this.state.blockdata&&this.state.blockdata.filter(item=>item.friendid.includes(resultfo.userid)&&item.status==1).length>0?"":
                                 <div className="col-lg-6 mb-3">
                                     <div className="testfrnd">
                                         <span className="userimg">
@@ -2291,10 +2394,11 @@ return (
                                             <li>
                                                 <a className="mg" onClick={() => {window.location.href="/viewprofile/"+resultfo.userid+'/'+resultfo.name}}>View Profile</a>
                                             </li>
+                                            <li><a onClick={() => this.unfollow( resultfo.id)}>Unfollow</a></li>
                                         </ul>
                                     </div>
-                                </div>
-                            )
+                                </div>}
+                            </>)
                             })}
 
                         </div>
@@ -2304,8 +2408,9 @@ return (
                         <div className="row">
 
                             {this.state.followingdata?.map((results) => {
-                            return (
-                                <div className="col-lg-6 mb-3">
+                                console.log(results)
+                            return (<>
+                               {this.state.blockdata&&this.state.blockdata.filter(item=>item.friendid.includes(results.friendid)&&item.status==1).length>0?"": <div className="col-lg-6 mb-3">
                                     <div className="testfrnd">
                                         <span className="userimg">
                                             {/* <span><i className="fas fa-video"></i></span> */}
@@ -2315,10 +2420,11 @@ return (
                                             <li>
                                                 <a className="mg" onClick={() => {window.location.href="/viewprofile/"+results.friendid+'/'+results.name}}>View Profile</a>
                                             </li>
+                                            <li><a onClick={() => this.unfollow( results.id)}>Unfollow</a></li>
                                         </ul>
                                     </div>
-                                </div>
-                            )
+                                </div>}
+                                </> )
                             })}
 
                             
@@ -2519,33 +2625,33 @@ this.state.getadvertisement.filter(item=>item.userid==JSON.parse(window.localSto
 
                     <div className="row">
 
-                    <div class="table-responsive">
-<table class="table resdiv">
-<thead>
-<tr>
-<th scope="col">Count</th>
-<th scope="col">User Name</th>
-<th scope="col">Earning Amount</th>
-<th scope="col">Date</th>
-</tr>
-</thead>
-<tbody>
+                                        <div class="table-responsive">
+                    <table class="table resdiv">
+                    <thead>
+                    <tr>
+                    <th scope="col">Count</th>
+                    <th scope="col">User Name</th>
+                    <th scope="col">Earning Amount</th>
+                    <th scope="col">Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
 
-{
+                    {
 
-this.state.referral?.map((n,num) => {
-return (
-<tr>
-<th scope="row">{num+1}</th>
-<td>{n.name}</td>
-<td>{Number(n.price)*Number(n.comm)/100}</td>
-<td>{this.getdatec(n.date)}</td>
-</tr>
-                            )})}
-</tbody>
-</table>
-</div>
-</div>
+                    this.state.referral?.map((n,num) => {
+                    return (
+                    <tr>
+                    <th scope="row">{num+1}</th>
+                    <td>{n.name}</td>
+                    <td>{Number(n.price)*Number(n.comm)/100}</td>
+                    <td>{this.getdatec(n.date)}</td>
+                    </tr>
+                                                )})}
+                    </tbody>
+                    </table>
+                    </div>
+                    </div>
 
 
 

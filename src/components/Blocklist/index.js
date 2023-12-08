@@ -15,10 +15,13 @@ class Blocklist extends React.Component {
         popupchat:[],
         inputFields:[],
         showdata:[],
-        notificationcount: ''
+        notificationcount: '',
+        blockdata:[],
+        messagenotificationcount:[]
       };
 
       this.popupchat=this.popupchat.bind(this);
+      this.blockuserdata=this.blockuser.bind(this);
      
     }
 
@@ -36,9 +39,31 @@ class Blocklist extends React.Component {
 openClose(){
     $(".maindiv").toggleClass("main");
     }
+     blockuser=(firendid)=>{
+        let currentlogin = JSON.parse(window.localStorage.getItem("user"));
+        
+        const formData = new FormData();
+        formData.append('userid',currentlogin.value);
+        formData.append('friendid', firendid);
+        axios.post('https://domaintobesocial.com/domaintobe/blockuser',
+            formData
+        )
+            .then((res) => {
+               
+                    alert(res.data.message);
+               this.blockdatashow()
+
+            })
+            .catch((error) => {
+                console.log(error.message);
+            })
+    }
+ 
     componentDidMount() {
+        this.blockdatashow();
         let curentlogin = JSON.parse(window.localStorage.getItem("user"));
         
+
         const formData = new FormData();
         formData.append('id', curentlogin.value);
         formData.append('user', curentlogin.value);
@@ -86,16 +111,53 @@ openClose(){
 
 
         const db = firebase.database();
+        const today = new Date().toLocaleDateString();
         db.ref("chatwith/" + curentlogin.value).on("value", snapshot => {
             let chatingdatas = [];
+            let notifications = {}; 
             snapshot.forEach(snap => {
+        
+               
                 chatingdatas.push(snap.val());
+          
+                let id= snap.val().uid;
+                
+                db.ref("chat/"+id+'_'+curentlogin.value).on("value", snapshot => {
+                    let count=0
+                    snapshot.forEach(snap1 => {
+                        const notification = snap1.val();
+                        const notificationDate = new Date(notification.time).toLocaleDateString(); 
+                        
+                        if (notification.read === "y" && notification.side === "right" && notificationDate === today) {
+                            count++;
+                        }
+                    });
+                    notifications[id] = count;
+                    this.setState({messagenotificationcount:notifications})
+                });
+     
             });
-            this.setState({ chatingdata: chatingdatas });
+  
+            this.setState({ chatingdata: chatingdatas});
+           
         });
     }
 
-
+    blockdatashow(){
+        let curentlogin = JSON.parse(window.localStorage.getItem("user"));
+        axios.get('https://domaintobesocial.com/domaintobe/blockget', {
+            params: {
+              'userid': curentlogin.value
+            }}).then(response7 => 
+              { if (response7 && response7.data && response7.data.message) {
+                this.setState({ blockdata: response7.data.message });
+               
+            } else {
+                console.log('No data or unexpected data format in the response.');
+            }
+              })
+              .catch(err=>this.setState({blockdata:[]}))
+    }
 
     openChatbox(id,name,image){
         $('.chat-popup').addClass('main');
@@ -105,6 +167,14 @@ openClose(){
             let curentlogin = JSON.parse(window.localStorage.getItem("user"));
             const db =  firebase.database();
     
+            // Update the 'read' field in the database
+            db.ref("chat/"+id +'_'+curentlogin.value).on("value", snapshot => {
+                let chatingdatas = [];
+                snapshot.forEach(snap => {
+                  
+                  db.ref("chat/"+id +'_'+curentlogin.value+'/'+snap.key).update({ read: 'n' })
+                });})
+
             db.ref("chat/" + curentlogin.value+'_'+id).on("value", snapshot => {
                 let chatingdatas = [];
                 snapshot.forEach(snap => {
@@ -228,7 +298,7 @@ openClose(){
 
   
     render() {
-
+        const {blockdata}=this.state;
         let stringValue = window.localStorage.getItem('user');
         if (stringValue !== null) {
             let value = JSON.parse(stringValue)
@@ -254,7 +324,7 @@ openClose(){
         }else{
             vipimage = '';
         }
-
+      
         
         return ( 
             <section class="maindiv">
@@ -306,6 +376,7 @@ openClose(){
                      <span className="logout" onClick={this.handleChangeLogout.bind(this)} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Logout</span>
                     </div>
                     </div>
+                   
                 <div className="in_center in_center_discussion">
 
                     <div className="head pr-0">
@@ -317,21 +388,22 @@ openClose(){
 
                     <div className="my_followers">
                         <div className="row">
-                        <div className="norecord">
-                            <img src="/images/nodata.png" />
-                        </div>
-
-                            {/* <div className="col-lg-6 col-xl-4">
+                           
+                {blockdata.length>0?blockdata.map(item=>(<><div className="col-lg-6 col-xl-4" key={item.id}>
                                <div className="test">
-                                   <span className="userimg"><span><i className="fas fa-video"></i></span><img src="images/userimg2.jpg" align="icon"/></span>
-                                    <h5>Jaclyn</h5>
-                                    <p>Lorem Ipsum is simply dummy text. simply dummy text.</p>
+                                   <span className="userimg"><img src={item.image} align="icon"/></span>
+                                    <h5>{item.name}</h5>
                                     <ul className="followmessage">
-                                      <li><a href="#">Add Friend </a></li>
-                                       <li><a className="mg" href="#">Blocklist</a></li>
+                                      {/* <li><a href="#">Add Friend </a></li> */}
+                                       <li><a className="mg"  onClick={()=>this.blockuserdata(item.id)}>UnBlock</a></li>
                                     </ul>
                                </div> 
-                            </div> */}
+                            </div></>)):<div className="norecord">
+                            <img src="/images/nodata.png" />
+                        </div>}
+                        
+
+                            
 
                         </div>
                     </div>
@@ -347,7 +419,7 @@ openClose(){
                             <div className="images">
                                 <img src={chat.image} alt="user"/>
                             </div>
-                            <h4>{chat.name}</h4>
+                            <h4>{chat.name}{<sup style={{color:'#ff0000d6'}}>{this.state.messagenotificationcount[chat.uid]}</sup>}</h4>
                             <p>{chat.msg}</p>
                             <h6>{chat.time}</h6>
                         </div>

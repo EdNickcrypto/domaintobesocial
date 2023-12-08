@@ -22,6 +22,7 @@ class Messages extends React.Component {
         currentuserimage: '',
         notificationcount: '',
         filterValue: null,
+        blockdata:''
        }
        this.handleChange = this.handleChange.bind(this);
        this._handleImageChange = this._handleImageChange.bind(this);
@@ -45,6 +46,21 @@ class Messages extends React.Component {
             }
             reader.readAsDataURL(file);
         });
+    }
+    blockdatashow(){
+        let curentlogin = JSON.parse(window.localStorage.getItem("user"));
+        axios.get('https://domaintobesocial.com/domaintobe/blockget', {
+            params: {
+              'userid': curentlogin.value
+            }}).then(response7 => 
+              { if (response7 && response7.data && response7.data.message) {
+                this.setState({ blockdata: response7.data.message });
+               
+            } else {
+                console.log('No data or unexpected data format in the response.');
+            }
+              })
+              .catch(err=>this.setState({blockdata:[]}))
     }
     handleChange(event) {
         let input = this.state.input;
@@ -84,6 +100,7 @@ openClose(){
     $(".maindiv").toggleClass("main");
     }
     componentDidMount() {
+        this.blockdatashow();
         let curentlogin = JSON.parse(window.localStorage.getItem("user"));
         // document.getElementById('loadingicon').style.display = 'block';
         const formData = new FormData();
@@ -205,6 +222,13 @@ openClose(){
 
         let curentlogin = JSON.parse(window.localStorage.getItem("user"));
         const db = firebase.database();
+             // Update the 'read' field in the database
+             db.ref("chat/"+friendid +'_'+curentlogin.value).on("value", snapshot => {
+             
+              snapshot.forEach(snap => {
+                
+                db.ref("chat/"+friendid+'_'+curentlogin.value+'/'+snap.key).update({ read: 'n' })
+              });})
         const sender = curentlogin.value+'_'+friendid;
 
         db.ref("chat/" + sender).on("value", snapshot => {
@@ -243,6 +267,29 @@ openClose(){
         .catch((error) => {
           console.error('Error removing data for receiver:', error);
         });
+        db.ref("chat/" + sender).remove()
+        .then(() => {
+          console.log('Data for sender deleted successfully');
+        })
+        .catch((error) => {
+          console.error('Error removing data for sender:', error);
+        });
+        db.ref(`chatwith/${curentlogin.value}`).remove()
+        .then(() => {
+          console.log('Data for sender deleted successfully');
+        })
+        .catch((error) => {
+          console.error('Error removing data for sender:', error);
+        });
+        db.ref(`chatwith/${this.state.chatid}`).remove()
+        .then(() => {
+          console.log('Data for sender deleted successfully');
+        })
+        .catch((error) => {
+          console.error('Error removing data for sender:', error);
+        });
+      
+  
     }
     
     submitChat(e){
@@ -602,9 +649,10 @@ openClose(){
           <ul className="list-unstyled chat-list mt-2 mb-0">
           {filteredData.length > 0  ?<>
           {filteredData.map((result,i) => {
-         
+        
                             return (<>
-                          <li className="clearfix"  onClick={() => this.selectUser(i,result.friendid,result.name,result.image)}>
+                           
+                          {this.state.blockdata&&this.state.blockdata.filter(item=>item.friendid.includes(result.friendid)&&item.status==1).length>0?"":<li className="clearfix"  onClick={() => this.selectUser(i,result.friendid,result.name,result.image)}>
               <img
                 src={result.image}
                 alt="avatar"
@@ -618,8 +666,8 @@ openClose(){
                 </div>
               </div>
             </li>
-                            </>)
-                        })}</>:""}
+          }</>)
+})}</>:""}
           
         
           </ul>

@@ -21,6 +21,8 @@ class Followers extends React.Component {
         imagesPreviewUrls: [],
         notificationcount: '',
         filterValue: null,
+        messagenotificationcount:[]
+
       };
 
       this.popupchat=this.popupchat.bind(this);
@@ -131,12 +133,35 @@ openClose(){
         })
 
         const db = firebase.database();
+        const today = new Date().toLocaleDateString();
         db.ref("chatwith/" + curentlogin.value).on("value", snapshot => {
-        let chatingdatas = [];
+            let chatingdatas = [];
+            let notifications = {}; 
             snapshot.forEach(snap => {
+        
+               
                 chatingdatas.push(snap.val());
+          
+                let id= snap.val().uid;
+                
+                db.ref("chat/"+id+'_'+curentlogin.value).on("value", snapshot => {
+                    let count=0
+                    snapshot.forEach(snap1 => {
+                        const notification = snap1.val();
+                        const notificationDate = new Date(notification.time).toLocaleDateString(); 
+                        
+                        if (notification.read === "y" && notification.side === "right" && notificationDate === today) {
+                            count++;
+                        }
+                    });
+                    notifications[id] = count;
+                    this.setState({messagenotificationcount:notifications})
+                });
+     
             });
-        this.setState({ chatingdata: chatingdatas });
+  
+            this.setState({ chatingdata: chatingdatas});
+           
         });
     }
 
@@ -167,6 +192,15 @@ openClose(){
         if(inds==-1){
             let curentlogin = JSON.parse(window.localStorage.getItem("user"));
             const db =  firebase.database();
+
+            
+            // Update the 'read' field in the database
+            db.ref("chat/"+id +'_'+curentlogin.value).on("value", snapshot => {
+                let chatingdatas = [];
+                snapshot.forEach(snap => {
+                  
+                  db.ref("chat/"+id +'_'+curentlogin.value+'/'+snap.key).update({ read: 'n' })
+                });})
     
             db.ref("chat/" + curentlogin.value+'_'+id).on("value", snapshot => {
                 let chatingdatas = [];
@@ -457,7 +491,7 @@ openClose(){
                             <div className="images">
                                 <img src={chat.image} alt="user"/>
                             </div>
-                            <h4>{chat.name}</h4>
+                            <h4>{chat.name}{<sup style={{color:'#ff0000d6'}}>{this.state.messagenotificationcount[chat.uid]}</sup>}</h4>
                             <p>{chat.msg}</p>
                             <h6>{chat.time}</h6>
                         </div>

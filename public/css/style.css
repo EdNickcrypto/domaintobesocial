@@ -2,11 +2,13 @@
 
 body {
     font-family: 'Nunito', sans-serif;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 400;
     color: #222324;
     background-color: #edf2f6;
 }
+a p{font-size: 16px !important;}
+
 
 /*iframe{
     position: relative !important;
@@ -30,7 +32,7 @@ body {
     width: 150px;
     color: #fff;
     text-align: center;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 600;
 }
 
@@ -156,7 +158,7 @@ body {
 }
 
 .allctg .text h3 {
-    font-size: 18px;
+    font-size: 16px;
     margin-top: 20px;
     margin-bottom: 0;
 }
@@ -205,7 +207,7 @@ body {
     padding: 10px 44px;
     font-weight: 600;
     border-radius: 5px;
-    font-size: 15px;
+    font-size: 16px;
 }
 
 
@@ -251,7 +253,7 @@ body {
     color: white;
     cursor: pointer;
     display: inline-flex;
-    font-size: 12px;
+    font-size: 16px;
     height: 15px;
     justify-content: center;
     line-height: 0;
@@ -408,7 +410,7 @@ a:hover {
 }
 
 .profile_int .card h3 {
-    font-size: 22px;
+    font-size: 16px;
     font-weight: bold;
     border-bottom: 1px solid #cccc;
     padding: 20px 0;
@@ -488,7 +490,7 @@ a:hover {
 .profile_int .card .profile_side h3 {
     color: #fff;
     text-align: center;
-    font-size: 20px;
+    font-size: 16px;
     border: none;
     padding: 0;
     margin-top: 20px;
@@ -497,7 +499,7 @@ a:hover {
 .profile_int .card .profile_side p {
     color: #ffffffc4;
     text-align: center;
-    font-size: 15px;
+    font-size: 16px;
     padding: 0 15px 20px;
     border-bottom: 1px solid #828282;
     margin-bottom: 0;
@@ -523,7 +525,7 @@ a:hover {
     border: 1px solid #e8e8e8;
     margin: 10px 0;
     padding: 10px 10px 4px 68px;
-    font-size: 14px;
+    font-size: 16px;
     margin-right: 15%;
     border-radius: 10px;
 }
@@ -549,7 +551,7 @@ a:hover {
 
 .chatstart .container_left span {
     color: #d5d3d3;
-    font-size: 12px;
+    font-size: 16px;
 }
 
 .chat-popup h1 {
@@ -557,7 +559,7 @@ a:hover {
     margin: 0;
     padding: 15px;
     border-bottom: 1px solid #e8e8e8;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .appendchatuser.minimize form.form-container {
@@ -580,7 +582,7 @@ a:hover {
 .chat-popup h1 button.btn.cancel {
     float: right;
     color: #ccc;
-    font-size: 18px;
+    font-size: 16px;
     padding-top: 0;
     padding-bottom: 0;
     margin-top: -4px;
@@ -794,7 +796,7 @@ a:hover {
 /* .chat-popup h1 button.btn.cancel {
     float: right;
     color: #ccc;
-    font-size: 18px;
+    font-size: 16px;
 } */
 .showchatt .testin:hover {
     background: #fff;
@@ -819,20 +821,20 @@ a:hover {
 
 .showchatt .testin h4 {
     font-size: 16px;
-    font-weight: 400;
+    font-weight: 600;
     color: #016afa;
     margin-bottom: 0;
 }
 
 .showchatt .testin h6 {
-    font-size: 12px;
+    font-size: 16px;
     color: #626262;
     margin-bottom: 0;
     font-weight: 100;
 }
 
 .showchatt .testin p {
-    font-size: 14px;
+    font-size: 16px;
     color: #bdbdbd;
     margin-bottom: 0;
 }
@@ -893,7 +895,7 @@ a:hover {
 
 .loginpage p {
     color: #737583;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 400;
 }
 
@@ -906,7 +908,7 @@ a:hover {
 
 .loginpage h6 {
     color: #737583;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 400;
 }
 
@@ -929,7 +931,7 @@ a:hover {
 }
 
 .loginpage .form-group .form-control {
-    font-size: 15px;
+    font-size: 16px;
     border: none;
     padding: 12px 20px;
     box-shadow: 0 8px 24px #cacacaa6;
@@ -967,7 +969,7 @@ a:hover {
 }
 
 .loginpage .plan h5 {
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .loginpage .plan h2 {
@@ -977,7 +979,7 @@ a:hover {
 }
 
 .loginpage .plan h2 span {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 400;
 }
 
@@ -1005,7 +1007,7 @@ a:hover {
 .loginpagetow ul li {
     list-style: none;
     color: #404041;
-    font-size: 15px;
+    font-size: 16px;
     margin-bottom: 18px;
     position: relative;
     padding-left: 32px;
@@ -1127,7 +1129,7 @@ a:hover {
     color: #fff;
     padding: 0px 15px;
     display: inline-block;
-    font-size: 14px;
+    font-size: 16px;
     /* border-bottom: 1px solid #1b7afc; */
     min-height: 44px;
     line-height: 41px;
@@ -1155,7 +1157,7 @@ a:hover {
 .sidbar_left h4 {
     color: #fff;
     font-weight: 600;
-    font-size: 18px;
+    font-size: 16px;
     padding: 15px 20px 20px;
     border-bottom: 1px solid #1b7afc;
 }
@@ -1194,7 +1196,7 @@ a:hover {
     position: absolute;
     right: 0;
     top: 0;
-    font-size: 15px;
+    font-size: 16px;
     min-width: 205px;
     text-align: center;
     text-decoration: none;
@@ -1266,7 +1268,7 @@ a:hover {
     padding: 10px 50px;
     color: #fff;
     border-radius: 30px;
-    font-size: 15px;
+    font-size: 16px;
     position: absolute;
     right: 0;
     bottom: -75px;
@@ -1329,7 +1331,7 @@ a:hover {
     padding: 8px 16px;
     color: #fff;
     border-radius: 0 24px 0 15px;
-    font-size: 20px;
+    font-size: 16px;
     top: -45px;
     padding: 0;
 }
@@ -1372,7 +1374,7 @@ a:hover {
 
 .select_category .category_carousel .owl-item h5 {
     color: #737583;
-    font-size: 17px;
+    font-size: 16px;
     margin-top: 15px;
 }
 
@@ -1423,7 +1425,7 @@ a:hover {
 }
 
 .listusr .asuser h5 {
-    font-size: 12px;
+    font-size: 16px;
     color: #016afa;
     font-weight: bold;
     text-transform: uppercase;
@@ -1531,7 +1533,7 @@ a:hover {
     color: #fff;
     opacity: .6;
     padding: 7px 16px;
-    font-size: 15px;
+    font-size: 16px;
 }
 
 .listusr .asuser .dropdown .dropdown-menu:after {
@@ -1610,7 +1612,7 @@ a:hover {
     height: 38px;
     line-height: 38px;
     font-weight: 600;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .likeshare ul {
@@ -1671,7 +1673,7 @@ a:hover {
 .allcomment .commentin p {
     margin-bottom: 0;
     color: #737583;
-    font-size: 15px;
+    font-size: 16px;
 }
 
 .allcomment .commentin ul.likecomment {
@@ -1757,7 +1759,7 @@ a:hover {
 .allcomment .commentin h5 {
     color: #016afb;
     font-weight: bold;
-    font-size: 18px;
+    font-size: 16px;
     margin-bottom: 2px;
 }
 
@@ -1796,7 +1798,7 @@ a:hover {
     float: right;
     background: #016afa;
     color: #fff;
-    font-size: 14px;
+    font-size: 16px;
     padding: 6px 14px;
     border-radius: 5px;
     margin-right: 0px;
@@ -1831,7 +1833,7 @@ a:hover {
     padding: 10px 24px;
     box-shadow: 0 5px 30px 0 #d6d6d6;
     border: none;
-    font-size: 15px;
+    font-size: 16px;
 }
 
 .likeshare form input::placeholder {
@@ -1888,7 +1890,7 @@ a:hover {
     z-index: 9;
     position: relative;
     padding: 6px 16px;
-    font-size: 15px;
+    font-size: 16px;
 }
 
 .side_right .asuser .dropdown .dropdown-menu .dropdown-item:hover {
@@ -1908,7 +1910,7 @@ a:hover {
 }
 
 .side_right .test h3 {
-    font-size: 18px;
+    font-size: 16px;
     color: #737583;
     font-weight: bold;
     margin-bottom: 15px;
@@ -1985,8 +1987,8 @@ a:hover {
 .side_right .test p {
     color: #737583;
     margin-top: 2px;
-    font-size: 13px;
-    font-weight: 500;
+    font-size: 16px;
+    font-weight: 400;
 }
 
 .side_right .popular_user .userimg {
@@ -2015,7 +2017,7 @@ a:hover {
 
 .side_right .popular_user h5 {
     margin-top: -12px;
-    font-size: 18px;
+    font-size: 16px;
     color: #737583;
     font-weight: 600;
 }
@@ -2033,7 +2035,7 @@ a:hover {
 
 .side_right .suggested h4 {
     color: #fff;
-    font-size: 20px;
+    font-size: 16px;
 }
 
 .side_right .suggested h4 span {
@@ -2111,7 +2113,7 @@ a:hover {
     padding: 10px 54px;
     color: #fff;
     border-radius: 30px;
-    font-size: 20px;
+    font-size: 16px;
     text-align: center;
 }
 
@@ -2176,14 +2178,14 @@ a:hover {
 .listusr .asuser h5 .d_report {
     background: #016afa;
     color: #fff;
-    font-size: 14px;
+    font-size: 16px;
     padding: 6px 20px;
     border-radius: 5px;
     margin-left: 50px;
 }
 
 .listusr ul.likecomment li.group_user {
-    font-size: 18px;
+    font-size: 16px;
     padding-left: 65px;
 }
 
@@ -2199,7 +2201,7 @@ a:hover {
     color: #fff;
     padding: 6px;
     border-radius: 10px;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
     position: absolute;
     right: 70px;
@@ -2271,7 +2273,7 @@ a:hover {
     font-weight: 600;
     margin: auto;
     display: table;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 600;
     text-decoration: underline;
 }
@@ -2285,14 +2287,14 @@ a:hover {
 }
 
 .messages .test h6 {
-    font-size: 14px;
+    font-size: 16px;
     opacity: .5;
     margin-top: 4px;
 }
 
 .messages .test p {
     margin-bottom: 0;
-    font-size: 15px;
+    font-size: 16px;
 }
 
 .messages a.close,
@@ -2379,7 +2381,7 @@ a:hover {
 .my_followers .test h5 {
     color: #737583;
     font-weight: bold;
-    font-size: 22px;
+    font-size: 16px;
 }
 
 .my_followers .test p {
@@ -2463,7 +2465,7 @@ a:hover {
     width: 100%;
     border: navajowhite;
     border-bottom: 1px solid #e3e3e6;
-    font-size: 15px;
+    font-size: 16px;
     padding: 10px 0;
     text-decoration: none;
     outline: none;
@@ -2491,13 +2493,13 @@ a:hover {
     padding: 9px 20px;
     display: block;
     border-radius: 30px;
-    font-size: 15px;
+    font-size: 16px;
 }
 
 .create_post .create_in .addbtn i {
     background: #016afa;
     color: #fff;
-    font-size: 15px;
+    font-size: 16px;
     padding: 16px;
     border-radius: 10px;
     width: 45px;
@@ -2565,7 +2567,7 @@ a:hover {
     display: inline-block;
     min-width: 60px;
     color: #737583;
-    font-size: 18px;
+    font-size: 16px;
     height: 50px;
     margin-top: -3px;
 }
@@ -2577,7 +2579,7 @@ a:hover {
     display: inline-block;
     min-width: 60px;
     color: #737583;
-    font-size: 15px;
+    font-size: 16px;
     height: 50px;
     margin-top: -3px;
     margin-left: 20px;
@@ -2628,7 +2630,7 @@ a:hover {
     border-radius: 40px;
     padding: 12px;
     box-shadow: 0 6px 23px 0 #dae0e4;
-    font-size: 15px;
+    font-size: 16px;
     text-decoration: none;
     font-weight: 600;
 }
@@ -2761,7 +2763,7 @@ a:hover {
 .chats .intype input {
     background: transparent;
     border: none;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .chats .intype input[type="file"] {
@@ -2784,7 +2786,7 @@ a:hover {
     height: 40px;
     margin: auto;
     top: 0;
-    font-size: 20px;
+    font-size: 16px;
     background: #016afa;
     border-radius: 50%;
     line-height: 40px;
@@ -2941,7 +2943,7 @@ a:hover {
     margin: 0 25px;
     border-radius: 30px;
     min-width: 200px;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
 }
 
@@ -3022,7 +3024,7 @@ a:hover {
     height: 38px;
     line-height: 38px;
     font-weight: 600;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .randem_profile .psotiv ul.likecomment {
@@ -3105,7 +3107,7 @@ a:hover {
 }
 
 .randem_profile .psotiv ul.alltk li a {
-    font-size: 20px;
+    font-size: 16px;
     color: #737583;
     text-decoration: none;
 }
@@ -3134,9 +3136,6 @@ a:hover {
 }
 
 
-
-
-
 .randem_profile .psotiv ul.alltk li {
     display: inline-block;
     vertical-align: top;
@@ -3152,7 +3151,7 @@ a:hover {
 
 .randem_profile .psotiv ul.alltk li a span {
     display: block;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .randem_profile {
@@ -3214,7 +3213,7 @@ form.d-flex.w-100 {
 .psotiv_right2 h5 {
     text-align: center;
     font-weight: 600;
-    font-size: 20px;
+    font-size: 16px;
 }
 
 .randem_profile .psotiv_right .inpossuper {
@@ -3322,7 +3321,7 @@ form.d-flex.w-100 {
     height: 38px;
     line-height: 40px;
     font-weight: 600;
-    font-size: 17px;
+    font-size: 16px;
 }
 
 .randem_profile .testimd ul.likecomment li img {
@@ -3416,7 +3415,7 @@ form.d-flex.w-100 {
 .randem_profile .psotiv_left2 .testside .inpost a {
     color: #fff;
     text-decoration: underline;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .randem_profile .psotiv_left2 .testside .inpost2 {
@@ -3480,7 +3479,7 @@ form.d-flex.w-100 {
     margin-right: 20px;
     line-height: 40px;
     color: #fff;
-    font-size: 15px;
+    font-size: 16px;
     position: relative;
 }
 
@@ -3505,7 +3504,7 @@ form.d-flex.w-100 {
     border: navajowhite;
     font-weight: bold;
     padding: 5px 8px;
-    font-size: 18px;
+    font-size: 16px;
     border-radius: 6px;
     margin-top: 4px;
 }
@@ -3538,7 +3537,7 @@ form.d-flex.w-100 {
 .bus_det .tes h4 {
     color: #016afa;
     font-weight: 600;
-    font-size: 15px;
+    font-size: 16px;
     padding-left: 0px;
     position: relative;
     margin-bottom: 8px;
@@ -3551,7 +3550,7 @@ form.d-flex.w-100 {
 
 .bus_det .tes h4 span {
     color: #737583;
-    font-size: 15px;
+    font-size: 16px;
     margin-left: 32px;
 }
 
@@ -3561,7 +3560,7 @@ form.d-flex.w-100 {
 
 .bus_det .tes p {
     color: #737583;
-    font-size: 15px;
+    font-size: 16px;
 }
 
 .randem_profile .psotiv {
@@ -3572,12 +3571,12 @@ form.d-flex.w-100 {
 .bus_detedit label {
     display: block;
     color: #016afb;
-    font-size: 20px;
+    font-size: 16px;
 }
 
 .bus_detedit h5 {
     color: #016afb;
-    font-size: 20px;
+    font-size: 16px;
 }
 
 .bus_detedit input {
@@ -3682,7 +3681,7 @@ form.d-flex.w-100 {
 .membership .test h4 {
     background: #404041;
     color: #fff;
-    font-size: 20px;
+    font-size: 16px;
     text-align: center;
     padding: 15px;
     margin-bottom: 0;
@@ -3757,7 +3756,7 @@ form.d-flex.w-100 {
 }
 
 .membership .testup:hover .test li {
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .membership .next {
@@ -3838,7 +3837,7 @@ form.d-flex.w-100 {
     margin: 0 6px;
     border-radius: 30px;
     min-width: 200px;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 500;
     background: transparent;
     color: #fff;
@@ -3915,11 +3914,11 @@ form.d-flex.w-100 {
     color: #fff;
     margin-left: 12px;
     text-decoration: underline;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .dashboard .user h6 {
-    font-size: 15px;
+    font-size: 16px;
     color: #fff;
     margin-top: 10px;
 }
@@ -3931,7 +3930,7 @@ form.d-flex.w-100 {
 }
 
 .dashboard .user p {
-    font-size: 15px;
+    font-size: 16px;
     color: #fff;
     font-weight: 400;
     margin-bottom: 0;
@@ -3939,7 +3938,7 @@ form.d-flex.w-100 {
 
 .dashboard .user h5 {
     color: #fff;
-    font-size: 15px;
+    font-size: 16px;
     text-decoration: underline;
 }
 
@@ -4006,7 +4005,7 @@ form.d-flex.w-100 {
 }
 
 .dashboard .user2 h3 {
-    font-size: 18px;
+    font-size: 16px;
     color: #fff;
     margin-top: 30px;
 }
@@ -4082,7 +4081,7 @@ form.d-flex.w-100 {
     padding: 12px 40px;
     color: #fff;
     display: block;
-    font-size: 15px;
+    font-size: 16px;
     /* border-radius: 12px; */
     border-top-right-radius: 25px;
     border-bottom-right-radius: 25px;
@@ -4116,7 +4115,7 @@ form.d-flex.w-100 {
     border-radius: 30px;
     text-decoration: none;
     display: inline-block;
-    font-size: 15px;
+    font-size: 16px;
     margin-bottom: 20px;
     font-weight: 600;
 }
@@ -4135,7 +4134,7 @@ form.d-flex.w-100 {
     margin-top: 5px;
     max-height: 43px;
     overflow: hidden;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .singleposttest .contants a {
@@ -4147,11 +4146,11 @@ form.d-flex.w-100 {
     font-weight: 600;
     text-decoration: none;
     border-radius: 5px;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .listusr .singleposttest .asuser h5 {
-    font-size: 18px;
+    font-size: 16px;
     margin-bottom: 2px;
 }
 
@@ -4176,7 +4175,7 @@ form.d-flex.w-100 {
 }
 
 .listusr .singleposttest .asuser p {
-    font-size: 15px;
+    font-size: 16px;
 }
 
 /*.singleposttest:hover {
@@ -4239,7 +4238,7 @@ form.d-flex.w-100 {
 }
 
 .monweek h3 {
-    font-size: 20px;
+    font-size: 16px;
     margin-top: 22px;
 }
 
@@ -4354,7 +4353,7 @@ form.d-flex.w-100 {
     width: 100%;
     height: auto;
     border-radius: 50%;
-    max-width: 100px;
+    max-width:50px;
 }
 
 .addfrbfil .testfrnd .userimg span {
@@ -4369,14 +4368,14 @@ form.d-flex.w-100 {
 .addfrbfil .testfrnd h5 {
     color: #737583;
     font-weight: 600;
-    font-size: 22px;
+    font-size: 16px;
     margin-bottom: 4px;
 }
 
 .addfrbfil .testfrnd p {
     margin-bottom: 8px;
     color: #737583;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .addfrbfil .testfrnd ul.followmessage li {
@@ -4388,7 +4387,8 @@ form.d-flex.w-100 {
     background: #016afa;
     padding: 4px 0;
     color: #fff;
-    font-size: 13px;
+    margin: 5px 0px;
+    font-size: 16px;
     display: block;
     text-align: center;
     border-radius: 7px;
@@ -4429,7 +4429,7 @@ form.d-flex.w-100 {
 
 #Membership .testup h6 {
     color: #000;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: bold;
 }
 
@@ -4455,7 +4455,7 @@ a.see_more {
     font-weight: 600;
     margin: auto;
     text-align: center;
-    font-size: 17px;
+    font-size: 16px;
     border: 1px solid #edf2f6;
     padding: 10px 32px;
     border-radius: 5px;
@@ -4471,7 +4471,7 @@ a.see_more:hover {
 .HelpForm select,
 .HelpForm input {
     width: 100%;
-    padding: 10px;
+    /* padding: 10px; */
     border: 1px solid #dedede;
     border-radius: 6px;
     color: #626262;
@@ -4670,7 +4670,7 @@ ul.ul_discussion li img {
 
 .listpro .list1 h6 {
     padding-top: 16px;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
     color: #016afa;
 }
@@ -4678,7 +4678,7 @@ ul.ul_discussion li img {
 .listpro .list1 p {
     margin-bottom: 0;
     color: #ccc;
-    font-size: 15px;
+    font-size: 16px;
 }
 
 .listpro .list1 ul {
@@ -4690,7 +4690,7 @@ ul.ul_discussion li img {
 .listpro .list1 ul li {
     float: left;
     margin-right: 30px;
-    font-size: 15px;
+    font-size: 16px;
     color: #626262;
 }
 
@@ -4723,7 +4723,7 @@ ul.ul_discussion li img {
     padding: 10px 44px;
     font-weight: 600;
     border-radius: 5px;
-    font-size: 15px;
+    font-size: 16px;
 }
 
 
@@ -4847,7 +4847,7 @@ footer.main_footer p {
     width: 100%;
     margin: 0;
     padding: 5px 0 6px 30px;
-    font-size: 14px;
+    font-size: 16px;
     position: relative;
 }
 
@@ -4884,7 +4884,7 @@ footer.main_footer p {
 .addpost .addhead ul li .dropdown-menu input.linkurl {
     opacity: 1;
     border: none;
-    font-size: 15px;
+    font-size: 16px;
     outline: none;
     box-shadow: none;
 }
@@ -4953,7 +4953,7 @@ footer.main_footer p {
     width: 100%;
     margin: 0;
     padding: 5px 0 6px 30px;
-    font-size: 14px;
+    font-size: 16px;
     position: relative;
 }
 
@@ -4979,7 +4979,7 @@ footer.main_footer p {
 .tagfriends input.linkurl {
     opacity: 1;
     border: none;
-    font-size: 15px;
+    font-size: 16px;
     outline: none;
     box-shadow: none;
 }
@@ -5114,7 +5114,7 @@ footer.main_footer p {
 
 .socialicon span a i {
     color: #6f6f6f;
-    font-size: 20px;
+    font-size: 16px;
 }
 
 
@@ -5204,7 +5204,7 @@ footer.main_footer p {
 }
 
 .listusr.favoriteclass .asuser h5 span {
-    font-size: 15px;
+    font-size: 16px;
     display: table-cell;
 }
 
@@ -5222,7 +5222,7 @@ footer.main_footer p {
 .listusr.favoriteclass .test .asuser h5 span p {
     display: inline-block;
     margin-left: 6px;
-    font-size: 15px;
+    font-size: 16px;
 }
 
 #Referral .table tr td,
@@ -5250,7 +5250,7 @@ footer.main_footer p {
     position: absolute;
     right: -50px;
     top: 0;
-    font-size: 15px;
+    font-size: 16px;
     min-width: 100px;
     text-align: center;
     text-decoration: none;
@@ -5297,7 +5297,7 @@ footer.main_footer p {
     display: block;
     color: #626262;
     font-weight: 400;
-    font-size: 15px;
+    font-size: 16px;
 }
 
 .main_menu ul li .dropdown-menu li a:hover {
@@ -5326,7 +5326,7 @@ footer.main_footer p {
 }
 
 span.days {
-    font-size: 12px;
+    font-size: 16px;
     padding: 2px 6px;
     border-radius: 5px;
     border: 1px solid #a3a3a3;
@@ -5334,7 +5334,7 @@ span.days {
 }
 
 .btn-report {
-    font-size: 12px;
+    font-size: 16px;
     padding: 2px 16px;
     border-radius: 5px;
     border: 1px solid #a3a3a3;
@@ -5377,7 +5377,7 @@ img.chatimage {
 
 .listusr .asuser p {
     margin-bottom: 5px;
-    font-size: 12px;
+    font-size: 16px;
 }
 
 .listusr .asuser .userimg {
@@ -5439,7 +5439,7 @@ div#popup-2 {
 }
 
 .appendusers .item h5 {
-    font-size: 14px;
+    font-size: 16px;
     margin-bottom: 0;
 }
 
@@ -5492,7 +5492,7 @@ div#popup-2 {
 }
 
 .people-list .chat-list li .name {
-    font-size: 12px;
+    font-size: 16px;
     font-weight: 600;
 }
 
@@ -5525,8 +5525,8 @@ div#popup-2 {
 }
 
 .people-list .status {
-    color: #c3bdbd;
-    font-size: 12px
+    color: #bac2c2;
+    font-size: 16px
 }
 
 .chat .chat-header {
@@ -5580,7 +5580,7 @@ div#popup-2 {
     padding-left: 6px
 }
 .message.my-message p {
-    font-size: 12px;
+    font-size: 16px;
 }
 .chat .chat-history .message {
     color: #444;
@@ -5642,7 +5642,7 @@ div#popup-2 {
 .offline,
 .me {
     margin-right: 2px;
-    font-size: 8px;
+    font-size: 16px;
     vertical-align: middle
 }
 
@@ -5758,7 +5758,7 @@ li:hover>.testul {
     }
 
     .listusr .asuser h5 span {
-        font-size: 18px;
+        font-size: 16px;
     }
 
     .listusr .asuser .dropdown {
@@ -5774,7 +5774,7 @@ li:hover>.testul {
     }
 
     .listusr .singleposttest .asuser p {
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .listusr .singleposttest .asuser {
@@ -5782,12 +5782,12 @@ li:hover>.testul {
     }
 
     .listusr .singleposttest .asuser .userimg {
-        width: 60px;
-        height: 60px;
-    }
-    .listusr .singleposttest .asuser .userimg {
         width: 50px;
         height: 50px;
+    }
+    .listusr .singleposttest .asuser .userimg {
+        width: 45px;
+        height: 45px;
     }
 
     .dashboard .user {
@@ -5802,8 +5802,8 @@ li:hover>.testul {
     }
 
     .chat .chat-history .message-data-time {
-        font-size: 11px;
-        color: #9EA0A9;
+        font-size: 16px;
+        color: #bac2c2;
         padding-left: 6px;
     }
 
@@ -5840,7 +5840,8 @@ li:hover>.testul {
 
     .addfrbfil .testfrnd .userimg img {
         margin: 22px 33px;
-        max-width: 65px;
+        max-width: 50px;
+        
     }
 
     #Membership .testup {
@@ -5853,14 +5854,14 @@ li:hover>.testul {
     }
 
     .my_followers .test .userimg {
-        width: 60px;
+        width: 50px;
         left: 28px;
         top: 25px;
     }
 
     .my_followers ul.followmessage li a {
         padding: 6px 3px;
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .w-100 {
@@ -5870,7 +5871,7 @@ li:hover>.testul {
     }
 
     .my_followers .test .userimg {
-        width: 60px;
+        width: 50px;
         left: 24px;
         top: 21px;
     }
@@ -5890,7 +5891,7 @@ li:hover>.testul {
         padding: 0px 35px;
     }
     .my_followers .test p {
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .sidbar_left ul li a span {
@@ -5898,11 +5899,11 @@ li:hover>.testul {
     }
 
     .sidbar_left h4 {
-        font-size: 20px;
+        font-size: 16px;
         padding: 10px 15px 25px;
     }
     .sidbar_left .seemore {
-        font-size: 18px;
+        font-size: 16px;
         margin-left: 15px;
     }
 
@@ -5957,7 +5958,7 @@ li:hover>.testul {
     }
 
     .select_category .category_carousel .owl-item h5 {
-        font-size: 18px;
+        font-size: 16px;
     }
 
     .select_category .category_carousel .owl-item img {
@@ -5978,7 +5979,7 @@ li:hover>.testul {
     }
 
     .likeshare .comment {
-        font-size: 15px;
+        font-size: 16px;
         height: 48px;
     }
 
@@ -6032,7 +6033,7 @@ li:hover>.testul {
     }
 
     .allcomment .commentin h5 {
-        font-size: 18px;
+        font-size: 16px;
     }
 
     .listusr .test img.hearticon {
@@ -6053,7 +6054,7 @@ li:hover>.testul {
 
     .membership .test ul li {
         margin: 16px 0;
-        font-size: 15px;
+        font-size: 16px;
     }
 
     .membership .test .head_me h3 {
@@ -6087,7 +6088,7 @@ li:hover>.testul {
     }
 
     .randem_profile .psotiv ul.alltk li a {
-        font-size: 18px;
+        font-size: 16px;
         font-weight: bold;
     }
 
@@ -6117,7 +6118,7 @@ li:hover>.testul {
     }
 
     .bus_det .tes p {
-        font-size: 17px;
+        font-size: 16px;
     }
 
     .addfrbfil .testfrnd {
@@ -6157,7 +6158,7 @@ li:hover>.testul {
     }
 
     .listusr .asuser p {
-        font-size: 14px;
+        font-size: 16px;
         color: #999595;
     }
 
@@ -6196,8 +6197,8 @@ li:hover>.testul {
     }
 
     .allcomment .commentin span.userimg {
-        width: 50px;
-        height: 50px;
+        width: 40px;
+        height: 40px;
     }
 }
 
@@ -6220,7 +6221,7 @@ li:hover>.testul {
     }
 
     .addpost h3 {
-        font-size: 20px;
+        font-size: 16px;
     }
 
     .in_center aside.emoji-picker-react {
@@ -6240,8 +6241,8 @@ li:hover>.testul {
     }
 
     .addpost .addhead span.userimg {
-        height: 55px;
-        width: 55px;
+        height: 50px;
+        width: 50px;
     }
     .addpost .addhead span.userimg {
         left: 17px;
@@ -6251,12 +6252,12 @@ li:hover>.testul {
     }
 
     .listusr .asuser .userimg {
-        width: 55px;
-        height: 55px;
+        width: 45px;
+        height: 45px;
     }
 
     .listpro .list1 h6 {
-        font-size: 18px;
+        font-size: 16px;
     }
 
     .addfrbfil .testfrnd p {
@@ -6299,11 +6300,11 @@ li:hover>.testul {
     }
 
     .messages .test h4 {
-        font-size: 15px;
+        font-size: 16px;
     }
 
     .messages .test p {
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .chats .innchat {
@@ -6311,11 +6312,11 @@ li:hover>.testul {
     }
 
     .messages .test h6 {
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .listusr ul.likecomment li.group_user {
-        font-size: 18px;
+        font-size: 16px;
         padding-left: 40px;
     }
 
@@ -6348,11 +6349,11 @@ li:hover>.testul {
     }
 
     .side_right .asuser h5 {
-        font-size: 18px;
+        font-size: 16px;
     }
 
     /*.addhead textarea {
-    font-size: 18px;
+    font-size: 16px;
 }*/
     .addpost {
         padding: 20px 20px 75px 20px;
@@ -6364,19 +6365,19 @@ li:hover>.testul {
 
     .addpost .btn {
         padding: 2px 23px;
-        font-size: 15px;
+        font-size: 16px;
         bottom: -59px;
     }
 
     .discussion .categoryhd h5 a {
         padding: 10px 30px;
-        font-size: 18px;
+        font-size: 16px;
     }
 
     .listusr .asuser h5 span {
         display: block;
         margin: 2px 0 10px;
-        font-size: 18px;
+        font-size: 16px;
     }
 
     .bus_det .tes ul {
@@ -6415,11 +6416,11 @@ li:hover>.testul {
 
     .loginpage .plan h5,
     .loginpage .plan h2 span {
-        font-size: 15px;
+        font-size: 16px;
     }
 
     .loginpage .plan h2 {
-        font-size: 20px;
+        font-size: 16px;
     }
 
     .right_login.right_signup {
@@ -6439,7 +6440,7 @@ li:hover>.testul {
 
     .chats .intype button {
         width: 120px;
-        font-size: 18px;
+        font-size: 16px;
         height: 48px;
     }
 
@@ -6511,7 +6512,7 @@ li:hover>.testul {
 
     .dash_topmain .dash_sidebar ul li a {
         padding: 10px 25px;
-        font-size: 15px;
+        font-size: 16px;
     }
 
     .listusr .asuser .join {
@@ -6539,8 +6540,8 @@ li:hover>.testul {
     }
 
     .addpost .addhead span.userimg {
-        height: 55px;
-        width: 55px;
+        height: 50px;
+        width: 50px;
     }
 
     .addpost .addhead span.userimg {
@@ -6618,11 +6619,11 @@ li:hover>.testul {
     }
 
     .addfrbfil .testfrnd ul.followmessage li a {
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .loginpagetow ul li {
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .bus_det .tes ul li span .close2 {
@@ -6655,7 +6656,7 @@ li:hover>.testul {
 
     .dashboard .user ul li {
         padding: 4px 9px;
-        font-size: 12px;
+        font-size: 16px;
     }
 
     .dashboard .user2 ul li span {
@@ -6684,7 +6685,7 @@ li:hover>.testul {
     }
 
     .allctg .text h3 {
-        font-size: 15px;
+        font-size: 16px;
         margin-top: 5px;
     }
 
@@ -6739,7 +6740,7 @@ li:hover>.testul {
 
     .chats .inright .chatin p {
         max-width: 250px;
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .messages.chats .list {
@@ -6762,15 +6763,15 @@ li:hover>.testul {
     }
 
     .psotiv_right2 .inpost .intap h2 {
-        font-size: 20px;
+        font-size: 16px;
     }
 
     .psotiv_right2 .inpost .intap h6 {
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .randem_profile .psotiv ul.alltk li a {
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .randem_profile .psotiv ul.alltk li a span {
@@ -6807,7 +6808,7 @@ li:hover>.testul {
     }
 
     .create_post h3 {
-        font-size: 20px;
+        font-size: 16px;
     }
 
     .create_post .create_in ul.select_in li select {
@@ -6818,7 +6819,7 @@ li:hover>.testul {
     .create_post .create_in ul.add_tag .btn {
         padding: 8px;
         min-width: 44px;
-        font-size: 18px;
+        font-size: 16px;
         height: 44px;
     }
 
@@ -6827,7 +6828,7 @@ li:hover>.testul {
     }
 
     .create_post .create_in ul.save_draft li a {
-        font-size: 20px;
+        font-size: 16px;
     }
 
     .create_post .create_in p {
@@ -6859,7 +6860,7 @@ li:hover>.testul {
     }
 
     .discussion .categoryhd h3 {
-        font-size: 20px;
+        font-size: 16px;
     }
 
     .create_post .create_in {
@@ -6884,7 +6885,7 @@ li:hover>.testul {
     }
 
     .loginpage .form-group .form-control {
-        font-size: 15px;
+        font-size: 16px;
         padding: 10px 20px;
         margin-bottom: 10px;
     }
@@ -6914,7 +6915,7 @@ li:hover>.testul {
     }
 
     .loginpagetow ul li {
-        font-size: 14px;
+        font-size: 16px;
         margin-bottom: 15px;
     }
 
@@ -6942,7 +6943,7 @@ li:hover>.testul {
     }
 
     .bus_detedit label {
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .messages .test h4 {
@@ -6965,7 +6966,7 @@ li:hover>.testul {
     }
 
     .dashboard .user p {
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .dashboard .user h5,
@@ -6989,7 +6990,7 @@ li:hover>.testul {
     }
 
     .side_right .asuser h5 {
-        font-size: 15px;
+        font-size: 16px;
         margin-top: 4px;
     }
 
@@ -7027,7 +7028,7 @@ li:hover>.testul {
     }
 
     .allcomment .commentin ul.likecomment li {
-        font-size: 14px;
+        font-size: 16px;
         padding-left: 30px;
     }
 
@@ -7037,12 +7038,12 @@ li:hover>.testul {
 
     .dashboard .user h5,
     .dashboard .user h6 {
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .listusr .asuser .userimg {
-        width: 50px;
-        height: 50px;
+        width: 45px;
+        height: 45px;
     }
 
     .chats .intype span.paperclip {
@@ -7068,12 +7069,12 @@ li:hover>.testul {
     }
 
     .dash_topmain.dash2 .bus_det .tes h4 {
-        font-size: 18px;
+        font-size: 16px;
     }
 
     .in_center .head a.hpl {
         padding: 10px 20px;
-        font-size: 15px;
+        font-size: 16px;
     }
 
     .in_center .head {
@@ -7089,12 +7090,12 @@ li:hover>.testul {
     }
 
     .select_category h3 {
-        font-size: 20px;
+        font-size: 16px;
     }
 
     .allcomment .commentin p,
     body {
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .select_category {
@@ -7224,12 +7225,12 @@ li:hover>.testul {
     }
 
     .loginpage .right_login label {
-        font-size: 14px;
+        font-size: 16px;
         margin-bottom: 2px;
     }
 
     .loginpage .form-group .form-control {
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .addpost .addhead ul li {
@@ -7267,8 +7268,8 @@ li:hover>.testul {
     }
 
     .addpost .addhead span.userimg {
-        height: 55px;
-        width: 55px;
+        height: 50px;
+        width: 50px;
     }
 
     .listusr .asuser {
@@ -7276,7 +7277,7 @@ li:hover>.testul {
     }
 
     .dashboard .user h3 {
-        font-size: 20px;
+        font-size: 16px;
     }
 
     section.dashboard.dashboard_pro {
@@ -7300,11 +7301,11 @@ li:hover>.testul {
 
     .my_followers ul.followmessage li a {
 
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .my_followers .test h5 {
-        font-size: 20px;
+        font-size: 16px;
     }
 
     .notification .col-sm-6,
@@ -7327,7 +7328,7 @@ li:hover>.testul {
 
     .editInformation form .form-control {
         height: 40px;
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .showposts li {
@@ -7351,7 +7352,7 @@ li:hover>.testul {
     }
 
     .bus_det .tes ul li {
-        font-size: 15px;
+        font-size: 16px;
     }
 
     .dashboard .user {
@@ -7389,11 +7390,11 @@ li:hover>.testul {
     }
 
     .bus_det .tes p {
-        font-size: 15px;
+        font-size: 16px;
     }
 
     .bus_detedit h5 {
-        font-size: 18px;
+        font-size: 16px;
     }
 
     .chats .intype {
@@ -7412,7 +7413,7 @@ li:hover>.testul {
     }
 
     .chats .intype input {
-        font-size: 15px;
+        font-size: 16px;
     }
 
     .chats .intype span {
@@ -7424,7 +7425,7 @@ li:hover>.testul {
     }
 
     .messages .test h4 {
-        font-size: 15px;
+        font-size: 16px;
         margin-bottom: 5px;
     }
 
@@ -7438,12 +7439,12 @@ li:hover>.testul {
 
     .chats .inright .chatin p {
         max-width: 200px;
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .messages .test {
         padding-left: 82px;
-        font-size: 14px;
+        font-size: 16px;
         min-height: 76px;
     }
 
@@ -7471,11 +7472,11 @@ li:hover>.testul {
     }
 
     .chats .innchat h4 {
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .messages.chats .test h4 {
-        font-size: 15px;
+        font-size: 16px;
         margin-top: 10px;
         margin-bottom: 0;
     }
@@ -7486,11 +7487,11 @@ li:hover>.testul {
     }
 
     .bus_detedit label {
-        font-size: 15px;
+        font-size: 16px;
     }
 
     .randem_profile .psotiv_left2 .testside .inpost h4 {
-        font-size: 20px;
+        font-size: 16px;
     }
 
     .membership .test {
@@ -7515,7 +7516,7 @@ li:hover>.testul {
     }
 
     .membership .testup:hover .test h4 {
-        font-size: 20px;
+        font-size: 16px;
     }
 
 
@@ -7526,7 +7527,7 @@ li:hover>.testul {
     }
 
     .membership .test h4 {
-        font-size: 18px;
+        font-size: 16px;
     }
 
     .membership h2 span img {
@@ -7534,7 +7535,7 @@ li:hover>.testul {
     }
 
     .membership .testup:hover .head_me h5 {
-        font-size: 18px;
+        font-size: 16px;
     }
 
     .membership .testup:hover .test {
@@ -7542,7 +7543,7 @@ li:hover>.testul {
     }
 
     .membership .testup:hover .test li {
-        font-size: 15px;
+        font-size: 16px;
     }
 
     .membership .testup:hover .head_me h3 {
@@ -7559,7 +7560,7 @@ li:hover>.testul {
     }
 
     .membership .test .head_me h5 {
-        font-size: 17px;
+        font-size: 16px;
     }
 
     .membership .test .head_me h3 {
@@ -7569,7 +7570,7 @@ li:hover>.testul {
 
     .membership .test ul li {
         margin: 14px 0;
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .create_post .create_in {
@@ -7605,12 +7606,12 @@ li:hover>.testul {
     }
 
     .discussion .categoryhd h6 ul li a {
-        font-size: 14px;
+        font-size: 16px;
         padding: 6px 13px;
     }
 
     .discussion .categoryhd h5 {
-        font-size: 18px;
+        font-size: 16px;
     }
 
     .in_center .head form input {
@@ -7733,7 +7734,7 @@ li:hover>.testul {
     }
 
     .side_right .asuser h5 {
-        font-size: 15px;
+        font-size: 16px;
         margin-top: 4px;
     }
 
@@ -7754,7 +7755,7 @@ li:hover>.testul {
 
     .main_menu .side_right span.logout {
         padding: 11px 0;
-        font-size: 14px;
+        font-size: 16px;
         min-width: 85px;
     }
 
@@ -7852,12 +7853,12 @@ li:hover>.testul {
     }
 
     .HelpForm label {
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .HelpForm .modal-footer button {
         padding: 8px;
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .listusr.discussion.help {
@@ -7871,7 +7872,7 @@ li:hover>.testul {
     }
 
     .HelpForm .userimgmain h6 {
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .HelpForm select,
@@ -7897,11 +7898,11 @@ li:hover>.testul {
     }
 
     .main_menu ul li a {
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .dash_topmain .tab-content h3 {
-        font-size: 20px;
+        font-size: 16px;
         margin-top: 28px;
         margin-bottom: 15px;
     }
@@ -7943,7 +7944,7 @@ li:hover>.testul {
     }
 
     .addhead textarea {
-        font-size: 15px;
+        font-size: 16px;
         border: 1px solid #e6eaee;
     }
 
@@ -7998,12 +7999,12 @@ li:hover>.testul {
 
     .membership .next {
         padding: 12px;
-        font-size: 20px;
+        font-size: 16px;
         margin: 60px auto 0;
     }
 
     .loginpage p {
-        font-size: 15px;
+        font-size: 16px;
     }
 
     .messages a.close img,
@@ -8032,7 +8033,7 @@ li:hover>.testul {
 
     .messages a.seemore,
     .my_followers a.seemore {
-        font-size: 18px;
+        font-size: 16px;
     }
 
     .inbanner {
@@ -8065,7 +8066,7 @@ li:hover>.testul {
     }
 
     .dashboard .user.usernew .uphead a.help {
-        font-size: 15px;
+        font-size: 16px;
         margin-bottom: 0;
         margin-top: 210px;
     }
@@ -8104,7 +8105,7 @@ li:hover>.testul {
     }
 
     .dashboard .user.usernew .uphead ul li {
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .listusr {
@@ -8112,7 +8113,7 @@ li:hover>.testul {
     }
 
     .my_followers .test h5 {
-        font-size: 18px;
+        font-size: 16px;
     }
 
     .listusr.favoriteclass .test {
@@ -8129,7 +8130,7 @@ li:hover>.testul {
 
     .create_post .create_in h4 {
         margin: 10px 0;
-        font-size: 14px;
+        font-size: 16px;
     }
     .dashboard .user.usernew .uphead h5.socialicon {
         width: 100%;
@@ -8182,7 +8183,7 @@ li:hover>.testul {
 
     .dash_topmain .dash_sidebar ul li a {
         padding: 10px 16px;
-        font-size: 14px;
+        font-size: 16px;
         border-radius: 6px;
         font-weight: 500;
     }
@@ -8263,7 +8264,7 @@ li:hover>.testul {
     }
 
     .messages .test h4 {
-        font-size: 18px;
+        font-size: 16px;
         margin-top: 30px;
     }
 
@@ -8318,12 +8319,12 @@ li:hover>.testul {
     }
 
     .loginpage .right_login h3 {
-        font-size: 20px;
+        font-size: 16px;
     }
 
     .loginpage .right_login .btn {
         padding: 10px 8px;
-        font-size: 14px;
+        font-size: 16px;
         margin-bottom: 0;
     }
 
@@ -8344,7 +8345,7 @@ li:hover>.testul {
     }
 
     .listusr .asuser h5 span {
-        font-size: 15px;
+        font-size: 16px;
     }
 
     .sidbar_left ul li a span {
@@ -8362,7 +8363,7 @@ li:hover>.testul {
     }
 
     .in_center .head form input {
-        font-size: 15px;
+        font-size: 16px;
     }
 
     .in_center .head form {
@@ -8371,7 +8372,7 @@ li:hover>.testul {
 
     .in_center .head a.hpl {
         padding: 7px 27px;
-        font-size: 15px;
+        font-size: 16px;
     }
 
     .in_center .head {
@@ -8380,11 +8381,11 @@ li:hover>.testul {
     }
 
     .addpost h3 {
-        font-size: 20px;
+        font-size: 16px;
     }
 
     #Advertisement p {
-        font-size: 14px;
+        font-size: 16px;
     }
 
 }
@@ -8419,7 +8420,7 @@ li:hover>.testul {
     }
 
     .listusr ul.likecomment li {
-        font-size: 15px;
+        font-size: 16px;
         padding-left: 25px;
         margin-right: 15px;
     }
@@ -8430,7 +8431,7 @@ li:hover>.testul {
 
     .listusr ul.likecomment li.group_user {
         padding-left: 30px;
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .side_right .asuser img.vip {
@@ -8465,12 +8466,12 @@ li:hover>.testul {
     }
 
     .side_right .asuser h5 {
-        font-size: 14px;
+        font-size: 16px;
         margin-top: 2px;
     }
 
     .main_menu ul li span {
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .dashboard .user {
@@ -8503,8 +8504,8 @@ li:hover>.testul {
     }
 
     .listusr .asuser .userimg {
-        width: 52px;
-        height: 52px;
+        width: 45px;
+        height: 45px;
     }
 
     .loginpage .imglogin {
@@ -8546,8 +8547,8 @@ li:hover>.testul {
     }
 
     .allcomment .commentin span.userimg {
-        width: 45px;
-        height: 44px;
+        width: 40px;
+        height: 40px;
     }
 
     .allcomment .commentin span.userimg {
@@ -8559,7 +8560,7 @@ li:hover>.testul {
     }
 
     .likeshare .comment {
-        font-size: 14px;
+        font-size: 16px;
         padding: 0px 18px;
         height: 40px;
     }
@@ -8571,13 +8572,13 @@ li:hover>.testul {
 
     .likeshare form input {
         height: 40px;
-        font-size: 14px;
+        font-size: 16px;
         border-radius: 6px;
     }
 
     .listusr .asuser h5 .d_report,
     .allcomment .commentin h5 .reportbtn {
-        font-size: 13px;
+        font-size: 16px;
         padding: 4px 6px;
     }
 
@@ -8643,7 +8644,7 @@ li:hover>.testul {
     }
 
     .bus_det .tes h4 {
-        font-size: 14px;
+        font-size: 16px;
         margin-bottom: 5px;
     }
 
@@ -8656,7 +8657,7 @@ li:hover>.testul {
     }
 
     .editInformation button {
-        font-size: 14px;
+        font-size: 16px;
         margin-top: 10px;
     }
 
@@ -8710,7 +8711,7 @@ li:hover>.testul {
     .in_center .head a.hpl {
         height: 42px;
         line-height: 42px;
-        font-size: 14px;
+        font-size: 16px;
         font-weight: 600;
     }
 
@@ -8760,7 +8761,7 @@ li:hover>.testul {
 
     .messages .test p,
     .messages .test h6 {
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .loginpagetow h2 {
@@ -8811,7 +8812,7 @@ li:hover>.testul {
     }
 
     .membership .test .head_me h5 {
-        font-size: 15px;
+        font-size: 16px;
     }
 
     .membership .next {
@@ -8867,7 +8868,7 @@ li:hover>.testul {
     }
 
     .create_post .create_in p {
-        font-size: 15px;
+        font-size: 16px;
     }
 
     .create_post .create_in ul.save_draft li a {
@@ -8883,12 +8884,12 @@ li:hover>.testul {
 
     .create_post .create_in ul.select_in li select {
         padding: 9px 20px;
-        font-size: 15px;
+        font-size: 16px;
         width: 100%;
     }
 
     .create_post .create_in ul.select_in li label {
-        font-size: 15px;
+        font-size: 16px;
     }
 
     .create_post .create_in {
@@ -8915,16 +8916,16 @@ li:hover>.testul {
     }
 
     .discussion .categoryhd h3 {
-        font-size: 18px;
+        font-size: 16px;
     }
 
     .listusr .asuser h5 {
-        font-size: 18px;
+        font-size: 16px;
         margin-bottom: 2px;
     }
     .dash_topmain .dash_sidebar ul li a {
         padding: 8px 14px;
-        font-size: 14px;
+        font-size: 16px;
         border-radius: 2px;
         font-weight: 500;
 
@@ -8978,7 +8979,7 @@ li:hover>.testul {
     }
 
     .addpost h3 {
-        font-size: 18px;
+        font-size: 16px;
         padding-bottom: 15px;
         margin-bottom: 15px;
     }
@@ -9057,7 +9058,7 @@ li:hover>.testul {
     }
 
     .dash_topmain .tab-content h3 {
-        font-size: 18px;
+        font-size: 16px;
         margin-top: 24px;
         margin-bottom: 8px;
         font-weight: 600;
@@ -9232,7 +9233,7 @@ li:hover>.testul {
     }
 
     .listusr .singleposttest .asuser h5 {
-        font-size: 15px;
+        font-size: 16px;
     }
     .main_menu {
         padding: 18px 15px 5px;
@@ -9287,11 +9288,11 @@ li:hover>.testul {
         height: 44px;
         border-radius: 6px;
         padding: 10px 52px 10px 15px;
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .allcomment .commentin h5 .reportbtn {
-        font-size: 12px;
+        font-size: 16px;
     }
 
     .listusr .test {
@@ -9300,7 +9301,7 @@ li:hover>.testul {
 
     .listusr .asuser .join {
         width: 50px;
-        font-size: 14px;
+        font-size: 16px;
         padding: 4px;
         border-radius: 6px;
     }
@@ -9383,7 +9384,7 @@ li:hover>.testul {
 
     .listpro .list1 ul li {
         margin-right: 8px;
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .listpro .list1 ul li img {
@@ -9404,7 +9405,7 @@ li:hover>.testul {
     }
 
     .listpro .list1 p {
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .create_post .create_in {
@@ -9430,7 +9431,7 @@ li:hover>.testul {
     }
 
     .allcomment .commentin h5 .reportbtn {
-        font-size: 12px;
+        font-size: 16px;
     }
 
 
@@ -9441,11 +9442,11 @@ li:hover>.testul {
     .allcomment .commentin ul.likecomment li {
         margin-right: 10px;
         padding-left: 25px;
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .addhead textarea {
-        font-size: 14px;
+        font-size: 16px;
         padding: 10px 15px;
     }
 
@@ -9454,8 +9455,8 @@ li:hover>.testul {
     }
 
     .addpost .addhead span.userimg {
-        height: 60px;
-        width: 60px;
+        height: 50px;
+        width: 50px;
         top: 0;
         right: 0;
         margin: auto;
@@ -9474,15 +9475,15 @@ li:hover>.testul {
     }
 
     .addpost .addhead span.userimg {
-        height: 60px;
-        width: 60px;
+        height: 50px;
+        width: 50px;
         top: 0;
         right: 0;
         margin: auto;
     }
 
     .allcomment .commentin h5 .reportbtn {
-        font-size: 13px;
+        font-size: 16px;
         padding: 4px 6px;
     }
 
@@ -9500,7 +9501,7 @@ li:hover>.testul {
 
     .in_center .head a.hpl {
         padding: 0;
-        font-size: 15px;
+        font-size: 16px;
         min-width: 42px;
         height: 42px;
         text-align: center;

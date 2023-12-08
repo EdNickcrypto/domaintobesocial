@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 //import '../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 //import { useQuill } from "react-quilljs";
 //import "quill/dist/quill.snow.css";
+import 'firebase/messaging';
 
 
 class Userdashboard extends React.Component {
@@ -54,7 +55,8 @@ class Userdashboard extends React.Component {
         subcategory:'',
         commentinput:false,
         commentdataid:'',
-        messagenotificationcount:0
+        messagenotificationcount:[],
+        blockdata:''
       };
         
       this._handleImageChange2 = this._handleImageChange2.bind(this);
@@ -68,6 +70,8 @@ class Userdashboard extends React.Component {
       this.popupchat=this.popupchat.bind(this);
       this.handleInputChange=this.handleInputChange.bind(this);
     }
+
+    
     handleInputChange(event) {
         let query = this.state.query;
         query[event.target.name] = event.target.value;
@@ -105,7 +109,21 @@ class Userdashboard extends React.Component {
         //this.setState({enteredText: emojiObject.emoji})
         this.setState({enteredText: [...this.state.enteredText, emojiObject.emoji]})
     }
-
+    blockdatashow(){
+        let curentlogin = JSON.parse(window.localStorage.getItem("user"));
+        axios.get('https://domaintobesocial.com/domaintobe/blockget', {
+            params: {
+              'userid': curentlogin.value
+            }}).then(response7 => 
+              { if (response7 && response7.data && response7.data.message) {
+                this.setState({ blockdata: response7.data.message });
+               
+            } else {
+                console.log('No data or unexpected data format in the response.');
+            }
+              })
+              .catch(err=>this.setState({blockdata:[]}))
+    }
 
     updateState(e)
     {
@@ -344,6 +362,7 @@ openClose(){
     }
 
     componentDidMount() {
+        this.blockdatashow();
         let curentlogin = JSON.parse(window.localStorage.getItem("user"));
         const parseURLParams = (url) => {
             var queryStart = url.indexOf("?") + 1,
@@ -415,21 +434,38 @@ openClose(){
         }
         
         const db = firebase.database();
+        const today = new Date().toLocaleDateString();
         db.ref("chatwith/" + curentlogin.value).on("value", snapshot => {
             let chatingdatas = [];
-            let count = 0
+            let notifications = {}; 
             snapshot.forEach(snap => {
-                const message = snap.val();
+        
+               
                 chatingdatas.push(snap.val());
-                if (!message.hasOwnProperty('read') || message.read === false) {
-                    count++; // Increment count for unread messages
-                }
+          
+                let id= snap.val().uid;
                 
+                db.ref("chat/"+id+'_'+curentlogin.value).on("value", snapshot => {
+                    let count=0
+                    snapshot.forEach(snap1 => {
+                        const notification = snap1.val();
+                        const notificationDate = new Date(notification.time).toLocaleDateString(); 
+                        
+                        if (notification.read === "y" && notification.side === "right" && notificationDate === today) {
+                            count++;
+                        }
+                    });
+                    notifications[id] = count;
+                    this.setState({messagenotificationcount:notifications})
+                });
+     
             });
   
-            this.setState({ chatingdata: chatingdatas,messagenotificationcount:count });
-           
+            this.setState({ chatingdata: chatingdatas});
+            
         });
+       
+       
 
         const formData = new FormData();
         formData.append('id', curentlogin.value);
@@ -505,7 +541,7 @@ openClose(){
 
         axios.get('https://domaintobesocial.com/domaintobe/subcategory').then(response => 
         {
-            console.log(response.data.message)
+          //  console.log(response.data.message)
             
              this.setState({subcategory: response.data.message});
         });
@@ -811,11 +847,22 @@ $('.chat-popup').addClass('main');
         if(inds==-1){
             let curentlogin = JSON.parse(window.localStorage.getItem("user"));
             const db =  firebase.database();
+      
 
+            // Update the 'read' field in the database
+            db.ref("chat/"+id +'_'+curentlogin.value).on("value", snapshot => {
+                let chatingdatas = [];
+                snapshot.forEach(snap => {
+                  
+                  db.ref("chat/"+id +'_'+curentlogin.value+'/'+snap.key).update({ read: 'n' })
+                });})
+            
+            
             db.ref("chat/" + curentlogin.value+'_'+id).on("value", snapshot => {
                 let chatingdatas = [];
                 snapshot.forEach(snap => {
                     chatingdatas.push(snap.val());
+                  
                 });
                 this.setState({ popupchat: chatingdatas},()=>
                 {
@@ -833,6 +880,7 @@ $('.chat-popup').addClass('main');
                     });
                 });
             });
+           
 
         }
         else
@@ -845,7 +893,26 @@ $('.chat-popup').addClass('main');
         }
         
     }
-   
+    // notificationdatavalue(id){
+      
+    //     let curentlogin = JSON.parse(window.localStorage.getItem("user"));
+    //     const db = firebase.database();
+    //     const today = new Date().toLocaleDateString(); // Get today's date
+    //     db.ref("chat/" +id +'_'+curentlogin.value).on("value", snapshot => {
+    //         let count = 0
+    //         snapshot.forEach(snap => {
+    //             const notification = snap.val();
+             
+    //           const notificationDate = new Date(notification.time).toLocaleDateString(); // Assuming 'time' is the timestamp in your notification object
+    //             if (notification.read == "y" && notification.side=="right" &&notificationDate === today) {
+    //                 count++;
+                   
+    //             }
+    //         });
+       
+    //        this.setState({messagenotificationcount:count})
+    //     });
+    // }
     startChat(id,image,name,j,e){
         e.preventDefault();
      
@@ -978,8 +1045,9 @@ $('.chat-popup').addClass('main');
            
             snapshot.forEach(snap => {
                 chatingdatas.push(snap.val());
+              
             });
-           
+          
             
         });
         
@@ -1027,7 +1095,7 @@ $('.chat-popup').addClass('main');
         const userimage = this.state.userimage;
         let vipimage;
         const {enteredText} = this.state
-       
+        const { messagenotificationcount } = this.state;
         // console.log('dsadsa',isViprole);
         if(isViprole){
             vipimage = <img className="vip" src="/images/vip.png" align="icon"/>;
@@ -1050,7 +1118,7 @@ $('.chat-popup').addClass('main');
                     <ul>
                     <li><Link to="/userdashboard" className="active"><span><img src="images/iconS1.png" align="icon"/></span> News Feed</Link></li>
                     <li><Link to="/userprofile"><span><img src="images/useri_1.png" align="icon"/></span> My Profile</Link></li>
-                    <li><Link to="/messages"><span><img src="images/iconS2.png" align="icon"/></span> Messages  {<sup style={{color:'#ff0000d6'}}>{this.state.messagenotificationcount}</sup>}</Link></li>
+                    <li><Link to="/messages"><span><img src="images/iconS2.png" align="icon"/></span> Messages  </Link></li>
                     <li><Link to="/requests"><span><img src="images/iconS3.png" align="icon"/></span> Requests</Link></li>
                    <li><Link to="/followers"><span><img src="images/iconS4.png" align="icon"/></span> My Followers</Link></li>
                    <li><Link to="/blocklist"><span><img src="images/iconS5.png" align="icon"/></span> Blocklist</Link></li>
@@ -1146,7 +1214,7 @@ $('.chat-popup').addClass('main');
                         </form>
                         <Link to="/createpost" className="hpl"><img src="images/iconS2.png" align="icon"/> <span>Start Discussion</span></Link>
                     </div>
-        
+       
                     <div className="addpost">
                         <h3>Add post</h3>
                         <div className="addhead">
@@ -1222,8 +1290,11 @@ $('.chat-popup').addClass('main');
                     
                     <div className="listusr">
                         {this.state.data.map((result,i) => {
-                        
-                        return (
+                            
+                       
+                        return (<>
+                      
+                        {this.state.blockdata&&this.state.blockdata.filter(item=>item.friendid.includes(result.postuser)&&item.status==1).length>0?"":
                             <div className="test">
                                 <a onClick={() => this.postLike(i, result.id)}>
                                 {(result.userlike == '1') ? <img className="hearticon" src="images/iconS8.png" align="icon" style={{filter:'none'}} /> : <img className="hearticon" src="images/iconS8.png" align="icon"  /> }    
@@ -1471,8 +1542,8 @@ $('.chat-popup').addClass('main');
                                         </form>
                                     </div>:""}
                                 </div>
-                            </div>
-                        )
+                            </div>}
+                        </>)
                         })}
                     </div>
                     
@@ -1491,14 +1562,14 @@ $('.chat-popup').addClass('main');
           onChange={this.handleFilterChange}/>
                           <button className="btn" type="submit"><img src="images/searchicon.png" alt="icon"/> </button>
                        </form>
-                        {filteredData.map((chat,i) => { 
+                        {filteredData.length>0&&filteredData.map((chat,i) => { 
                             
                             return (
                             <div className="testin" onClick={() => this.openChatbox(chat.uid,chat.name,chat.image)}>
                                 <div className="images">
                                     <img src={chat.image} alt="user"/>
                                 </div>
-                                <h4>{chat.name}</h4>
+                                <h4>{chat.name} {<sup style={{color:'#ff0000d6'}}>{this.state.messagenotificationcount[chat.uid]}</sup>}</h4> 
                                 <p>
                                 {chat.msg&& <ReadMoreReact 
                                        text={chat.msg?chat.msg:""}
@@ -1506,7 +1577,8 @@ $('.chat-popup').addClass('main');
                                        showLessButton={true}
                                        readMoreText="click here to read more"
                                       />}</p>
-                                <h6>{chat.time}</h6>
+                                <h6  >{chat.time}</h6>
+                  
                             </div>
                             
                             )
