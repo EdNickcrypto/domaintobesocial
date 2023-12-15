@@ -7780,7 +7780,7 @@ li:hover>.testul {
     }
 
     .dash_sidebar.main {
-        display: block;
+        display: block !important;
         position: fixed;
         left: 0;
         height: 100%;
